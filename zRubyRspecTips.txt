@@ -1,0 +1,66 @@
+C:\Users\amoroney\amPrjs\rmtry\zRubyRspecTips.txt
+
+===========================================================
+.[]rspec new syntax
+http://teaisaweso.me/blog/2013/05/27/rspecs-new-message-expectation-syntax/
+
+With the old syntax message expectations were set like this:
+foo.should_receive(:bar)
+foo.should_receive(:bar).with(:buzz)
+foo.should_receive(:bar).exactly(3).times
+
+The new syntax for message expectations looks like this:
+expect(foo).to receive(:bar)
+expect(foo).to receive(:bar).with(:buzz)
+expect(foo).to receive(:bar).exactly(3).times
+
+This syntax also adds new ways to stub methods. Previously you may have stubbed like this:
+
+d = double(:message1 => true)
+d.stub(:message2).and_return(:value)
+real_object.stub(:message).and_return(:value)
+
+You can now stub like this:
+
+d = double(:message1 => true)
+allow(d).to receive(:message2).and_return(:value)
+allow(real_object).to receive(:message).and_return(:value)
+
+If you want to configure which syntaxes are enabled you can do so as follows (see your spec_helper.rb file):
+
+RSpec.configure do |configuration|
+  configuration.mock_with :rspec do |configuration|
+    configuration.syntax = [:expect, :should]
+    #configuration.syntax = :should
+    #configuration.syntax = :expect
+  end
+end
+
+
+OLD=
+my error;
+C:\Users\amoroney\amApps\lang\ruby\RailsInstaller\Ruby1.9.3\bin\ruby.exe -e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift) C:\Users\amoroney\amApps\lang\ruby\RailsInstaller\Ruby1.9.3\bin/rspec C:/Users/amoroney/amPrjs/rmtry/terminal_spec.rb --require teamcity/spec/runner/formatter/teamcity/formatter --format Spec::Runner::Formatter::TeamcityFormatter
+Testing started at 4:05 PM ...
+
+RSpec::Mocks::MockExpectationError: (Double "output").puts("hi")
+    expected: 1 time with arguments: ("hi")
+    received: 0 times with arguments: ("hi")
+./terminal_spec.rb:9:in `block (3 levels) in <module:Terminal>'
+
+Deprecation Warnings:
+Using `should_receive` from rspec-mocks' old `:should` syntax without explicitly enabling the syntax is deprecated. Use the new `:expect` syntax or explicitly enable `:should` instead. Called from C:/Users/amoroney/amPrjs/rmtry/terminal_spec.rb:9:in `block (3 levels) in <module:Terminal>'.
+
+
+If you need more of the backtrace for any of these deprecations to
+identify where to make the necessary changes, you can configure
+`config.raise_errors_for_deprecations!`, and it will turn the
+deprecation warnings into errors, giving you the full backtrace.
+
+1 example, 1 failure, 0 passed
+Finished in 0.011244 seconds
+1 deprecation warning total
+Process finished with exit code 1
+===========================================================
+.[]
+
+
