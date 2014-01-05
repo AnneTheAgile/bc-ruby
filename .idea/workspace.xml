@@ -16,7 +16,7 @@
     <SUITE FILE_PATH="coverage/rmtry@Run_spec__terminal_spec___rmtry.coverage" NAME="Run spec 'terminal_spec': rmtry Coverage Results" MODIFIED="1388878734379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="rmtry" />
     <SUITE FILE_PATH="coverage/rmtry@All_tests_in_spec__rmtry.coverage" NAME="All tests in spec: rmtry Coverage Results" MODIFIED="1388879238781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spec" MODULE_NAME="rmtry" />
     <SUITE FILE_PATH="coverage/rmtry@Run_spec__terminal_spec___rmtry__1_.coverage" NAME="Run spec 'terminal_spec': rmtry (1) Coverage Results" MODIFIED="1388457713726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="rmtry" />
-    <SUITE FILE_PATH="coverage/rmtry@allRspec1.coverage" NAME="allRspec1 Coverage Results" MODIFIED="1388886780688" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" MODULE_NAME="rmtry" />
+    <SUITE FILE_PATH="coverage/rmtry@allRspec1.coverage" NAME="allRspec1 Coverage Results" MODIFIED="1388887483543" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" MODULE_NAME="rmtry" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -66,10 +66,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="zRuby_spec.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="zRuby_spec.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spec/lib/zRuby_spec.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="0" selection-start="2040" selection-end="2040" vertical-scroll-proportion="5.6564245" vertical-offset="0" max-vertical-offset="2450">
+            <state line="64" column="0" selection-start="1924" selection-end="1924" vertical-scroll-proportion="0.0" vertical-offset="1478" max-vertical-offset="2550">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="status.txt" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/doc/status.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="37" selection-start="144" selection-end="144" vertical-scroll-proportion="0.2967359" vertical-offset="0" max-vertical-offset="1650">
               <folding />
             </state>
           </provider>
@@ -112,6 +121,7 @@
         <option value="$PROJECT_DIR$/spec/lib/gifts_spec.rb" />
         <option value="$PROJECT_DIR$/lib/gifts.rb" />
         <option value="$PROJECT_DIR$/spec/lib/terminal_spec.rb" />
+        <option value="$PROJECT_DIR$/doc/status.txt" />
         <option value="$PROJECT_DIR$/spec/lib/zRuby_spec.rb" />
       </list>
     </option>
@@ -218,6 +228,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rmtry" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rmtry" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="doc" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -476,7 +500,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="210" y="27" width="1007" height="655" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -488,7 +512,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18466195" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32867134" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32867134" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -801,7 +825,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/lib/zRuby_spec.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="0" selection-start="2040" selection-end="2040" vertical-scroll-proportion="5.6564245" vertical-offset="0" max-vertical-offset="2450">
+        <state line="64" column="0" selection-start="1924" selection-end="1924" vertical-scroll-proportion="0.0" vertical-offset="1478" max-vertical-offset="2550">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/status.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="37" selection-start="144" selection-end="144" vertical-scroll-proportion="0.2967359" vertical-offset="0" max-vertical-offset="1650">
           <folding />
         </state>
       </provider>

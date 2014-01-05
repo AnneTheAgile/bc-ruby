@@ -1,0 +1,50 @@
+
+$ git log
+commit a2f6b6fac749102c1367fb8e50766625f9f7dc92
+Author: Anne Moroney <annemoroney@alum.mit.edu>
+Date:   Sun Jan 5 01:58:56 2014 +0000
+
+    Grn. New zRuby_specs to hold documentation/learning. Deleted cruft from 'real' files. NEXT; Pending list of Rspecs for Api is begun, not yet simple enough.
+
+commit d314a26db7eb3785bb11e7f6a3aa9ce2bbc5af67
+Author: Anne Moroney <annemoroney@alum.mit.edu>
+Date:   Thu Jan 2 15:24:59 2014 -0500
+
+    rspec small trials, green/tba. frm earlier. rmtry\terminal aka gifts. w8.
+
+amoroney@surf256pro ~/amPrjs/rmtry
+$ /cygdrive/c/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/bin/rspec.bat
+.****..D, [2014-01-05T01:59:32.334684 #2744] DEBUG -- : initialize=  //Logging Test.
+.*..*.**..
+
+Pending:
+  Gifts/ Can to_s.
+    # !!Add crud test
+    # ./spec/lib/gifts_spec.rb:11
+  Terminal/Shopping/ #Startup-initialization asks for product pricelist.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:8
+  Terminal/Shopping/ #Startup-initialization allows entry of product-id, price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:10
+  Terminal/Shopping/ #Startup-initialization allows entry of product-id, price, qualifying quantity, and discounted price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:12
+  zRuby/Logging-Tips/ Is testable by capturing sysout.
+    # IDK how to use the let(:outs) statement.
+    # ./spec/lib/zRuby_spec.rb:31
+  zRuby/Error-Handling-Tips/ Throws NotImplementedError when...??
+    # Not yet implemented
+    # ./spec/lib/zRuby_spec.rb:48
+  zRuby/Rspec-Tips Will not run any "it" test that is changed to "xit".
+    # Temporarily disabled with xit
+    # ./spec/lib/zRuby_spec.rb:56
+  zRuby/Rspec-Tips Will not run and will explain the cause for delay with the the given pending clause's text.
+    # Not implementing this to make an example.
+    # ./spec/lib/zRuby_spec.rb:58
+
+Finished in 0.01563 seconds
+17 examples, 0 failures, 8 pending
+
+amoroney@surf256pro ~/amPrjs/rmtry
+$

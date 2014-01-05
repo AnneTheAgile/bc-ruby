@@ -59,6 +59,9 @@ describe 'zRuby/Rspec-Tips' do
     pending 'Not implementing this to make an example.'
   end
 
+  it 'Must call the bat file, not Rspec, on windows,' do
+    expect('$ /cygdrive/c/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/bin/rspec.bat'[0]).to eq('$')
+  end
 
   it 'Evaluates contents between parens (1+2), not needing a block {1+2}.' do
     expect(1+2).to eq(3)
