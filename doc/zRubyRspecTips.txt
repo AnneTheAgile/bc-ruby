@@ -1,4 +1,4 @@
-C:\Users\amoroney\amPrjs\rmtry\zRubyRspecTips.txt
+C:\Users\amoroney\amPrjs\rmtry\doc\zRubyRspecTips.txt
 
 ===========================================================
 .[]rspec new syntax

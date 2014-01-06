@@ -49,13 +49,13 @@ describe 'zRuby/Error-Handling-Tips/' do
 end
 
 describe 'zRuby/Rspec-Tips' do
-  it 'Throws NoMethodError (not NotImplementedError) with space before object of expect - avoid "expect (x)" - FUTURE, fix BUG in Cheatsheet.' do
+  it 'Throws NoMethodError (not NotImplementedError) with space before object of expect - So Avoid "expect (x)" - FUTURE, fix BUG in Cheatsheet.' do
     expect{expect ('0').to eq('1')}.to raise_error NoMethodError
   end
 
   xit 'Will not run any "it" test that is changed to "xit".'
 
-  it 'Will not run and will explain the cause for delay with the the given pending clause\'s text.' do
+  it 'Will not run and will explain the cause for delay when use a given pending clause plus text.' do
     pending 'Not implementing this to make an example.'
   end
 
