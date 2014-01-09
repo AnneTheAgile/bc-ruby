@@ -48,7 +48,15 @@ describe 'zRuby/Error-Handling-Tips/' do
   it 'Throws NotImplementedError when...??'
 end
 
+
+
 describe 'zRuby/Rspec-Tips' do
+
+  it 'Match, either prefix or postfix, does Regex matching strings.' do
+    expect(/ab/).to match("aaabbb")
+    expect("aaabbb").to match(/ab/)
+  end
+
   it 'Throws NoMethodError (not NotImplementedError) with space before object of expect - So Avoid "expect (x)" - FUTURE, fix BUG in Cheatsheet.' do
     expect{expect ('0').to eq('1')}.to raise_error NoMethodError
   end
@@ -85,3 +93,7 @@ end
 #        expect(:outs.to_s).to match('hi')
 # bug eq
 #        expect(:outs).to receive(:puts).with('hi')
+
+
+# []RQ why can't make x=Hash.new(a,1)?
+# []TRY match_array
