@@ -1,5 +1,10 @@
 C:\amsrc\rmtry\doc\status.txt
 
+==================================
+1-8w 9.50p 
+1.
+RED. 1.BUG the if/else tests on store validation are not correct. ; 2.Now have the 3 proper MVC classes: Terminal/GUI, Store/Controller/Model1, Cart/Model2.
+
 ======================================
 1-8w 7.23p; 
 

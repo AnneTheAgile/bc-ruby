@@ -1,8 +1,9 @@
 module Terminal
-
   class TerminalPos
-  def initialize (aOutStream)
-    @outs = aOutStream
+  def initialize (aInStream, aOutStream)
+    @input = aInStream
+    @output = aOutStream
+    @output.puts('hi from your POS Termina Controller!\n')
   end
 
   def start(prices)

@@ -1,13 +1,9 @@
-# C:\amsrc\rmtry\lib\cart.rb
-module Cart
-  class Cart
+# C:\amsrc\rmtry\lib\db.rb
+module Db
+  class Db
     attr_reader :items #not r/w  attr_accessor
     def initialize()
       @items = []
-    end
-
-    def add(aItemId)
-      @items = @items << aItemId
     end
 
     def clear()
