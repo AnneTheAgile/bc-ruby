@@ -3,14 +3,21 @@ require './lib/terminal'
 require './lib/store'
 require './lib/cart'
 
+
+
 describe 'Terminal/Shopping/' do
   let(:gui) {Terminal::TerminalPos.new($stdin, $stdout) }
   let(:theStore) { Store::Store.new }
   let(:aCart) { Cart::Cart.new }
 
   #  describe '#Startup-initialization' do
+      it 'Says Hello to the (Admin) user upon instantiation.' do
+        expect { Terminal::TerminalPos.new() }.to match_stdout( "Hello from your POS") #" Terminal Controller!")
+        expect { Terminal::TerminalPos.new() }.to match_stdout( "from")
+        expect { Terminal::TerminalPos.new() }.not_to match_stdout( "hello")
+      end
 
-      it 'requires $stdin and $stdout or an appropriate interface (no type checking).' do
+      it 'Does Not accept a redefined $stdin nor $stdout.' do
         expect{Terminal::TerminalPos.new($stdin)}.to  raise_error ArgumentError
       end
 
@@ -28,3 +35,38 @@ describe 'Terminal/Shopping/' do
       end
 
   end
+
+# Custom Matcher to test contents of console output contains the given text.
+# This is case-sensitive, but searches for a substring.
+# Example Rspec;   expect { some_code }.to match_stdout( 'some string' )
+# Author; MindTheMonkey Dec 14 '13, URL:
+# http://stackoverflow.com/questions/6372763/rspec-how-do-i-write-a-test-that-expects-certain-output-but-doesnt-care-about
+RSpec::Matchers.define :match_stdout do |check|
+
+  @capture = nil
+
+  match do |block|
+
+    begin
+      stdout_saved = $stdout
+      $stdout      = StringIO.new
+      block.call
+    ensure
+      @capture     = $stdout
+      $stdout      = stdout_saved
+    end
+
+    @capture.string.match check
+  end
+
+  failure_message_for_should do
+    "expected to #{description}"
+  end
+  failure_message_for_should_not do
+    "expected not to #{description}"
+  end
+  description do
+    "match [#{check}] on stdout [#{@capture.string}]"
+  end
+
+end

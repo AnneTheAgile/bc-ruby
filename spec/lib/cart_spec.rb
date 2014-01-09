@@ -28,7 +28,7 @@ describe 'Cart' do
       aCart.add('a')
       expect{c}.not_to be_nil
       aCart.clear()
-      expect(aCart.report()).to match /\[\]/
+      expect(aCart.report).to match /\[\]/
     end
 
     it '#report Describes contents of one item as a string.' do
@@ -43,8 +43,8 @@ describe 'Cart' do
     end
 
     it '#report Describes an empty cart as having no elements.' do
-      g =  Cart::Cart.new
-      expect(g.report).to eq("[]")
+      c =  Cart::Cart.new
+      expect(c.report).to eq("[]")
     end
   end
 

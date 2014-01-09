@@ -1,5 +1,101 @@
 C:\amsrc\rmtry\doc\status.txt
 
+====================================================
+.[]Now on the mac. 2014-01-09Thu.15:09:33@ green.
+
+Annes-MacBook-Pro:zPrjsRubyMine amoroney$ cd /Users/amoroney/src/rmtry/
+Annes-MacBook-Pro:rmtry amoroney$ pwd
+/Users/amoroney/src/rmtry
+Annes-MacBook-Pro:rmtry amoroney$ ls
+doc	lib	spec	specFut
+Annes-MacBook-Pro:rmtry amoroney$ git status/opt/boxen/homebrew/bin/hub:2060: warning: Insecure world writable dir /Users/amoroney/src/rmtry in PATH, mode 040777
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   .idea/codeStyleSettings.xml
+#	modified:   .idea/misc.xml
+#	modified:   .idea/rmtry.iml
+#	modified:   .idea/runConfigurations/Run_spec__zRspec_spec___rmtry.xml
+#	modified:   .idea/runConfigurations/Run_spec__zRuby_spec___rmtry.xml
+#	modified:   .idea/runConfigurations/allRspec1.xml
+#	modified:   .idea/vcs.xml
+#	modified:   .idea/workspace.xml
+#	modified:   lib/cart.rb
+#	modified:   lib/store.rb
+#	modified:   lib/terminal.rb
+#	modified:   spec/lib/cart_spec.rb
+#	modified:   spec/lib/store_spec.rb
+#	modified:   spec/lib/terminal_spec.rb
+#	modified:   specFut/db.rb
+#	modified:   specFut/db_spec.rb
+#	modified:   specFut/zRuby_spec.rb
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	.idea/runConfigurations/Run_spec__cart_spec___rmtry.xml
+#	.idea/runConfigurations/Run_spec__terminal_spec___rmtry.xml
+no changes added to commit (use "git add" and/or "git commit -a")
+Annes-MacBook-Pro:rmtry amoroney$
+Annes-MacBook-Pro:rmtry amoroney$
+Annes-MacBook-Pro:rmtry amoroney$
+Annes-MacBook-Pro:rmtry amoroney$ rspec --format documentation
+
+Cart
+  #Using the Store, Buy items - Features:
+    #add Raises error if add a new item without any arguments, ie no Id.
+    #count is 1 for one element.
+    #count is 2 for two elements.
+    #clear Resets a populated cart back to empty.
+    #report Describes contents of one item as a string.
+    #report Describes its contents of two items as a string.
+    #report Describes an empty cart as having no elements.
+
+Store
+  #Add_Product Raises error if discount quantity but not price is entered.
+  #ConvertDollarsToPennies Rounds up.
+  #Non-Discounted Item - Features:
+    #Add_Product Raises error if add a new item without any arguments, ie no Id.
+    #Add_to_Cart Raises error if add a product that is not in the store. (PENDING: Not yet implemented)
+    #Add_Product Raises error if add a new item without both Id and Price.
+    #count is 1 for one element.
+    #count is 2 for two elements.
+    #clear Resets a populated store back to empty.
+    #report Describes its contents as a string.
+    #report Describes an empty store as having no elements.
+
+Terminal/Shopping/
+  Says Hello to the (Admin) user upon instantiation.
+  Does Not accept a redefined $stdin nor $stdout.
+  TBA
+    asks for product pricelist. (PENDING: Not yet implemented)
+    allows entry of product-id, price (PENDING: Not yet implemented)
+    allows entry of product-id, price, qualifying quantity, and discounted price (PENDING: Not yet implemented)
+    verifies item added to a cart is in the store. (PENDING: (first dependency))
+
+Pending:
+  Store #Non-Discounted Item - Features: #Add_to_Cart Raises error if add a product that is not in the store.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:29
+  Terminal/Shopping/ TBA asks for product pricelist.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:26
+  Terminal/Shopping/ TBA allows entry of product-id, price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:28
+  Terminal/Shopping/ TBA allows entry of product-id, price, qualifying quantity, and discounted price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:30
+  Terminal/Shopping/ TBA verifies item added to a cart is in the store.
+    # (first dependency)
+    # ./spec/lib/terminal_spec.rb:32
+
+Finished in 0.00916 seconds
+23 examples, 0 failures, 5 pending
+Annes-MacBook-Pro:rmtry amoroney$
+Annes-MacBook-Pro:rmtry amoroney$
 ==================================
 1-8w 9.50p 
 1.

@@ -19,9 +19,16 @@ describe 'zRuby/Data-Structures-Tips/' do
 
 end
 
-describe 'zRuby/Logging-Tips/' do
-  it 'Logs most quietly with Debug, then Info, Warn, Error, Fatal.' do
+describe 'zRuby/Printing and Logging-Tips/' do
+  it 'Prints nice nil arrays, but ensure to use array of items, not plus (+).' do
+    # http://stackoverflow.com/questions/5018633/what-is-the-difference-between-print-and-puts
+    a = 1.01
+    b =                     (a * 100).round
+    expect {print ["in=", a.to_s, " out=",    b.to_s   ] }.to eq('')
 
+  end
+
+  it 'Logs most quietly with Debug, then Info, Warn, Error, Fatal.' do
     $LOG = Logger.new($stderr)
     $LOG.level = Logger::DEBUG
     $LOG.debug('initialize= '+@thegifts.to_s+' //Logging Test.')

@@ -3,19 +3,19 @@ module Db
   class Db
     attr_reader :items #not r/w  attr_accessor
     def initialize()
-      @items = []
+      @products = []
     end
 
     def clear()
-      @items = []
+      @products = []
     end
 
     def count()
-      @items.size
+      @products.size
     end
 
     def report
-      @items.to_s
+      @products.to_s
     end
 
   end

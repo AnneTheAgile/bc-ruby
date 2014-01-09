@@ -3,23 +3,23 @@ module Cart
   class Cart
     attr_reader :items #not r/w  attr_accessor
     def initialize()
-      @items = []
+      @products = []
     end
 
     def add(aItemId)
-      @items = @items << aItemId
+      @products = @products << aItemId
     end
 
     def clear()
-      @items = []
+      @products = []
     end
 
     def count()
-      @items.size
+      @products.size
     end
 
     def report
-      @items.to_s
+      @products.to_s
     end
 
   end
