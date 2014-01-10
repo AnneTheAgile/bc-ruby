@@ -11,6 +11,8 @@ describe 'Cart' do
       expect{aCart.add()}.to raise_error ArgumentError
     end
 
+    it '#Add Raises an error if add a product that is not in the store.'
+
     it '#count is 1 for one element.' do
       expect(aCart.count).to eq(0)
       aCart.add('a')

@@ -4,6 +4,20 @@ require './lib/store'
 describe 'Store' do
   let(:aStore) { Store::Store.new }
 
+  it '#Find_Product Returns true upon searching a product that is in the store.' do
+    aStore.add_product('a',1)
+    expect(aStore.find_product('a')).to eq(true)
+  end
+
+  it '#Find_Product Returns false upon searching a product that is not in the store.' do
+    aStore.add_product('a',1)
+    expect(aStore.find_product('b')).to eq(false)
+  end
+
+  it '#Find_Product Returns false upon searching for an invalid product.'   do
+    expect(aStore.find_product(1)).to eq(false)
+  end
+
   # context "#Discounted Item - Features:" do
   it '#Add_Product Raises error if discount quantity but not price is entered.' do
     expect{aStore.add_product('a',1,3)}.to raise_error  "Argument aBatchPrice was not specified but aMinimumBatchQuantity was." # RuntimeError
@@ -24,9 +38,6 @@ describe 'Store' do
     it '#Add_Product Raises error if add a new item without any arguments, ie no Id.' do
       expect{aStore.add_product()}.to raise_error ArgumentError
     end
-
-
-    it '#Add_to_Cart Raises error if add a product that is not in the store.'
 
     it '#Add_Product Raises error if add a new item without both Id and Price.' do
       expect{aStore.add_product('a')}.to raise_error ArgumentError
@@ -62,5 +73,10 @@ describe 'Store' do
     end
   end
 
+  context 'FUTURE possible work.' do
+    it 'Products Map Uses symbols instead of strings as hash keys.'  do
+      pending 'cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby'
+    end
+  end
 
 end

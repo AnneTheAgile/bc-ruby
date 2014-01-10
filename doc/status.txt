@@ -1,6 +1,108 @@
 C:\amsrc\rmtry\doc\status.txt
 
 ====================================================
+.[]"Grn. Ready to add front end, ie admin enter products."
+2014-01-09Thu.21:33:34
+
+Annes-MacBook-Pro:rmtry amoroney$ pwd
+/Users/amoroney/src/rmtry
+Annes-MacBook-Pro:rmtry amoroney$ rspec --format documentation
+
+Cart
+  #Using the Store, Buy items - Features:
+    #add Raises error if add a new item without any arguments, ie no Id.
+    #Add Raises an error if add a product that is not in the store. (PENDING: Not yet implemented)
+    #count is 1 for one element.
+    #count is 2 for two elements.
+    #clear Resets a populated cart back to empty.
+    #report Describes contents of one item as a string.
+    #report Describes its contents of two items as a string.
+    #report Describes an empty cart as having no elements.
+
+Store
+  #Find_Product Returns true upon searching a product that is in the store.
+  #Find_Product Returns false upon searching a product that is not in the store.
+  #Find_Product Returns false upon searching for an invalid product.
+  #Add_Product Raises error if discount quantity but not price is entered.
+  #ConvertDollarsToPennies Rounds up.
+  #Non-Discounted Item - Features:
+    #Add_Product Raises error if add a new item without any arguments, ie no Id.
+    #Add_Product Raises error if add a new item without both Id and Price.
+    #count is 1 for one element.
+    #count is 2 for two elements.
+    #clear Resets a populated store back to empty.
+    #report Describes its contents as a string.
+    #report Describes an empty store as having no elements.
+  FUTURE possible work.
+    Products Map Uses symbols instead of strings as hash keys. (PENDING: cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby)
+
+Terminal/Shopping/
+  Says Hello to the (Admin) user upon instantiation.
+  Does Not accept a redefined $stdin nor $stdout.
+  TBA
+    asks for product pricelist. (PENDING: Not yet implemented)
+    allows entry of product-id, price (PENDING: Not yet implemented)
+    allows entry of product-id, price, qualifying quantity, and discounted price (PENDING: Not yet implemented)
+    verifies item added to a cart is in the store. (PENDING: (first dependency))
+
+Pending:
+  Cart #Using the Store, Buy items - Features: #Add Raises an error if add a product that is not in the store.
+    # Not yet implemented
+    # ./spec/lib/cart_spec.rb:14
+  Store FUTURE possible work. Products Map Uses symbols instead of strings as hash keys.
+    # cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby
+    # ./spec/lib/store_spec.rb:77
+  Terminal/Shopping/ TBA asks for product pricelist.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:26
+  Terminal/Shopping/ TBA allows entry of product-id, price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:28
+  Terminal/Shopping/ TBA allows entry of product-id, price, qualifying quantity, and discounted price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:30
+  Terminal/Shopping/ TBA verifies item added to a cart is in the store.
+    # (first dependency)
+    # ./spec/lib/terminal_spec.rb:32
+
+Finished in 0.01096 seconds
+27 examples, 0 failures, 6 pending
+Annes-MacBook-Pro:rmtry amoroney$
+
+====================================================
+.[]Git's output telling about line end changes; 2014-01-09Thu.15:12:14
+
+$ git commit -m "Grn. Validation mostly done.  MVC reorg and renamed many things."
+/opt/boxen/homebrew/bin/hub:2060: warning: Insecure world writable dir /Users/amoroney/src/rmtry in PATH, mode 040777
+warning: CRLF will be replaced by LF in .idea/runConfigurations/Run_spec__cart_spec___rmtry.xml.
+The file will have its original line endings in your working directory.
+warning: CRLF will be replaced by LF in .idea/runConfigurations/Run_spec__terminal_spec___rmtry.xml.
+The file will have its original line endings in your working directory.
+[master f990482] Grn. Validation mostly done.  MVC reorg and renamed many things.
+warning: CRLF will be replaced by LF in .idea/runConfigurations/Run_spec__cart_spec___rmtry.xml.
+The file will have its original line endings in your working directory.
+warning: CRLF will be replaced by LF in .idea/runConfigurations/Run_spec__terminal_spec___rmtry.xml.
+The file will have its original line endings in your working directory.
+ 20 files changed, 707 insertions(+), 512 deletions(-)
+ create mode 100644 .idea/runConfigurations/Run_spec__cart_spec___rmtry.xml
+ create mode 100644 .idea/runConfigurations/Run_spec__terminal_spec___rmtry.xml
+ rewrite lib/store.rb (60%)
+ rewrite spec/lib/store_spec.rb (63%)
+Annes-MacBook-Pro:rmtry amoroney$
+
+====================================================
+.[]Mac line endings; I thought maybe rubymine would help? No, not so, I never committed before, so yet to see.
+
+$ git add -A
+/opt/boxen/homebrew/bin/hub:2060: warning: Insecure world writable dir /Users/amoroney/src/rmtry in PATH, mode 040777
+warning: CRLF will be replaced by LF in .idea/runConfigurations/Run_spec__cart_spec___rmtry.xml.
+The file will have its original line endings in your working directory.
+warning: CRLF will be replaced by LF in .idea/runConfigurations/Run_spec__terminal_spec___rmtry.xml.
+The file will have its original line endings in your working directory.
+Annes-MacBook-Pro:rmtry amoroney$ pwd
+/Users/amoroney/src/rmtry
+
+====================================================
 .[]Now on the mac. 2014-01-09Thu.15:09:33@ green.
 
 Annes-MacBook-Pro:zPrjsRubyMine amoroney$ cd /Users/amoroney/src/rmtry/
