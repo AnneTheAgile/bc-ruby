@@ -10,8 +10,7 @@ describe 'Store' do
   end
 
   it '#Find_Product Returns false upon searching a product that is not in the store.' do
-    aStore.add_product('a',1)
-    expect(aStore.find_product('b')).to eq(false)
+    expect(aStore.find_product('a')).to eq(false)
   end
 
   it '#Find_Product Returns false upon searching for an invalid product.'   do
@@ -42,6 +41,12 @@ describe 'Store' do
     it '#Add_Product Raises error if add a new item without both Id and Price.' do
       expect{aStore.add_product('a')}.to raise_error ArgumentError
     end
+
+    it '#Find_Product Returns false if seek a product that is not in the store.' do
+      expect(aStore.find_product('a')).to eq(false)
+    end
+
+    it '#Add.'
 
     it '#count is 1 for one element.' do
       expect(aStore.count_products).to eq(0)

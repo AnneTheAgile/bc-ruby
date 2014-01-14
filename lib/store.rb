@@ -1,5 +1,6 @@
 # C:\amsrc\rmtry\lib\store.rb
 require './lib/cart'
+require './lib/store'
 
 module Store
   class Store
@@ -7,7 +8,7 @@ module Store
 
     def initialize()
       @products = []
-      @cart = Cart::Cart.new
+      @cart = nil
     end
 
     def add_product(aItemId, aPrice, aMinimumBatchQuantity=0, aBatchPrice=0)
@@ -74,6 +75,10 @@ module Store
 
     def product_list_showing_prices_in_pennies
       @products.to_s
+    end
+
+    def report
+      product_list_showing_prices_in_pennies
     end
 
   end

@@ -2,51 +2,63 @@ require 'rspec'
 require './lib/cart'
 require './lib/store'
 
+
+def StoreHavingProductA
+  s = (Store::Store.new).add_product('a', 1)
+end
+
 describe 'Cart' do
-  let(:aCart) { Cart::Cart.new }
+  def new_Cart_with_StoreHavingProduct(aProduct1=nil, aProduct2=nil)
+    store = Store::Store.new
+    store.add_product(aProduct1, 1) if !aProduct1.nil?
+    store.add_product(aProduct2, 1) if !aProduct2.nil?
+    cart = Cart::Cart.new(store)
+    return cart, store
+  end
 
   context "#Using the Store, Buy items - Features:" do
 
     it '#add Raises error if add a new item without any arguments, ie no Id.' do
-      expect{aCart.add()}.to raise_error ArgumentError
+      aCart0, aStore0 = new_Cart_with_StoreHavingProduct
+      expect{aCart0.add()}.to raise_error ArgumentError
     end
 
-    it '#Add Raises an error if add a product that is not in the store.'
-
     it '#count is 1 for one element.' do
-      expect(aCart.count).to eq(0)
-      aCart.add('a')
-      expect(aCart.count).to eq(1)
+      aCart1, aStore1 = new_Cart_with_StoreHavingProduct('a')
+      aCart1.add('a')
+      expect(aCart1.count).to eq(1)
     end
 
     it '#count is 2 for two elements.' do
-      expect(aCart.count).to eq(0)
+      aCart, aStore = new_Cart_with_StoreHavingProduct('a','b')
       aCart.add('a')
       aCart.add('b')
       expect(aCart.count).to eq(2)
     end
 
     it '#clear Resets a populated cart back to empty.' do
-      aCart.add('a')
-      expect{c}.not_to be_nil
-      aCart.clear()
-      expect(aCart.report).to match /\[\]/
+      aCart1, aStore1 = new_Cart_with_StoreHavingProduct('a')
+      expect{aCart1}.not_to be_nil
+      aCart1.clear()
+      expect(aCart1.report).to match /\[\]/
     end
 
     it '#report Describes contents of one item as a string.' do
-      aCart.add('a')
-      expect(aCart.report).to eq('["a"]')
+      aCart1, aStore1 = new_Cart_with_StoreHavingProduct('a')
+      aCart1.add('a')
+      expect(aCart1.report).to eq('["a"]')
     end
 
     it '#report Describes its contents of two items as a string.' do
+      aCart, aStore = new_Cart_with_StoreHavingProduct('a','b')
       aCart.add('a')
       aCart.add('b')
       expect(aCart.report).to eq('["a", "b"]')
     end
 
     it '#report Describes an empty cart as having no elements.' do
-      c =  Cart::Cart.new
-      expect(c.report).to eq("[]")
+      aCart0, aStore0 = new_Cart_with_StoreHavingProduct
+      expect(aCart0.report).to eq("[]")
     end
   end
 
