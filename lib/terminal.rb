@@ -1,4 +1,5 @@
 module Terminal
+  # A Shopping experience is made available through the simple Command-line User interface (CLI) implemented by TerminalPos.
   class TerminalPos
   def initialize ()
     @input = $stdin

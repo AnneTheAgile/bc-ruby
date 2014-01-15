@@ -1,12 +1,62 @@
 C:\Users\amoroney\amPrjs\rmtry\doc\zRubyRspecTips.txt
 e
 ===========================================================
+.[]WIN use BAT, eg irb.bat 
+
+
+===========================================================
 .[]LET vs BEGIN
 ===========================================================
-.[]IRB COPY BUG WIN
+.[]cf Rspec file. Ended up using method instead to do computation setups. 140115m.
+
+===========================================================
+.[]
+
+=> 0
+irb#1(main):031:0> "70" % "6"
+=> "70"
+irb#1(main):032:0> 5%2
+=> 1
+irb#1(main):033:0> (5-5%2)*2
+=> 8
+irb#1(main):034:0> (5-5%2) + 5*(5%2)
+=> 9
+irb#1(main):035:0> 5 - 5%2
+=> 4
+irb#1(main):036:0> #nbr batches
+irb#1(main):037:0*
+irb#1(main):038:0* q
+NameError: undefined local variable or method `q' for main:Object
+        from (irb#1):38
+irb#1(main):039:0> get = 5
+=> 5
+irb#1(main):040:0> disc=2
+=> 2
+irb#1(main):041:0> leftover = get%disc
+=> 1
+irb#1(main):042:0> batches_of_cheap = (get - leftover)/disc
+=> 2
+irb#1(main):043:0> price = disc*batches_of_cheap
+===========================================================
+.[]MISC
+===========================================================
+.[]RSPEC-TIP; common error from syntax failure within one's spec.rb file is "No tests were found."
+
+
+===========================================================
+.[]MAP FIND
+===========================================================
+.[]Ruby-tip; find_all returns a list , so need to open up the list to find maps inside if started with array of maps.
+ary = [{:id=>"a", :price=>100, :numberForBatchDiscount=>0, :batchPrice=>0},{:id=>"b", :price=>200, :numberForBatchDiscount=>2, :batchPrice=>2}]
+
+
+
+===========================================================
+IRB WIN
 ==========================================================
 1.[]BUG; when try to paste into irb like i do in mac, win freeze on cygwin
 ==========================================================
+31.[]Ruby-tip; Win; irb.bat --prompt-mode simple
 52.[]Ruby-tip; WIN; To avoid weird Rails/Irb prompt, use option; --prompt prompt-mode (--prompt-mode prompt-mode) Switch prompt mode. Predefined prompt modes are default, simple, xmp, and inf-ruby. ; X.Interactive Ruby (irb)
 http://www.tutorialspoint.com/ruby/interactive_ruby.htm
 Interactive Ruby (irb)

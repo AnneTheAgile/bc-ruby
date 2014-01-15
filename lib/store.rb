@@ -3,6 +3,7 @@ require './lib/cart'
 require './lib/store'
 
 module Store
+  # Product and Price list data are housed in the Store class.
   class Store
     attr_reader :products , :cart #not r/w  attr_accessor
 
@@ -11,6 +12,7 @@ module Store
       @cart = nil
     end
 
+    # To @products, add the given data as a map of :id, :price.
     def add_product(aItemId, aPrice, aMinimumBatchQuantity=0, aBatchPrice=0)
       aBatchPrice, aPrice = convert_and_validate_product(aBatchPrice, aItemId, aMinimumBatchQuantity, aPrice)
       @products = @products <<   Hash[ :id=> aItemId, :price=> aPrice,
@@ -63,7 +65,8 @@ module Store
       @products.size
     end
 
-    def find_product (aProductId)
+    # Validate that the given aProductId is in the store. (Boolean)
+    def find_product? (aProductId)
       begin
         validate_string(aProductId)
       rescue
@@ -71,6 +74,17 @@ module Store
       end
       @products.each { |aMap|   return true if aMap[:id]==aProductId }
       false
+    end
+
+    # Return the Product map for the given aProductId, if it is in the store, or the empty map, {}, if not.
+    def find_product (aProductId)
+      begin
+        validate_string(aProductId)
+      rescue
+        return {}
+      end
+      @products.each { |aMap|   return aMap if aMap[:id]==aProductId }
+      {}
     end
 
     def product_list_showing_prices_in_pennies
@@ -81,5 +95,22 @@ module Store
       product_list_showing_prices_in_pennies
     end
 
+    # Using the algorithm that only complete sets are discounted, any extra items are charged full price, get the total bill for the given quantity of the given product.
+    def minimal_price_in_pennies(aQtyToBuy, aProduct)
+      stdPrice = aProduct[:price]
+      discPrice = aProduct[:batchPrice]
+      discQty = aProduct[:numberForBatchDiscount]
+
+      leftovers = aQtyToBuy % discQty
+      batches = (aQtyToBuy - leftovers) / discQty
+      price = (discPrice * batches) + (stdPrice * leftovers)
+    end
+
+    # Return the total price for the given aQuantity of aId products and use the minimal discount.
+    def price_discounted(aQuantity, aId)
+      product = find_product(aId)
+      raise "No such product." if product=={}
+      return (minimal_price_in_pennies(aQuantity,product))
+    end
   end
 end

@@ -6,20 +6,19 @@ describe 'Store' do
 
   it '#Find_Product Returns true upon searching a product that is in the store.' do
     aStore.add_product('a',1)
-    expect(aStore.find_product('a')).to eq(true)
+    expect(aStore.find_product?('a')).to eq(true)
   end
 
   it '#Find_Product Returns false upon searching a product that is not in the store.' do
-    expect(aStore.find_product('a')).to eq(false)
+    expect(aStore.find_product?('a')).to eq(false)
   end
 
   it '#Find_Product Returns false upon searching for an invalid product.'   do
-    expect(aStore.find_product(1)).to eq(false)
+    expect(aStore.find_product?(1)).to eq(false)
   end
 
-  # context "#Discounted Item - Features:" do
   it '#Add_Product Raises error if discount quantity but not price is entered.' do
-    expect{aStore.add_product('a',1,3)}.to raise_error  "Argument aBatchPrice was not specified but aMinimumBatchQuantity was." # RuntimeError
+    expect{aStore.add_product('a',1,3)}.to raise_error( RuntimeError,/Argument aBatchPrice was not specified but aMinimumBatchQuantity was./)
   end
 
   it '#ConvertDollarsToPennies Rounds up.' do
@@ -30,7 +29,8 @@ describe 'Store' do
   end
 
 
-  #end
+
+  # context "#Discounted Item - Features:" do
 
   context "#Non-Discounted Item - Features:" do
 
@@ -43,10 +43,8 @@ describe 'Store' do
     end
 
     it '#Find_Product Returns false if seek a product that is not in the store.' do
-      expect(aStore.find_product('a')).to eq(false)
+      expect(aStore.find_product?('a')).to eq(false)
     end
-
-    it '#Add.'
 
     it '#count is 1 for one element.' do
       expect(aStore.count_products).to eq(0)
@@ -78,7 +76,53 @@ describe 'Store' do
     end
   end
 
-  context 'FUTURE possible work.' do
+  it '#Price_Standard Raises error if price-check an empty store.' do
+    expect{aStore.price_non_discounted('a')}.to raise_error(RuntimeError, /Invalid Product ID./)
+  end
+
+  it '#Price_Standard Raises error if price-check an item not in the store.' do
+      #add a different product just to be totally sure not making a null case
+      aStore.add_product('a',1)
+      expect{aStore.price_non_discounted('b')}.to raise_error(RuntimeError, /Invalid Product ID./)
+  end
+
+  it '#Price_Standard Returns the price in pennies for quantity of one.' do
+    aStore.add_product('a',1)
+    answer = aStore.price_non_discounted('a')
+    expect(answer).to eq(100)
+  end
+
+  it '#Price_Discounted Returns the non-discounted price in pennies when there is no discount volume quantity.' do
+    aStore.add_product('a',1)
+    answer = aStore.price_discounted('a',9)
+    expect(answer).to eq(900)
+  end
+
+  it 'Store-TIP: Ruby-TIP: Store Discount pricing uses This Math: Example of using Modulus plus computation of max price given discounts.' do
+    get=7
+    # MULTIPLE products, an array
+    products = [{:id=>"a", :price=>100, :numberForBatchDiscount=>2, :batchPrice=>1},{:id=>"b", :price=>200, :numberForBatchDiscount=>3, :batchPrice=>5}]
+    # SINGLE product, NOT an array
+    product = {:id=>"a", :price=>100, :numberForBatchDiscount=>2, :batchPrice=>1}
+
+    stdPrice = product[:price] #= 100
+    discPrice = product[:batchPrice] #=  1
+    discQty = product[:numberForBatchDiscount] #=  2
+    leftover = get%discQty #=1
+    batches = (get-leftover) / discQty #=3
+    price = discPrice * batches + stdPrice * leftover
+    expect(price).to eq(103)
+  end
+
+  it '#Price_Discounted Returns the discounted total price in pennies for purchase size exactly equal to the discount volume quantity.' do
+    aStore.add_product('a',1,11,100)
+    answer = aStore.price_discounted('a',11)
+    expect(answer).to eq(501)
+  end
+
+  it '#Price_Discounted Returns the fully discounted total price in pennies for purchase size larger than the discount volume quantity.'
+
+  context 'FUTURE Possible Refactorings.' do
     it 'Products Map Uses symbols instead of strings as hash keys.'  do
       pending 'cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby'
     end

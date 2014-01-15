@@ -2,6 +2,16 @@ require 'rspec'
 require './lib/cart'
 require './lib/store'
 #require 'ruby-debug'
+require './specLib/custom_stdout_matcher'
+
+describe 'Rspec with Let and Sysout' do
+  it 'Is testable by capturing sysout.' do
+    pending 'IDK how to use the let(:outs) statement.'
+  #    let(:outs) { [] }  #double('output')}
+  #    let(:term) {Terminal::TerminalPos.new(['g'])}
+  #    let(:term) {Terminal.new(:outs)}
+  end
+end
 
 describe 'Cart' do
   #before(:each) do

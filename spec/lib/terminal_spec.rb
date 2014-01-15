@@ -3,18 +3,12 @@ require './lib/terminal'
 require './lib/store'
 require './lib/cart'
 
-
-
 describe 'Terminal/Shopping/' do
-  let(:gui) {Terminal::TerminalPos.new($stdin, $stdout) }
   let(:theStore) { Store::Store.new }
-  let(:aCart) { Cart::Cart.new }
 
   #  describe '#Startup-initialization' do
       it 'Says Hello to the (Admin) user upon instantiation.' do
         expect { Terminal::TerminalPos.new() }.to match_stdout( "Hello from your POS") #" Terminal Controller!")
-        expect { Terminal::TerminalPos.new() }.to match_stdout( "from")
-        expect { Terminal::TerminalPos.new() }.not_to match_stdout( "hello")
       end
 
       it 'Does Not accept a redefined $stdin nor $stdout.' do
