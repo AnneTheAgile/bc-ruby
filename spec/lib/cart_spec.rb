@@ -16,7 +16,7 @@ describe 'Cart' do
     return cart, store
   end
 
-  context "#Using the Store, Buy items - Features:" do
+  context "Context: There is a Store associated with this Cart to check products." do
 
     it '#add Raises error if add a new item without any arguments, ie no Id.' do
       aCart0, aStore0 = new_Cart_with_StoreHavingProduct

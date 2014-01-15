@@ -5,20 +5,25 @@ require './lib/store'
 module Store
   # Product and Price list data are housed in the Store class.
   class Store
-    attr_reader :products , :cart #not r/w  attr_accessor
 
     def initialize()
       @products = []
       @cart = nil
     end
 
-    # To @products, add the given data as a map of :id, :price.
-    def add_product(aItemId, aPrice, aMinimumBatchQuantity=0, aBatchPrice=0)
+    # Make the given data into a map of :id, :price, :MinimumBatchQuantity, :BatchPrice, where last two default to zero.
+    def make_product(aItemId, aPrice, aMinimumBatchQuantity=0, aBatchPrice=0)
       aBatchPrice, aPrice = convert_and_validate_product(aBatchPrice, aItemId, aMinimumBatchQuantity, aPrice)
-      @products = @products <<   Hash[ :id=> aItemId, :price=> aPrice,
+      Hash[ :id=> aItemId, :price=> aPrice,
                                        :numberForBatchDiscount => aMinimumBatchQuantity,
                                        :batchPrice=> aBatchPrice
       ]
+    end
+
+    # To @products, add the given data as a map, where price is in dollars.
+    def add_product(aItemId, aPrice, aMinimumBatchQuantity=0, aBatchPrice=0)
+      raise "Duplicate products are not allowed in the store." if find_product?(aItemId)
+      @products = @products << make_product(aItemId, aPrice, aMinimumBatchQuantity, aBatchPrice)
     end
 
     def convert_and_validate_product(aBatchPrice, aItemId, aMinimumBatchQuantity, aPrice)
@@ -96,21 +101,28 @@ module Store
     end
 
     # Using the algorithm that only complete sets are discounted, any extra items are charged full price, get the total bill for the given quantity of the given product.
-    def minimal_price_in_pennies(aQtyToBuy, aProduct)
+    def minimal_price_in_pennies(aProduct, aQtyToBuy)
       stdPrice = aProduct[:price]
       discPrice = aProduct[:batchPrice]
       discQty = aProduct[:numberForBatchDiscount]
 
-      leftovers = aQtyToBuy % discQty
-      batches = (aQtyToBuy - leftovers) / discQty
+      case discPrice
+        when 0
+          leftovers = aQtyToBuy
+          batches = 0
+        else
+          leftovers = aQtyToBuy % discQty
+          batches = (aQtyToBuy - leftovers) / discQty
+      end
+
       price = (discPrice * batches) + (stdPrice * leftovers)
     end
 
     # Return the total price for the given aQuantity of aId products and use the minimal discount.
-    def price_discounted(aQuantity, aId)
+    def price_in_pennies(aId, aQuantity)
       product = find_product(aId)
       raise "No such product." if product=={}
-      return (minimal_price_in_pennies(aQuantity,product))
+      return (minimal_price_in_pennies(product,aQuantity))
     end
   end
 end

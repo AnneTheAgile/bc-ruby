@@ -10,7 +10,6 @@ module Cart
     end
 
     def add(aItemId)
-      print (@store.to_s)
       raise "Error, Your product could not be found in the store. Please re-enter."   if validate_item(aItemId)
       @products = @products << aItemId
     end

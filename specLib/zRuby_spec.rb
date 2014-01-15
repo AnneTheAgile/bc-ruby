@@ -1,6 +1,6 @@
 require 'rspec'
 require 'logger'
-require './specLib/custom_stdout_matcher'
+require './custom_stdout_matcher'
 
 describe 'zRuby/Data-Structures-Tips/' do
   describe '#Ruby Array' do
@@ -60,7 +60,7 @@ describe 'zRuby/Printing and Logging-Tips/' do
   it 'Can Print  File.dirname(__FILE__) which is this very folder.' do
     # http://stackoverflow.com/questions/16147846/referencing-file-location-in-rspec-rake-task-vs-rspec-runner
     # http://stackoverflow.com/questions/19106165/how-do-i-run-unix-commands-using-system-and-backticks
-    ans = Dir.pwd + "/specFut"#('C:/amsrc/rmtry/specFut')
+    ans = Dir.pwd # + "/specZFut"#('C:/amsrc/rmtry/specZFut')
     print(ans)
     expect(  File.dirname(__FILE__).to_s).to eq(ans.to_s)
   end
@@ -105,31 +105,22 @@ describe 'zRuby/Error-Handling-Tips/' do
   it 'Throws NotImplementedError when...??'
 end
 
+describe 'zRuby/Math-Tips/' do
 
+  it 'Store-TIP: Ruby-TIP: Store Discount pricing uses This Math: Example of using Modulus plus computation of max price given discounts.' do
+    get=7
+    # MULTIPLE products, an array
+    products = [{:id=>"a", :price=>100, :numberForBatchDiscount=>2, :batchPrice=>1},{:id=>"b", :price=>200, :numberForBatchDiscount=>3, :batchPrice=>5}]
+    # SINGLE product, NOT an array
+    product = {:id=>"a", :price=>100, :numberForBatchDiscount=>2, :batchPrice=>1}
 
-describe 'zRuby/Rspec-Tips' do
-
-  it 'Match, either prefix or postfix, does Regex matching strings.' do
-    expect(/ab/).to match("aaabbb")
-    expect("aaabbb").to match(/ab/)
-  end
-
-  it 'Throws NoMethodError (not NotImplementedError) with space before object of expect - So Avoid "expect (x)" - FUTURE, fix BUG in Cheatsheet.' do
-    expect{expect ('0').to eq('1')}.to raise_error NoMethodError
-  end
-
-  xit 'Will not run any "it" test that is changed to "xit".'
-
-  it 'Will not run and will explain the cause for delay when use a given pending clause plus text.' do
-    pending 'Not implementing this to make an example.'
-  end
-
-  it 'Must call the bat file, not Rspec, on windows,' do
-    expect('$ /cygdrive/c/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/bin/rspec.bat'[0]).to eq('$')
-  end
-
-  it 'Evaluates contents between parens (1+2), not needing a block {1+2}.' do
-    expect(1+2).to eq(3)
+    stdPrice = product[:price] #= 100
+    discPrice = product[:batchPrice] #=  1
+    discQty = product[:numberForBatchDiscount] #=  2
+    leftover = get%discQty #=1
+    batches = (get-leftover) / discQty #=3
+    price = discPrice * batches + stdPrice * leftover
+    expect(price).to eq(103)
   end
 
 end

@@ -1,5 +1,138 @@
 C:\amsrc\rmtry\doc\status.txt
 
+===========================================================
+.[]GREEN, READY FOR GUI
+===========================================================
+.[]cs ruby call rspc cmd also ok on win; 
+
+C:\amsrc\rmtry>
+C:\amsrc\rmtry>
+C:\amsrc\rmtry>
+C:\amsrc\rmtry>
+C:\amsrc\rmtry>
+C:\amsrc\rmtry>C:\Users\amoroney\amApps\lang\ruby\RailsInstaller\Ruby1.9.3\bin
+/rspec  --format doc
+
+Cart
+  Context: There is a Store associated with this Cart to check products.
+    #add Raises error if add a new item without any arguments, ie no Id.
+    #count is 1 for one element.
+    #count is 2 for two elements.
+    #clear Resets a populated cart back to empty.
+    #report Describes contents of one item as a string.
+    #report Describes its contents of two items as a string.
+    #report Describes an empty cart as having no elements.
+
+Store
+  #ConvertDollarsToPennies Rounds up.
+  #Find_Product Returns true upon searching a product that is in the store.
+  #Find_Product Returns false upon searching a product that is not in the store.
+  #Find_Product Returns false upon searching for an invalid product.
+  #Add_Product Raises error if duplicate product is entered.
+  #Add_Product Raises error if discount quantity but not price is entered.
+  #Add_Product Raises error if add a new item without any arguments, ie no Id.
+  #Add_Product Raises error if add a new item without both Id and Price.
+  #count is 1 for one element.
+  #count is 2 for two elements.
+  #clear Resets a populated store back to empty.
+  #report Describes its contents as a string.
+  #report Describes an empty store as having no elements.
+  #Price_in_pennies: Raises error if price-check an empty store.
+  #Price_in_pennies: Raises error if price-check an item not in the store.
+  #Price_in_pennies: Returns the price in pennies for quantity of one.
+  #Price_in_pennies: Returns the non-discounted price in pennies when there is no discount volume quantity.
+  #Price_in_pennies: Returns the discounted total price in pennies for purchase size exactly equal to the discount volume quantity.
+  #Price_in_pennies: Returns the minimally discounted total price in pennies for purchase size larger than the discount volume quantity.
+  FUTURE Possible Refactorings.
+    Products Map Uses symbols instead of strings as hash keys. (PENDING: cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby)
+
+Terminal/Shopping/
+  Says Hello to the (Admin) user upon instantiation.
+  Does Not accept a redefined $stdin nor $stdout.
+  TBA
+    asks for product pricelist. (PENDING: Not yet implemented)
+    allows entry of product-id, price (PENDING: Not yet implemented)
+    allows entry of product-id, price, qualifying quantity, and discounted price (PENDING: Not yet implemented)
+    verifies item added to a cart is in the store. (PENDING: (first dependency))
+
+Pending:
+  Store FUTURE Possible Refactorings. Products Map Uses symbols instead of strings as hash keys.
+    # cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby
+    # ./spec/lib/store_spec.rb:110
+  Terminal/Shopping/ TBA asks for product pricelist.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:20
+  Terminal/Shopping/ TBA allows entry of product-id, price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:22
+  Terminal/Shopping/ TBA allows entry of product-id, price, qualifying quantity, and discounted price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:24
+  Terminal/Shopping/ TBA verifies item added to a cart is in the store.
+    # (first dependency)
+    # ./spec/lib/terminal_spec.rb:26
+
+Finished in 0.20314 seconds
+33 examples, 0 failures, 5 pending
+===========================================================
+.[]plain is also ok with regular simple rspc cmd on win; 
+
+C:\amsrc\rmtry>rspec
+..........................*..****
+
+Pending:
+  Store FUTURE Possible Refactorings. Products Map Uses symbols instead of strings as hash keys.
+    # cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby
+    # ./spec/lib/store_spec.rb:110
+  Terminal/Shopping/ TBA asks for product pricelist.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:20
+  Terminal/Shopping/ TBA allows entry of product-id, price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:22
+  Terminal/Shopping/ TBA allows entry of product-id, price, qualifying quantity, and discounted price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:24
+  Terminal/Shopping/ TBA verifies item added to a cart is in the store.
+    # (first dependency)
+    # ./spec/lib/terminal_spec.rb:26
+
+Finished in 0.06251 seconds
+33 examples, 0 failures, 5 pending
+
+C:\amsrc\rmtry>
+===========================================================
+.[]fro mrubymine; BUG, can only do the std way, so this does not show doc right now.
+
+Testing started at 12:12 PM ...
+
+Pending: Temporarily disabled with xit
+
+Pending: Not implementing this to make an example.
+
+Pending: Language deficit, until: Be able to pass Block to a Regex, not just an Object, eg ; expect{"aaabbb"}.to match(/ab/)
+
+Pending: Read up on the actual code to sort this out.
+
+Pending: On windows, chk commandline and/or path and/or the raw code.
+0{:id=>"a", :price=>100, :numberForBatchDiscount=>0, :batchPrice=>0}
+Pending: refactor this prior code to make nice examples
+C:/amsrc/rmtry/specLibD, [2014-01-15T12:12:58.319579 #4752] DEBUG -- : initialize=  //Logging Test.
+
+Pending: Not yet implemented
+
+Pending: Not yet implemented
+
+27 examples, 0 failures, 19 passed, 8 pending
+
+Finished in 0.130727 seconds
+
+Process finished with exit code 0
+
+===========================================================
+.[]SKIPPED SOME
+===========================================================
+.[]
 ====================================================
 .[]"Grn. Ready to add front end, ie admin enter products."
 2014-01-09Thu.21:33:34
