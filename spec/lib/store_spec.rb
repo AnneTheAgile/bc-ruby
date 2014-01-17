@@ -4,6 +4,9 @@ require './lib/store'
 describe 'Store' do
   let(:aStore) { Store::Store.new }
 
+  it '#ProductMetadata gives the list of attributes found in the maximal constructor.' do
+    pending 'Test constructor output'
+  end
 
   it '#ConvertDollarsToPennies Rounds up.' do
     expect(aStore.convertDollarsToPennies(1.110)).to eql(111)

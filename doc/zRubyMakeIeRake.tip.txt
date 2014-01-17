@@ -1,0 +1,548 @@
+zRubyMakeIeRake.tip.txt
+
+==========================================================
+9.[] ; X.rake tutorial windows - Google Search
+https://www.google.com/search?q=how+to+run+rake&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a#q=rake+tutorial+windows&rls=org.mozilla:en-US:official
+rake tutorial windows - Google Search
+
+==========================================================
+10.[] ; X.How A .NET Developer Learned Ruby And Rake, To Build .NET Apps In Windows | ThoughtStream.new :derick_bailey
+http://webcache.googleusercontent.com/search?q=cache:O5atHq_2HMYJ:lostechies.com/derickbailey/2009/04/08/how-a-net-developer-learned-ruby-and-rake-to-build-net-apps-in-windows/&client=firefox-a&hl=en&gl=us&strip=1
+How A .NET Developer Learned Ruby And Rake, To Build .NET Apps In Windows | ThoughtStream.new :derick_bailey
+How A .NET Developer Learned Ruby And Rake, To Build .NET Apps In Windows
+Posted by Derick Bailey on April 8, 2009
+
+I recently decided it was time for me to learn Ruby and Rake – with the specific goal of replacing my NAnt scripts in some projects, due to the high level of complexity and logic that I need in the build process. After asking around the LosTechies crew for advice, and receiving more advice than I had ever hoped for, here’s the basics of what I did to learn Ruby and Rake…
+
+First and foremost – don’t use any kind of IDE. At most, use the “SciTE” text editor that comes with the One-Click installer. It provides simple highlighting, but doesn’t give you any crutches like Intellisense, debugging, etc. Learn the actual language, not an IDE.
+
+    Install the Ruby language and runtime via One-Click Installer for Windows. Be sure to enable Ruby Gems.
+    Read the Wikibooks information on Ruby Programming. The information provided is very easy to read and understand, even for an old VB / C# guy like me. Be sure to read up on the conventions and other basics like objects, methods, and logic constructs.  
+    Run the “irb – Interactive Ruby Console” from your programs list
+    image
+    and start hacking away at the basic ruby concepts from the Wikibooks information. You can type in class and method definitions right there in the console and start executing code!
+    image
+    Run a Ruby file: After you’re comfortable with the basics of Ruby, you can start using a text editor to save some code in .rb files, and run them via the ruby command line.
+    image
+    image
+    Get Rake by running “gem install rake” from a command prompt. No really. It’s that simple. Isn’t the Gem system great?!
+    image
+    Read about how Rake turned Gregg into an alcoholic (it’s a great Rake tutorial! I promise!) and go through the tutorial.
+    Then build your own Rake file! Call it “rakefile.rb” so the “rake” command will find it easily.
+    image
+    image
+    Read @laribee’s post on using Rake to build .NET apps and learn how to shell out to an MSBuild call, and build your .NET app!
+    image
+
+From there, the world is yours! Rake is so stinking simple, and so powerful. You have complete access to all of the Ruby code you could ever want – logic, conditional statements, loops and collections! You can code your entire build process in Ruby, and then script it together with rake tasks! I’m so much happier with Rake than I was with nant. All the angle-bracket XML tax that nant makes you pay was really getting on my nerves, with the complex build systems that I need.
+
+All together, it took me less than 4 hours to create my first usable Rake builds for a sample .NET application. I still have to refer to the language syntax of Ruby, via the Wikibooks entry – I am still learning, after all. But I know the process and how it works well enough, to start using Rake for my project build needs, now!
+Related Articles:
+
+    Building Sample Apps in Ruby, NodeJS and PHP
+    EmberJS: Initial Impressions (Compared To Backbone)
+    Composition Of Responsibility vs Interface Implementation
+    Learning Haskel For Fun (and profit?)
+    Dependency Injection Is NOT The Same As The Dependency Inversion Principle
+
+
+==========================================================
+11.[] ; X.Rake Tutorial | Jason Seifer
+
+Rake Tutorial | Jason Seifer
+
+Menu
+Rake Tutorial
+
+If you’re developing with Rails you’ve probably encountered rake once or twice. This blog post aims to walk you through where rake came from and an introduction on how to use it effectively in your Rails apps.
+A Little Bit of History
+
+Rake is the project of Jim Weirich. It’s a build tool. For a good laugh and an even more in depth history check out the "rational.rdoc" from the Rake documentation. Essentially, rake started as an idea for using Ruby inside of a Makefile. Though Jim doesn’t sound convinced from the tone in that document, it is a good idea.
+
+What’s the need for an automated build system at all? As usual, Wikipedia has the answer:
+
+    Historically, developers used build automation to call compilers and linkers from inside a build script versus attempting to make the compiler calls from the command line. It is simple to use the command line to pass a single source module to a compiler and then to a linker to create the final deployable object. However, when attempting to compile and link many source code modules, in a particular order, using the command line process is not a reasonable solution. [sic]
+    As the build process grew more complex, developers began adding pre and post actions around the calls to the compilers such as a check-out from version control to the copying of deployable objects to a test location. The term “build automation” now includes managing the pre and post compile and link activities as well as the compile and link activities. 
+
+It’s about Dependencies
+
+This may be a bit of a stretch to say but build tools are about dependencies. One file or set of files depends on another set to get compiled, linked, or other fun things before the next set can be processed. The same idea exists in rake with tasks and task dependencies. Let’s look at a simple rake task. Save the following as “Rakefile” in any directory:
+
+  directory "tmp"
+ 
+  file "hello.tmp" => "tmp" do
+    sh "echo 'Hello' >> 'tmp/hello.tmp'"
+  end
+
+What we’re saying here is that the file named “hello.tmp” depends on the directory "tmp". When rake runs across this, it’s going to create the directory "tmp" first before running the "hello.tmp" task. When you run it, you’ll see something like the following:
+
+  [jason@brick:~/src]$ rake hello.tmp
+  (in /Users/jason/src)
+  echo 'Hello' > 'tmp/hello.tmp'
+
+If you were to look at the "hello.tmp" file you would see the phrase "Hello". What happens if you run it again? You’ll see the same output again. What’s going on? Rake is generating the file again. It’s doing this because it can’t actually find the file tmp/hello.tmp from that definition. Let’s redefine the task:
+
+  directory "tmp"
+ 
+  file "tmp/hello.tmp" => "tmp" do
+    sh "echo 'Hello' > 'tmp/hello.tmp'"
+  end
+
+Now if you were to run it twice you would see something like this:
+
+  [jason@brick:~/src]$ rake "tmp/hello.tmp"
+  (in /Users/jason/src)
+  mkdir -p tmp
+  echo 'Hello' > 'tmp/hello.tmp'
+  [jason@brick:~/src]$ rake "tmp/hello.tmp"
+  (in /Users/jason/src)
+
+Rake now knows that the file task has been run.
+Running Other Tasks
+
+Rake tasks can take the form of having prerequisites and can depend on another task. Let’s say I wanted to get ready in the morning. My process would be something like this:
+
+    Turn off alarm clock.
+    Groom myself.
+    Make coffee.
+    Walk dog.
+
+Let’s further assume that I have OCD and have to do all of these in order. In rake I might express my morning as follows:
+
+  task :turn_off_alarm do
+    puts "Turned off alarm. Would have liked 5 more minutes, though."
+  end
+ 
+  task :groom_myself do
+    puts "Brushed teeth."
+    puts "Showered."
+    puts "Shaved."
+  end
+ 
+  task :make_coffee do
+    cups = ENV["COFFEE_CUPS"] || 2
+    puts "Made #{cups} cups of coffee. Shakes are gone."
+  end
+ 
+  task :walk_dog do
+    puts "Dog walked."
+  end
+ 
+  task :ready_for_the_day => [:turn_off_alarm, :groom_myself, :make_coffee, :walk_dog] do
+    puts "Ready for the day!"
+  end
+
+If I were to run this as is I would type rake ready_for_the_day and I’d see the following:
+
+  [jason@brick:~/src]$ rake ready_for_the_day
+  (in /Users/jason/src)
+  Turned off alarm. Would have liked 5 more minutes, though.
+  Brushed teeth.
+  Showered.
+  Shaved.
+  Made 5 cups of coffee. Shakes are gone.
+  Dog walked.
+  Ready for the day!
+
+By running the ready_for_the_day task it notices that the turn_off_alarm, groom_myself, make_coffee, and walk_dog tasks are all prerequisites of the ready_for_the_day task. Then it runs them all in the appropriate order. You’ll notice that we can pass something in to the make_coffee task. If we were having a really tough day we could pass in a value to the COFFEE_CUPS environment variable and be more prepared:
+
+  [jason@brick:~/src]$ rake COFFEE_CUPS=5 make_coffee
+  (in /Users/jason/src)
+  Made 5 cups of coffee. Shakes are gone.
+
+Namespaces
+
+Rake supports the concept of namespaces which essentially lets you group together similar tasks inside of one namespace. You’d then specify the namespace when you call a task inside it. It keeps things tidy while still being quite effective. In Rails, you might notice the db:migrate task. In that example, db is the namespace and migrate is the task. Using the above example, we might put everything in to the morning namespace:
+
+  namespace :morning do
+    task :turn_of_alarm
+    ....
+  end
+
+Now if you were to run rake COFFEE_CUPS=3 morning:ready_for_the_day you would have the same output as above, only it only took 3 cups of coffee today. Score!
+The Default Task
+
+Rake has the concept of a default task. This is essentially the task that will be run if you type rake without any arguments. If we wanted our default task to be turning off the alarm from the example above, we’d do this:
+
+  task :default => 'morning:turn_off_alarm'
+
+Running rake now produces the following:
+
+  [jason@brick:~/src]$ rake
+  (in /Users/jason/src)
+  Turned off alarm. Would have liked 5 more minutes, though.
+
+Describing Your Tasks
+
+You can use the desc method to describe your tasks. This is done on the line right above the task definition. It’s also what gives you that nice output when you run rake -T to get a list of tasks. Tasks are displayed in alphabetical order. We’ll define some descriptions in our Rakefile (abbreviated for brevity):
+
+  ...
+  desc "Make coffee"
+  task :make_coffee do
+    cups = ENV["COFFEE_CUPS"] || 2
+    puts "Made #{cups} cups of coffee. Shakes are gone."
+  end
+  ...
+
+Now when we run rake -T for our list of tasks we get the following output:
+
+  [jason@brick:~/src]$ rake -T
+  (in /Users/jason/src)
+  rake afternoon:make_coffee      # Make afternoon coffee
+  rake morning:groom_myself       # Take care of normal hygeine tasks.
+  rake morning:make_coffee        # Make coffee
+  rake morning:ready_for_the_day  # Get ready for the day
+  rake morning:turn_off_alarm     # Turn off alarm.
+  rake morning:walk_dog           # Walk the dog
+
+You can add in a string to get tasks matching that displayed. Running rake -T af would show just the afternoon task.
+Redefining Tasks
+
+Let’s say you want to add on to an existing task. Perhaps you have another item in your grooming routine like styling your hair. You could write another task and slip it in as a dependency for groom_myself but you could also redefine groom_myself later on (shortened for brevity but you get the idea):
+
+  namespace :morning do
+	....
+	task :groom_myself do
+      puts "Brushed teeth."
+      puts "Showered."
+      puts "Shaved."
+    end
+    ....
+  end
+  ...
+  namespace :morning do
+    task :groom_myself do
+      puts "Styled hair."
+    end
+  end
+
+  [jason@brick:~/src]$ rake morning:groom_myself
+  (in /Users/jason/src)
+  Brushed teeth.
+  Showered.
+  Shaved.
+  Styled hair.
+
+Invoking Tasks
+
+You may at some point want to invoke a task from inside another task. Let’s say, for example, you wanted to make coffee in the afternoon, too. If you need an extra upper after lunch you could do that the following way:
+
+  namespace :afternoon do
+    task :make_coffee do
+      Rake::Task['morning:make_coffee'].invoke
+      puts "Ready for the rest of the day!"
+    end
+  end
+
+Which outputs:
+
+  [jason@brick:~/src]$ rake afternoon:make_coffee COFFEE_CUPS=1
+  (in /Users/jason/src)
+  Made 1 cups of coffee. Shakes are gone.
+  Ready for the rest of the day!
+
+A real world example of this is the rcov:all task. I use this in Genius Pool for aggregate rcov data. It’s shamelessly stolen from Clayton Lengel-Zigich. Go check out that post for a good example of invoking other tasks from rake.
+Refactoring
+
+You’ll notice in the example above we’re delegating most of the work to already defined methods and tasks in the RSpec and Cucumber classes. As a general rule, try to keep your methods already defined other places and call them from rake with your specific options and use cases. Let’s say I had a Rails application that e-mailed all accounts in the system that their account was expiring in a certain number of days. Here’s one way to write it:
+
+  namespace :accounts do
+    desc "Email expiring accounts to let them know"
+    task :email_expiring => :environment do
+      date = ENV['from'] ? Date.parse(ENV['from']) : Date.today
+      accounts = Account.find(:all, :conditions => ["expiration_date = ?", date]
+      accounts.each do |account|
+        Notifier.deliver_account_expiration(account)
+      end
+    end
+  end
+
+A better way, that would let you test it more thoroughly would be to do the following:
+
+  namespace :accounts do
+    desc "Email expiring accounts to let them know"
+    task :email_expiring => :environment do
+      date = ENV['from'] ? Date.parse(ENV['from']) : Date.today
+      Account.notify_expiring(date)
+    end
+  end
+
+This lets you unit test your notify_expiring method on the account class and make sure that it’s doing what it’s supposed to do. This is a small, made up example, but you get the idea. Here’s an example from Resque:
+
+  desc 'Restart redis'
+  task :restart do
+    RedisRunner.stop
+    RedisRunner.start
+  end
+
+Notice the delegation to the RedisRunner class methods? This is a great rake task
+Rails
+
+You can get access to your models, and in fact, your whole environment by making tasks dependent on the environment task. This lets you do things like run rake RAILS_ENV=staging db:migrate. Rails will autmatically pick up tasks in lib/tasks. Any files named with the .rake extension will get picked up when you do rake -T.
+Scheduling Rake Tasks
+
+You can use cron to schedule rake tasks. Let’s say you wanted to run the account email expiration task every night at 12:15 on your production server, you might have something like this:
+
+  15 * * * * cd /data/my_app/current && /usr/bin/rake RAILS_ENV=production accounts:email_expiring
+
+Misc
+
+Rake.original_dir gives you the directory that the original rake task was run from.
+
+Derivatives
+
+    Thor is a more class based approach to solving some of the things rake does as far as actual tasks go.
+    Capistrano is the de facto standard for deploying rails apps. Its syntax is inspired pretty heavily by Rake, but it is definitely not rake.
+
+Further Reading
+
+    "Testing Rake Tasks" by Jay Fields
+    "On Rake" by John Barnette
+    How To: Setup RSpec, Cucumber, Webrat, RCov and Autotest on Leopard | Clayton Lengel-Zigich
+    Custom Rake Tasks Railscast
+
+Useful Rake Examples
+
+    Sample Rakefile from this article.
+    redis.rake from Resque.
+
+If you have any more useful rake examples, please let me know and I’ll add them here.
+
+Photo Credits:
+Shaker rake by dicktay2000 on Flickr.
+Toy sampling megaphone by altemark on Flickr.
+in Ruby	 by Jason	06 Apr 2010 81 comments
+Share
+
+Post tagsrake
+81 comments
+
+    Paul Pettengill April 4, 2012   Reply →
+
+    Is there an easy way to schedule long-running rake tasks on Heroku Cedar? They’ve deprecated cron, and I’m looking at Resque, but I’m still having difficulty figuring out how to do a simple call of my rake task.
+    Apoorva April 12, 2012   Reply →
+
+    Awesome article!
+    Scott May 24, 2012   Reply →
+
+    Whenever I visit this site and I have a local webserver running, I get some scary items in my apache error log:
+
+    Permission denied: /path/to/my/local/sites/.htaccess pcfg_openfile: unable to check htaccess file, ensure it is readable, referer: http://jasonseifer.com/2010/04/06/rake-tutorial
+
+    Might there be some bad script running on your wordpress install?
+    Scott May 24, 2012   Reply →
+
+    I figured out the issue here… something on this page is requesting the following URL: “http:/?record&key=31387132504c6e4263343438455037716a4549663333314b&1337844281862&serve_js” and that is causing an error in my apache log. Just a friendly FYI. Thanks!
+    PMRetract: now with rake tasks | What You're Doing Is Rather Desperate July 4, 2012   Reply →
+
+    [...] of years old but still one of the best-written tutorials I know; on writing Ruby rake tasks – jasonseifer.com/2010/04/06/rakâ€¦ [...]
+    cantbecool July 30, 2012   Reply →
+
+    Thanks for the excellent introduction and tutorial.
+    dog tags August 5, 2012   Reply →
+
+    Hello, Neat post. There is a problem along with your website in internet explorer, might test this? IE nonetheless is the market chief and a big element of other folks will pass over your excellent writing due to this problem.
+    Tony August 13, 2012   Reply →
+
+    Excellent!!.
+    » Ultimate Rake Tutorial | Thinking In Rails August 14, 2012   Reply →
+
+    [...] like Jason Seifer has put out a really greatÂ Rake TutorialÂ for those who aren’t 100% (read: me) on this whole “rake” [...]
+    James Dunn August 28, 2012   Reply →
+
+    Years later, this is still an awesome blog post. Adding to instapaper for future reference.
+    G November 26, 2012   Reply →
+
+    One of those timeless tutorials. Thank you for this.
+    Sakthi December 19, 2012   Reply →
+
+    Thanks a lot for this tutorial.. Gives a quick and nice introduction to rake…
+    New Year’s Resolution: Learn to Code | Más Wired January 1, 2013   Reply →
+
+    [...] Rake [...]
+    blake May 17, 2013   Reply →
+
+    “When you run it…”
+
+    Run it how? Not “chmod +x Rakefile” followed by “./Rakefile”, presumably.
+
+    Is the missing piece perhaps “rake” automatically runs “Rakefile”? It would seem to be. Yet I get much more than the output. I get errors:
+
+    echo ‘Hello’ >> ‘tmp/hello.tmp’
+    sh: 1: cannot create tmp/hello.tmp: Directory nonexistent
+    rake aborted!
+    Command failed with status (2): [echo 'Hello' >> 'tmp/hello.tmp'...]
+
+    Prefixing “hello.tmp” with “tmp/” doesn’t seem to change much. The directory isn’t created. I suspect there’s a missing piece of information that is obvious to the author.
+
+    Thanks!
+    Nick Cox June 5, 2013   Reply →
+
+    Thanks, this helped me build a simple rake task to build the gem I’m working on and push it to rubygems.org.
+    New Year’s Resolution: Learn to Code | Grubstreet August 9, 2013   Reply →
+
+    [...] Rake [...]
+    Custom rake task | Klairvoyant's Blog August 28, 2013   Reply →
+
+    [...] railscasts 362http://jasonseifer.com/2010/04/06/rake-tutorialhttp://blog.jayfields.com/2006/11/ruby-testing-rake-tasks.htmlhttp://lukaszwrobel.pl/blog/rake-tutorialhttp://railsguides.net/2012/03/14/how-to-generate-rake-task/ [...]
+    Custom rake task | Ruby on Rails Tips August 28, 2013   Reply →
+
+    [...] http://jasonseifer.com/2010/04/06/rake-tutorial [...]
+    Marek December 10, 2013   Reply →
+
+    “Capistrano [...] is definitely not rake.”. Here you go, three years later Capistrano team says: “We have moved away from our own DSL implemenation to implement Capistrano as a Rake application”
+    http://www.capistranorb.com/2013/06/01/release-announcement.html
+
+    Just sayin for anyone who is currently learning about Rake. Great article btw!
+
+Next»
+Leave a comment
+
+Name*
+
+E-mail*
+
+Website
+
+Your comment
+
+Notify me of follow-up comments by email.
+
+Notify me of new posts by email.
+
+© Copyright Jason Seifer
+
+==========================================================
+14.[]TODO use rake more ; X.Rake -- Ruby Make
+http://rake.rubyforge.org/
+Rake -- Ruby Make
+RAKE – Ruby Make
+
+This package contains Rake, a simple ruby build program with capabilities similar to make.
+
+Rake has the following features:
+
+    Rakefiles (rake's version of Makefiles) are completely defined in standard Ruby syntax. No XML files to edit. No quirky Makefile syntax to worry about (is that a tab or a space?)
+
+    Users can specify tasks with prerequisites.
+
+    Rake supports rule patterns to synthesize implicit tasks.
+
+    Flexible FileLists that act like arrays but know about manipulating file names and paths.
+
+    A library of prepackaged tasks to make building rakefiles easier. For example, tasks for building tarballs and publishing to FTP or SSH sites. (Formerly tasks for building RDoc and Gems were included in rake but they're now available in RDoc and RubyGems respectively.)
+
+    Supports parallel execution of tasks.
+
+Installation
+Gem Installation
+
+Download and install rake with the following.
+
+gem install rake
+
+Usage
+Simple Example
+
+First, you must write a “Rakefile” file which contains the build rules. Here's a simple example:
+
+task :default => [:test]
+
+task :test do
+  ruby "test/unittest.rb"
+end
+
+This Rakefile has two tasks:
+
+    A task named “test”, which - upon invocation - will run a unit test file in Ruby.
+
+    A task named “default”. This task does nothing by itself, but it has exactly one dependency, namely the “test” task. Invoking the “default” task will cause Rake to invoke the “test” task as well.
+
+Running the “rake” command without any options will cause it to run the “default” task in the Rakefile:
+
+% ls
+Rakefile     test/
+% rake
+(in /home/some_user/Projects/rake)
+ruby test/unittest.rb
+....unit test output here...
+
+Type “rake –help” for all available options.
+More Information
+
+    For details on Rake's command-line invocation, read doc/command_line_usage.rdoc
+
+    For details on writing Rakefiles, see doc/rakefile.rdoc.
+
+    For the original announcement of Rake, see doc/rational.rdoc.
+
+    For a glossary of terms, see doc/glossary.rdoc.
+
+Development
+Source Repository
+
+Rake is currently hosted at github. The github web page is github.com/jimweirich/rake . The public git clone URL is
+
+    git://github.com/jimweirich/rake.git
+
+Running the Rake Test Suite
+
+If you wish to run the unit and functional tests that come with Rake:
+
+    Install the 'flexmock' gem
+
+    Install the 'session' gem in order to run the functional tests.
+
+    CD into the top project directory of rake.
+
+    Type one of the following:
+
+    rake                  # If you have a version of rake installed
+    ruby -Ilib bin/rake   # If you do not have a version of rake installed.
+
+Issues and Bug Reports
+
+Feature requests and bug reports can be made here
+
+    github.com/jimweirich/rake/issues
+
+Online Resources
+Rake References
+
+    Rake Documentation Home: docs.rubyrake.org
+
+    Rake Project Page: github.com/jimweirich/rake
+
+    Rake API Documents: rake.rubyforge.org
+
+    Rake Source Code Repo: github.com/jimweirich/rake
+
+    Rake Git Repo Clone URL: git://github.com/jimweirich/rake.git
+
+    Rake Bug Reports: github.com/jimweirich/rake/issues
+
+    Rake Continuous Build Server: travis-ci.org/#!/jimweirich/rake
+
+Presentations and Articles about Rake
+
+    Jim Weirich's 2003 RubyConf presentation: onestepback.org/articles/buildingwithrake/
+
+    Martin Fowler's article on Rake: martinfowler.com/articles/rake.html
+
+Other Make Reinvisionings …
+
+Rake is a late entry in the make replacement field. Here are links to other projects with similar (and not so similar) goals.
+
+    directory.fsf.org/bras.html – Bras, one of earliest implementations of “make in a scripting language”.
+
+    www.a-a-p.org – Make in Python
+
+    www.aromatic.com/tools/jam.txt – JAM, Java Automated Make
+
+    ant.apache.org – The Ant project
+
+    search.cpan.org/search?query=PerlBuildSystem – The Perl Build System
+
+    rant.rubyforge.org – Rant, another Ruby make tool.
+
+Credits

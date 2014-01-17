@@ -11,6 +11,10 @@ module Store
       @cart = nil
     end
 
+    def product_metadata
+      [:id, :price, :batchPrice, :numberForBatchDiscount]
+    end
+
     # Make the given data into a map of :id, :price, :MinimumBatchQuantity, :BatchPrice, where last two default to zero.
     def make_product(aItemId, aPrice, aMinimumBatchQuantity=0, aBatchPrice=0)
       aBatchPrice, aPrice = convert_and_validate_product(aBatchPrice, aItemId, aMinimumBatchQuantity, aPrice)

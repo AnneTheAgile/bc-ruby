@@ -1,0 +1,241 @@
+zBashProfileTips.txt
+65.[]TODO The ways bashrc vs bash_profile are ont explained clearly , ie contradictory CHK Bash Cookbook again! ; X.Larry Hall (Cygwin) - Re: spaces in .bash_profile lead to "command not found"
+
+==========================================================
+63.[] ; X.Robert Pendell - Re: startxwin started bash does not read .bashrc or .bash_profile
+http://cygwin.com/ml/cygwin/2013-02/msg00327.html
+Robert Pendell - Re: startxwin started bash does not read .bashrc or .bash_profile
+Re: startxwin started bash does not read .bashrc or .bash_profile
+
+    From: Robert Pendell <shinji+cygwin at elite-systems dot org>
+    To: cygwin at cygwin dot com
+    Date: Wed, 27 Feb 2013 10:36:38 -0500
+    Subject: Re: startxwin started bash does not read .bashrc or .bash_profile
+    References: <15470.1361923720@relay.known.net> <512D7040.7080905@gmail.com> <26949.1361935259@relay.known.net>
+
+On Tue, Feb 26, 2013 at 10:20 PM, Kevin Layer <> wrote:
+> Arthur Tu wrote:
+>
+>>> On 2/27/2013 8:08 AM, Kevin Layer wrote:
+>>> > If I put this into .startxwinrc:
+>>> >
+>>> >    mintty /usr/bin/bash.exe --login -i
+>>> >
+>>> > the resulting shell does not read .bash_profile.  If I put
+>>> >
+>>> >    mintty /usr/bin/bash.exe -i
+>>> >
+>>> > it doesn't read .bashrc.
+>>> >
+>>> >
+>>> > I've been beating my head against this wall for hours, over a few
+>>> > days.  I've googled my ass off, but I can't find anyone that's having
+>>> > the same problem.
+>>> >
+>>> >
+>>> > My ultimate goal is to use ssh-agent/ssh-add to make life easier, but
+>>> > it requires my .bashrc to be sourced (.bash_profile merely sources
+>>> > .bashrc).
+>>> >
+>>> >
+>>> > Thanks.
+>>> >
+>>> >
+>>> ## .bash_profile
+>>> if [ -f "${HOME}/.bashrc" ] ; then
+>>>   source "${HOME}/.bashrc"
+>>> fi
+>>>
+>>> What do you mean? Isn't this enough?
+>
+> It is not.  As I said, without --login, when .bashrc would be loaded
+> directly... it is *not*.
+>
+> This should be pretty easy for someone to test.  Does it work for
+> anyone else, as I've described?
+>
+> I'm up to date on my installation as of today.
+>
+
+.bashrc and .bash_profile serve 2 different purposes.
+
+.bash_profile is meant for login sessions (like ssh or a local terminal)
+.bashrc is meant for non-login sessions (like scp)
+
+Commonly .bash_profile does source in .bashrc so that it gets executed too.
+
+BTW, You don't need to do --login and -i.  --login will assume -i anyways.
+
+Dummy run on my linux box (I'll check cygwin later when I get a
+chance) but this is for behavior check.
+
+shinji@icarus:~$ bash --login
+shinji@icarus:~$ echo $BASHRC
+Y
+shinji@icarus:~$ echo $BASH_PRO
+Y
+shinji@icarus:~$ exit
+logout
+shinji@icarus:~$ bash -i
+shinji@icarus:~$ echo $BASHRC
+Y
+shinji@icarus:~$ echo $BASH_PRO
+
+Note I placed an export statement in .bash_profile and .bashrc to mark
+if they got executed. Note that on the login shell both did get
+executed and on the non-login one (forced interactive) only .bashrc
+was run.  .bashrc is sourced thanks to /etc/profile on my linux
+system.
+
+References:
+http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html
+http://www.gnu.org/software/bash/manual/bashref.html#Invoking-Bash
+Bash man page
+
+Robert Pendell
+A perfect world is one of chaos.
+==========================================================
+64.[]Nix-tip; compgen -a will list all the aliases you could run. ; X.Linux command to list all available commands and aliases - Stack Overflow
+http://stackoverflow.com/questions/948008/linux-command-to-list-all-available-commands-and-aliases
+Linux command to list all available commands and aliases - Stack Overflow
+
+ 158 down vote
+	
+
+You can use the bash(1) built-in compgen
+
+    compgen -c will list all the commands you could run.
+    compgen -a will list all the aliases you could run.
+    compgen -b will list all the built-ins you could run.
+    compgen -k will list all the keywords you could run.
+    compgen -A function will list all the functions you could run.
+    compgen -A function -abck will list all the above in one go.
+
+Check the man page for other completions you can generate.
+
+To directly answer your question:
+
+compgen -ac | grep searchstr
+
+should do what yout want.
+share|improve this answer
+	
+edited May 25 '11 at 1:13 
+
+
+
+ 28 down vote accepted
+	
+
+Add to .bashrc
+
+function ListAllCommands
+{
+    echo -n $PATH | xargs -d : -I {} find {} -maxdepth 1 \
+        -executable -type f -printf '%P\n' | sort -u
+}
+
+If you also want aliases, then:
+
+function ListAllCommands
+{
+    COMMANDS=`echo -n $PATH | xargs -d : -I {} find {} -maxdepth 1 \
+        -executable -type f -printf '%P\n'`
+    ALIASES=`alias | cut -d '=' -f 1`
+    echo "$COMMANDS"$'\n'"$ALIASES" | sort -u
+}
+
+share|improve this answer
+	
+edited Jun 4 '09 at 20:32 
+ This is very close but it's not including aliases. How can I append alias | cut -f1 to the results but before the sort? – ack Jun 4 '09 at 17:32
+	
+Why bother sorting if the only purpose is to put the output through grep anyway? Unix philosophy is to make simple tools and then chain them together if required, so leave sort out of ListAllCommands and if the user wants the output sorted they can do that. – danio Jul 21 '10 at 8:45
+3 	 
+	
+The sort is to remove duplicates. – Ants Aasma Jul 21 '10 at 20:51
+	
+find -executable doesn't work for me. Was that option renamed? – fotomut Oct 3 '12 at 16:08
+	
+@fotomut Maybe you are using Mac OS? On a Mac, you can instead run: find . -type f -exec sh -c 'test -x {} && echo {}' \; That worked for me when recursively searching for executable files in the current folder. – Victor Zamanian Jan 24 '13 at 22:29
+	
+@VictorZamanian I'm ssh into a unix box actually. But vault answer works for me on my unix and my mac too. – fotomut Feb 1 '13 at 17:30
+	
+You can also use -perm -111. – Kyle Strand Aug 30 '13 at 22:44
+	
+This does not find commands that are symlinks to executables. Use the option -L on to follow symlinks to their destination. Note: -L is an option and not part of the matching expression, as such it has to be placed before the p
+
+==========================================================
+65.[]TODO The ways bashrc vs bash_profile are ont explained clearly , ie contradictory CHK Bash Cookbook again! ; X.Larry Hall (Cygwin) - Re: spaces in .bash_profile lead to "command not found"
+http://cygwin.com/ml/cygwin/2006-10/msg00266.html
+Larry Hall (Cygwin) - Re: spaces in .bash_profile lead to "command not found"
+Re: spaces in .bash_profile lead to "command not found"
+
+    From: "Larry Hall (Cygwin)" <reply-to-list-only-lh at cygwin dot com>
+    To: cygwin at cygwin dot com
+    Date: Thu, 05 Oct 2006 16:59:10 -0400
+    Subject: Re: spaces in .bash_profile lead to "command not found"
+    References: <20061005201903.GA13484@dirac.org> <45256D64.8060504@buddydog.org>
+    Reply-to: cygwin at cygwin dot com
+
+Jonathan Arnold wrote:
+
+    Peter Jay Salzman wrote:
+
+        There are 4 blank lines in my .bash_profile:
+
+           ====== start file
+           echo 'BEGIN ~/.bash_profile'
+
+
+           export ANT_HOME='/cygdrive/c/Java/apache-ant-1.6.5'
+           export JAVA_HOME='/cygdrive/c/Java/jdk1.5.0_08'
+           export CLASSPATH=''
+           export EDITOR='vim'
+           export PATH="${JAVA_HOME}/bin:${ANT_HOME}/bin:${PATH}"
+           # export PS1='$ '
+
+
+
+        # echo 'setting up aliases...'
+        # alias ls='ls -F --color'
+        # alias ll='ls -Fl --color'
+        # alias la='ls -Fla --color'
+        # alias lr='ls -Flr --color'
+        # alias lar='ls -Flar --color'
+        # alias desktop='cd /cygdrive/c/Documents\ and\ Settings/psalzman/Desktop'
+
+           echo 'END ~/.bash_profile'
+           ====== end file
+
+
+        Each blank line generates an error:
+
+           $ source .bash_profile
+           BEGIN ~/.bash_profile
+           : command not found
+           : command not found
+           : command not found
+           : command not found
+           END ~/.bash_profile
+
+
+        However, if I comment all the blank lines out, I get no errors. Each blank
+        line in this file seems to be causing a "command not found" error. What
+        could be causing this? 
+
+
+    CR/LF where there should be CR. Try running d2u. And read the list for
+    more gotchas due to the bash upgrade.
+
+
+
+Essentially correct but I believe you meant to say that CR/LF should be a
+LF.
+
+
+--
+Larry Hall                              http://www.rfk.com
+RFK Partners, Inc.                      (508) 893-9779 - RFK Office
+216 Dalton Rd.                          (508) 893-9889 - FAX
+Holliston, MA 01746

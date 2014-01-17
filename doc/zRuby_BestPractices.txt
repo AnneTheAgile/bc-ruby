@@ -1,0 +1,144 @@
+zRuby_BestPractices.txt
+
+
+==========================================================
+48.[] ; X.Practical Object-Oriented Design in Ruby
+http://www.poodr.com/
+Practical Object-Oriented Design in Ruby
+Practical Object-Oriented Design in Ruby (POODR) is about how to write object-oriented code.
+
+Authored by Sandi Metz, it is a book written by an everyday programmer. It explains object-oriented design (OOD) using realistic Ruby examples. POODR is a practical, readable, and understandable introduction to how OOD can lower your costs and improve your applications.
+
+    POODR will help you:
+    Understand how object-oriented programming can help you craft Ruby code that is easier to maintain and upgrade
+    Decide what belongs in a single Ruby class
+    Avoid entangling objects that should be kept separate
+    Define flexible interfaces among objects
+    Reduce programming overhead costs with duck typing
+    Successfully apply inheritance
+    Build objects via composition
+    Design cost-effective tests
+    Solve common problems associated with poorly designed Ruby code
+
+If your code is killing you and the joy is gone, POODR has the cure.
+
+Buy from Amazon (print or kindle), Barnes and Noble (print or nook) or Informit (print, epub, mobi, or pdf).
+
+A note on pronunciation:  Think pooder, as if you were a three year old attempting to say computer.   Please don’t think anything else, though you may smile as you say it if you like.
+==========================================================
+49.[] ; X.poodr/chapter_9g.rb at master · skmetz/poodr
+https://github.com/skmetz/poodr/blob/master/chapter_9g.rb
+poodr/chapter_9g.rb at master · skmetz/poodr
+require 'minitest/reporters'
+MiniTest::Unit.runner = MiniTest::SuiteRunner.new
+MiniTest::Unit.runner.reporters << MiniTest::Reporters::SpecReporter.new
+require 'minitest/autorun'
+
+############## From previous example ##############
+class Wheel
+  attr_reader :rim, :tire
+  def initialize(rim, tire)
+    @rim       = rim
+    @tire      = tire
+  end
+
+  def width
+    rim + (tire * 2)
+  end
+# ...
+end
+
+############## From previous example ##############
+class Gear
+  attr_reader :chainring, :cog, :wheel
+  def initialize(args)
+    @chainring = args[:chainring]
+    @cog       = args[:cog]
+    @wheel     = args[:wheel]
+  end
+
+  def gear_inches
+    ratio * wheel.diameter
+  end
+
+  def ratio
+    chainring / cog.to_f
+  end
+# ...
+end
+
+############## From previous example ##############
+module DiameterizableInterfaceTest
+  def test_implements_the_diameterizable_interface
+    assert_respond_to(@object, :width)
+  end
+end
+
+############## Page 228 ##############
+# Full example is below.
+class DiameterDouble
+  def width
+    10
+  end
+end
+
+############## Full example, so tests will run.
+class DiameterDouble
+  def width
+    10
+  end
+end
+
+class DiameterDoubleTest < MiniTest::Unit::TestCase
+  include DiameterizableInterfaceTest
+
+  def setup
+    @object = DiameterDouble.new
+  end
+end
+
+class GearTest < MiniTest::Unit::TestCase
+  def test_calculates_gear_inches
+    gear =  Gear.new(
+              chainring: 52,
+              cog:       11,
+              wheel:     DiameterDouble.new)
+
+    assert_in_delta(47.27,
+                    gear.gear_inches,
+                    0.01)
+  end
+end
+
+############## Page 228 ##############
+# Full listing is below
+class Gear
+
+  def gear_inches
+                 # finally, 'width' instead of 'diameter'
+    ratio * wheel.width
+  end
+
+# ...
+end
+
+############## Page ??? ##############
+class Gear
+  attr_reader :chainring, :cog, :wheel
+  def initialize(args)
+    @chainring = args[:chainring]
+    @cog       = args[:cog]
+    @wheel     = args[:wheel]
+  end
+
+  def gear_inches
+    ratio * wheel.width
+  end
+
+  def ratio
+    chainring / cog.to_f
+  end
+# ...
+end
+
+

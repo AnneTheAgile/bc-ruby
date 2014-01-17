@@ -1,6 +1,6 @@
 require 'rspec'
 require 'logger'
-require './custom_stdout_matcher'
+require './spec/lib/custom_stdout_matcher'
 
 describe 'zRuby/Rspec-Tips' do
 

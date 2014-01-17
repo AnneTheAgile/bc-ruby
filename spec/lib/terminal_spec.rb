@@ -2,9 +2,11 @@ require 'rspec' # core, expectations, mocks, support
 require './lib/terminal'
 require './lib/store'
 require './lib/cart'
+require './spec/lib/custom_stdout_matcher'
 
 describe 'Terminal/Shopping/' do
   let(:theStore) { Store::Store.new }
+  let(:gui) { Terminal::TerminalPos.new }
 
   #  describe '#Startup-initialization' do
       it 'Says Hello to the (Admin) user upon instantiation.' do
@@ -15,10 +17,13 @@ describe 'Terminal/Shopping/' do
         expect{Terminal::TerminalPos.new($stdin)}.to  raise_error ArgumentError
       end
 
-      context 'TBA' do
+      it '#prompt_for_products: Asks for product pricelist.' do
+        # Answering the prompt is not actually required.
+        expect { gui.prompt_for_product }.to match_stdout( "enter x to stop")
+      end
 
-      it 'asks for product pricelist.'
 
+  context 'TBA' do
       it 'allows entry of product-id, price'
 
       it 'allows entry of product-id, price, qualifying quantity, and discounted price'
@@ -26,6 +31,9 @@ describe 'Terminal/Shopping/' do
       it 'verifies item added to a cart is in the store.' do
         pending '(first dependency)'
       end
+
+      it 'allows less-strict entry'
+        # http://stackoverflow.com/questions/7534905/how-can-i-fix-this-ruby-yes-no-style-loop
       end
 
   end

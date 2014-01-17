@@ -1,0 +1,208 @@
+zHaskell.Emacs.tips.txt
+
+==========================================================
+1.[] ; X.A Gentle Introduction to Haskell: Values and Types
+http://www.haskell.org/tutorial/goodies.html
+A Gentle Introduction to Haskell: Values and Types
+ A Gentle Introduction to Haskell, Version 98
+back next top
+
+2  Values, Types, and Other Goodies
+==========================================================
+19.[] ; X.GitHub · Build software better, together.
+https://github.com/pricing
+GitHub · Build software better, together.
+
+==========================================================
+20.[] ; X.Untitled - [Graham_Hutton]_Programming_in_Haskell.pdf
+http://files.meetup.com/11098452/%5BGraham_Hutton%5D_Programming_in_Haskell.pdf
+Untitled - [Graham_Hutton]_Programming_in_Haskell.pdf
+
+==========================================================
+21.[] ; X.Haskell Platform
+http://www.haskell.org/platform/doc/2013.2.0.0/start.html
+Haskell Platform
+
+==========================================================
+22.[] ; X.Chapter 1. Introduction to GHC
+http://www.haskell.org/platform/doc/2013.2.0.0/ghc-doc/users_guide/introduction-GHC.html#getting
+Chapter 1. Introduction to GHC
+
+==========================================================
+23.[] ; X.Log in to School of Haskell | FP Complete
+https://www.fpcomplete.com/auth/login
+Log in to School of Haskell | FP Complete
+
+==========================================================
+24.[] ; X.Your Profile
+https://github.com/settings/profile
+Your Profile
+
+==========================================================
+25.[]Haskell itself SW ; X.WinGhciInstalltion - winghci - A simple GUI for GHCI on Windows - Google Project Hosting
+http://code.google.com/p/winghci/wiki/WinGhciInstalltion
+WinGhciInstalltion - winghci - A simple GUI for GHCI on Windows - Google Project Hosting
+
+==========================================================
+26.[] ; X.overtone/emacs-live
+https://github.com/overtone/emacs-live
+overtone/emacs-live
+Emacs Live
+
+An opinionated set of defaults for getting started with a specific focus on live coding with Overtone and Quil. However, it's not just a one trick pony. It also happens to be:
+==========================================================
+27.[] ; X.Vincent Goulet - Emacs
+http://vgoulet.act.ulaval.ca/en/emacs/windows/
+Vincent Goulet - Emacs
+
+Emacs for Windows Modified
+
+Emacs for Windows Modified is a ready-to-install version of GNU Emacs 24.3 for Windows (released March 11, 2013) with the following additions:
+
+    ESS 13.09-1;
+    AUCTeX 11.87;
+    Aspell 0.50.3;
+    English, French, German and Spanish dictionaries for Aspell;
+    libraries for image formats XPM (xpm4.dll), PNG (libpng14-14.dll, zlib1.dll), JPEG (jpeg62.dll), TIFF (libtiff3.dll) and GIF (giflib4.dll);
+    w32-winprint.el, to ease printing under Windows;
+    htmlize.el, to print in color with w32-winprint.el;
+    psvn.el revision 1369093, an interface for the version control system Subversion, modified to include Andre Colomb's and Koji Nakamaru's combined patches to support Subversion 1.7;
+    framepop.el to open temporary buffers in a separate frame;
+    default.el and site-start.el, default configuration files to make everything work.
+
+This distribution is based on the latest stable release of GNU Emacs.
+Windows Compatible
+System requirements
+
+Windows 2000, XP, Vista or 7
+Version
+
+24.3-modified-4 (what's new)
+Installation
+
+Start the installation wizard and follow the instructions on screen.
+Sources
+
+The distribution is assembled from the latest binary distribution of Emacs for Windows, the source code of ESS and AUCTeX, as well as from a set of files and scripts.
+Older versions
+
+See the archives.
+Images and preview-latex mode
+
+This version of Emacs bundles the libraries needed to display images in formats XPM, PNG, JPEG, TIFF and GIF supported Windows since Emacs version 22.1. Among other things, this means that the toolbar displays in color, that the ESS toolbar displays correctly and that the preview-latex mode of AUCTeX works to its full extent. However, the latter requires to separately install Ghostscript and to make sure that the file gswin32c.exe is in a folder along the PATH environment variable.
+Emacs font
+
+Tired of the Courier font Emacs uses by default under Windows? One nice alternative is the Consolas family of fonts introduced in Windows Vista.
+
+    If the font is not available on your system, download the archive consolas.zip (247.2 kB) and copy the .ttf files in the Windows Fonts folder.
+    Set the Emacs font by adding these few lines to your .emacs initialization file (replace iso8859-1 by the desired encoding if needed). Starting with Emacs 23.1, you can also use the Set Default Font... entry in the Options menu.
+
+Unix applications
+
+Emacs sometimes uses external applications that are standard on Unix but not available on Windows (for example: diff, gzip). When needed, install the applications from the GnuWin32 project. To make sure Emacs can find the applications, include the folder where they are installed to the PATH environment variable. (With thanks to Laurent Pantera for the hint.)
+Download
+Emacs Windows
+
+emacs-24.3-modified-4.exe
+(50.4 MB)
+Also available
+Mac OS X version
+
+==========================================================
+28.[] ; X.Cygwin
+http://www.cygwin.com/
+Cygwin
+
+==========================================================
+29.[] ; X.YBlog - Learn Haskell Fast and Hard
+http://yannesposito.com/Scratch/en/blog/Haskell-the-Hard-Way/
+YBlog - Learn Haskell Fast and Hard
+
+==========================================================
+30.[] ; X.CutePDF - Convert to PDF for free, Free PDF Utilities, Save PDF Forms, Edit PDF easily.
+http://www.cutepdf.com/
+CutePDF - Convert to PDF for free, Free PDF Utilities, Save PDF Forms, Edit PDF easily.
+
+==========================================================
+31.[]THE BOOK ; X.learnyouahaskell.pdf
+http://www.cs.uwyo.edu/~jlc/courses/5010/learnyouahaskell.pdf
+learnyouahaskell.pdf
+
+==========================================================
+32.[] ; X.Document View - GNU Emacs Manual
+http://www.gnu.org/software/emacs/manual/html_node/emacs/Document-View.html
+Document View - GNU Emacs Manual
+35 Document Viewing
+
+DocView mode is a major mode for viewing DVI, PostScript (PS), PDF, OpenDocument, and Microsoft Office documents. It provides features such as slicing, zooming, and searching inside documents. It works by converting the document to a set of images using the gs (GhostScript) command and other external tools 1, and displaying those images.
+
+When you visit a document file that can be displayed with DocView mode, Emacs automatically uses DocView mode 2. As an exception, when you visit a PostScript file, Emacs switches to PS mode, a major mode for editing PostScript files as text; however, it also enables DocView minor mode, so you can type C-c C-c to view the document with DocView. In either DocView mode or DocView minor mode, repeating C-c C-c (doc-view-toggle-display) toggles between DocView and the underlying file contents.
+
+You can explicitly enable DocView mode with the command M-x doc-view-mode. You can toggle DocView minor mode with M-x doc-view-minor-mode.
+
+When DocView mode starts, it displays a welcome screen and begins formatting the file, page by page. It displays the first page once that has been formatted.
+
+To kill the DocView buffer, type k (doc-view-kill-proc-and-buffer). To bury it, type q (quit-window).
+
+    Navigation: Navigating DocView buffers.
+    Searching: Searching inside documents.
+    Slicing: Specifying which part of a page is displayed.
+    Conversion: Influencing and triggering conversion. 
+
+Footnotes
+
+[1] gs is a hard requirement. For DVI files, dvipdf or dvipdfm is needed. For OpenDocument and Microsoft Office documents, the unoconv tool is needed.
+
+[2] The needed external tools for the document type must be available, and Emacs must be running in a graphical frame and have PNG image support. If any of these requirements is not fulfilled, Emacs falls back to another major mode.
+==========================================================
+33.[] ; X.Image library DLLs required by Win32 version of GNU Emacs
+https://gist.github.com/bamanzi/5432369
+Image library DLLs required by Win32 version of GNU Emacs
+
+==========================================================
+34.[]Idea; see PDF of book in same app ; X.getting docview emacs to work - Google Search
+https://www.google.com/search?q=getting+docview+emacs+to+work&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a
+getting docview emacs to work - Google Search
+
+==========================================================
+35.[] ; X.Starting with Haskell - School of Haskell | FP Complete
+https://www.fpcomplete.com/school/starting-with-haskell
+Starting with Haskell - School of Haskell | FP Complete
+Introductory tutorials, teaching you Haskell, how to use the School, and some common libraries.
+
+    All
+    Tutorials
+    Projects
+
+    School of Haskell
+    Learning Haskell at the SoH 1 Nov 2013School of Haskell
+    How to take advantage of the School of Haskell to learn Haskell or improve your skills
+    Brent Yorgey
+    Introduction to Haskell Brent Yorgey
+    A basic introduction to Haskell based on a half-credit course (CIS 194) taught at the University of Pennsylvania. For more information, including accompan… more
+    Yann Esposito
+    Haskell Fast & Hard Yann Esposito
+    The SoH Version of Haskell Fast & Hard tutorial. From very beginner up to Monads in a very short and dense tutorial. This tutorial comes from [yannesposit… more
+    Bartosz Milewski
+    Basics of Haskell Bartosz Milewski
+    A gentle introduction to Haskell for beginners. The prerequisite for this series of tutorials is some knowledge of imperative programming, whether C++, Java, Pascal, y… more
+    School of Haskell
+    Libraries and Frameworks School of Haskell
+    Introductions to useful libraries and frameworks
+
+
+==========================================================
+36.[] ; X.Haskell Fast & Hard (Part 1) - School of Haskell | FP Complete
+https://www.fpcomplete.com/school/starting-with-haskell/haskell-fast-hard/haskell-fast-hard-part-1
+Haskell Fast & Hard (Part 1) - School of Haskell | FP Complete
+
+==========================================================
+37.[] ; X.Haskell Fast & Hard (Part 2) - School of Haskell | FP Complete
+https://www.fpcomplete.com/school/starting-with-haskell/haskell-fast-hard/haskell-fast-hard-part-2
+Haskell Fast & Hard (Part 2) - School of Haskell | FP Complete
+
+==========================================================
+38.[] ; X.A Gentle Introduction to Haskell: Values and Types
+http://www.haskell.org/tutorial/goodies.html
+A Gentle Introduction to Haskell: Values and Types
+
