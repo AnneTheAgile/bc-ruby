@@ -4,6 +4,13 @@ require './lib/store'
 require './lib/cart'
 require './spec/lib/custom_stdout_matcher'
 
+# http://stackoverflow.com/questions/20275510/how-to-avoid-deprecation-warning-for-stub-chain-in-rspec-3-0
+RSpec.configure do |config|
+  config.mock_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
+end
+
 describe 'Terminal/Shopping/' do
   let(:theStore) { Store::Store.new }
   let(:gui) { Terminal::TerminalPos.new }
@@ -17,10 +24,27 @@ describe 'Terminal/Shopping/' do
         expect{Terminal::TerminalPos.new($stdin)}.to  raise_error ArgumentError
       end
 
-      it '#prompt_for_products: Asks for product pricelist.' do
-        # Answering the prompt is not actually required.
-        expect { gui.prompt_for_product }.to match_stdout( "enter x to stop")
-      end
+        context 'Read/Write from System IO.' do
+
+          it "#prompt_for_product: Allows entry of a single product's pricelist as verified by 'enter' prompt." do
+            gui.stub(:gets) { "stubbed-typing\n" }
+            expect { gui.prompt_for_product }.to match_stdout("enter the")
+            expect(gui).to have_received( :gets).exactly(4).times
+
+            # example;
+            # stdout [Please enter the id.
+            #got value=stubbed-typing
+            #Please enter the price.
+            #                     got value=stubbed-typing
+            #Please enter the batchPrice.
+            #                     got value=stubbed-typing
+            #Please enter the numberForBatchDiscount.
+            #                     got value=stubbed-typing
+            #]
+            #./spec/lib/terminal_spec.rb:33:in `block (3 levels) in <top (required)>'
+
+          end
+        end
 
 
   context 'TBA' do
@@ -32,9 +56,13 @@ describe 'Terminal/Shopping/' do
         pending '(first dependency)'
       end
 
-      it 'allows less-strict entry'
+      it 'allows less-strict entry of products, eg defaults.'
         # http://stackoverflow.com/questions/7534905/how-can-i-fix-this-ruby-yes-no-style-loop
-      end
+
+      it 'FUTURE KATA: Redesign to be responsibility-based, not object-based.'
+    # http://blog.rubybestpractices.com/posts/gregory/037-issue-8-uses-for-modules.html
+
+    end
 
   end
 

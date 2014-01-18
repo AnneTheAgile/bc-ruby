@@ -1,6 +1,6 @@
 require 'rspec'
 require 'logger'
-require './custom_stdout_matcher'
+require './spec/lib/custom_stdout_matcher'
 
 describe 'zRuby/Data-Structures-Tips/' do
   describe '#Ruby Array' do
@@ -60,7 +60,7 @@ describe 'zRuby/Printing and Logging-Tips/' do
   it 'Can Print  File.dirname(__FILE__) which is this very folder.' do
     # http://stackoverflow.com/questions/16147846/referencing-file-location-in-rspec-rake-task-vs-rspec-runner
     # http://stackoverflow.com/questions/19106165/how-do-i-run-unix-commands-using-system-and-backticks
-    ans = Dir.pwd # + "/specZFut"#('C:/amsrc/rmtry/specZFut')
+    ans = Dir.pwd + "/specLib" # We set working dir to top level, so can access all items, thus this item is below that, ie got: "C:/amsrc/rmtry/specLib"
     print(ans)
     expect(  File.dirname(__FILE__).to_s).to eq(ans.to_s)
   end
@@ -88,6 +88,7 @@ describe 'zRuby/Printing and Logging-Tips/' do
         else
       end
   end
+
 end
 
 describe 'zRuby/Error-Handling-Tips/' do
@@ -103,6 +104,7 @@ describe 'zRuby/Error-Handling-Tips/' do
     # http://stackoverflow.com/questions/11369798/following-rspec-exception-handling-getting-nomethoderror-for-expect
 
   it 'Throws NotImplementedError when...??'
+
 end
 
 describe 'zRuby/Math-Tips/' do

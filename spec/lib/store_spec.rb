@@ -5,7 +5,7 @@ describe 'Store' do
   let(:aStore) { Store::Store.new }
 
   it '#ProductMetadata gives the list of attributes found in the maximal constructor.' do
-    pending 'Test constructor output'
+    expect(aStore.product_metadata).to eq([:id, :price, :batchPrice, :numberForBatchDiscount])
   end
 
   it '#ConvertDollarsToPennies Rounds up.' do

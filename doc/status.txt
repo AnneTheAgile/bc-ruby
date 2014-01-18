@@ -1,6 +1,1159 @@
 C:\amsrc\rmtry\doc\status.txt
 []add ; 7.55p MS  Win Azure outperforms amazon ec2 on average by 3x; read cloud spectator report. 
 http://www.windowsazure.com/en-us/campaigns/azure-vs-aws/
+
+===========================================================
+.[]
+
+
+===========================================================
+.[]test other half, the prompt
+===========================================================
+.[]BUG: want to stub the thing before chomp so chomp won't error, yet also want the gets' call to be tested.
+1.43p
+===========================================================
+.[]
+
+
+===========================================================
+.[]ERROR ; nb must stub an item in order to spy on it and see it was called?!!
+
+RSpec::Mocks::MockExpectationError: #<Mirror:0x231cd08> expected to have received gets, but that method has not been stubbed.
+./specLib/zRspecMock_spec.rb:38:in `block (2 levels) in <top (required)>'
+
+  it '#prompt_and_echo: Receives entered text with Gets.' do
+    @mirror = Mirror.new
+    @mirror.stub(:fixup).and_return( "stubbed-typing\n" ) #Collaborator
+    @mirror.prompt_and_echo
+    expect(@mirror).to have_received( :gets  )
+  end
+===========================================================
+.[x]WORKS rspec-tip v3 has spies which means that can post process expectations at the end and use past-tense to show that they should already have occurred once the code was run , ie before it.
+
+  it '#prompt_and_echo: Receives entered text with Gets.' do
+    @mirror = Mirror.new
+    @mirror.stub(:fixup).and_return( "stubbed-typing\n" ) #Collaborator
+    #@mirror.stub(:chomp) { "stubbed-typing\n" } #Collaborator
+    #@mirror.stub(:response) { "stubbed-typing\n" } #Collaborator
+    @mirror.prompt_and_echo
+    expect(@mirror).to have_received( :gets  )
+  end
+==========================================================
+1.[] ; X.Add Syntax for Spies · Issue #220 · rspec/rspec-mocks
+https://github.com/rspec/rspec-mocks/issues/220
+Add Syntax for Spies · Issue #220 · rspec/rspec-mocks
+ jfelchner opened this issue a year ago
+Add Syntax for Spies
+Milestone: 3.0  
+No one is assigned
+
+Now that we have a handle on the new syntax for mocks and stubs (#153 - the length of the issue is not for the faint of heart), I think that the oft-requested feature of adding spies to RSpec may more easily "fall out" of that implementation.
+
+The consistency of the expect syntax and the new allow syntax reads great and I'd like to discuss taking that syntax further into the notion of spies.
+
+    For the uninitiated and to make sure there's no ambiguity regarding terms here are some simplified definitions:
+
+        A stub is just a dumb object that knows how to receive some set of method calls and returns predetermined values for them.
+        A spy is just like a stub except that it remembers all the messages sent to it.
+        A mock is just like a spy except that you can tell it what messages you're expecting it to receive and it will blow up if it doesn't receive those.
+
+    PS: I'd prefer this issue didn't turn into a pedantic holy war debate about what the definition of a spy "really" is.
+
+First, I'm going to summarize the use case for spies in RSpec and how it will improve readability. I'm using the new syntax discussed in #153. And I'm offering two options for a spy syntax; variations of which were also discussed in #153.
+Current
+
+Our current syntax (without spies) would produce something like this:
+
+# http://www.imdb.com/title/tt0102926/
+context 'when Buffalo Bill gives his captive the hose' do
+  it 'puts the lotion in the basket' do
+    expect(basket).to receive(:<<).with(lotion).once
+
+    BuffaloBill.spray_water_on_captive
+  end
+end
+
+Spy Syntax Option 1
+
+context 'when Buffalo Bill gives his captive the hose' do
+  it 'puts the lotion in the basket' do
+    expect { BuffaloBill.spray_water_on_captive }.to send(:<<).to(basket).with(lotion).once
+  end
+end
+
+It appears that the only stumbling block is around whether to override send in the context of the matcher. Readability-wise, I think this is great, although it is quite a bit to chew off one one line.
+Spy Syntax Option 2
+
+Another option utilizes a new have_received matcher which also has its advantages.
+
+context 'when Buffalo Bill gives his captive the hose' do
+  it 'puts the lotion in the basket' do
+    allow(basket).to receive(:<<)
+
+    BuffaloBill.spray_water_on_captive
+
+    expect(basket).to have_received(:<<).with(lotion).once
+  end
+end
+
+Implementation
+
+I'm not sure about everyone else, but I like to approach a new feature from the user's perspective first and then deal with implementation.
+
+In Option 2, it would appear that this would require that all stubs actually be spies under the hood. In other words, all stubbed objects are recording their messages. This is easy if the object is stubbed as it is in Option 2 but we would need to have some mechanism for turning an object into a spy without additionally stubbing any methods. Maybe:
+
+allow(basket).to remember_messages
+
+My Opinion
+
+Honestly I kind of like Option 2 slightly more because building up the stub may need to be done in a separate context which would make Option 1 basically unusable.
+
+Thoughts everyone?
+
+==========================================================
+1.[] ; X.Add test spies by jferris · Pull Request #241 · rspec/rspec-mocks
+https://github.com/rspec/rspec-mocks/pull/241
+Add test spies by jferris · Pull Request #241 · rspec/rspec-mocks
+ jferris opened this pull request 10 months ago
+Add test spies
+No milestone
+No one is assigned
+
+    Adds have_received matcher
+    Extends Proxy/MethodDouble/MessageExpectation
+    Records all invocations on stubbed methods
+    Resolves #220.
+
+I ended up including a have_received method in rspec-mocks and not touching rspec-expectations, because:
+
+    have_received returns a good result object (a matcher) that you can use for boolean checks and a failure message, which we want in rspec-mocks
+    have_received would make little sense in rspec-expectations if you weren't also using rspec-mocks
+
+I resurrected some invocation recording functionality in received_messages? that seems to have been somewhat broken for a while. It was added in 2007 for ZenTest support, and seems to have been moved forward with every release without modification since then. Previously it only ever recorded messages for null object mocks; I updated it to record messages for any stubbed method.
+
+The matcher works in negative cases using should_not/not_to; I decided not to implement never, because combining should_not and never has proven to be confusing to bourne users. I figured it would be easier to just have one, standard way to write negative expectations.
+
+There was one weird situation I wasn't sure how to deal with on MethodDouble. Every MethodExpectation expects to have a expected_from backtrace line, because previously errors would be inserted where the expectation was set. This isn't necessary with have_received, because it raises a normal exception from where the expectation failed. I ended up passing a useless backtrace line with caller(1)[0] that isn't ever used.
+
+Feedback welcome.
+
+===========================================================
+.[]
+NameError: undefined local variable or method `fixup' for #<RSpec::ExampleGroups::ReadWriteFromSystemIOViaRegularStub:0x23bf350>
+./specLib/zRspecMock_spec.rb:34:in `block (2 levels) in <top (required)>'
+
+
+class Mirror
+  def prompt_and_echo
+    print "Please enter something: "
+    # Do not chain gets.chomp so that can test more easily.
+    response = gets
+    response = fixup(response)
+    puts "#{response}"
+  end
+
+  def fixup(aString)
+    aString.chomp
+  end
+end
+
+describe 'Read/Write from System IO - via regular stub.' do
+
+  it '#prompt_and_echo: Receives entered text with Gets.' do
+    @mirror = Mirror.new
+    @mirror.stub(fixup) { "stubbed-typing\n" } #Collaborator
+    #@mirror.stub(:chomp) { "stubbed-typing\n" } #Collaborator
+    #@mirror.stub(:response) { "stubbed-typing\n" } #Collaborator
+    expect(@mirror).to receive( :gets  )
+    @mirror.prompt_and_echo
+  end
+
+===========================================================
+.[]IO testing; ok now on the 2/3 tests; 1.prompt/print; 2.gets; 3.ack/puts.
+1.20p
+==========================================================
+1.[]@family.stub(:location).and_return('first', 'second', 'other') ; X.ruby on rails - Can RSpec stubbed method return different values in sequence? - Stack Overflow
+http://stackoverflow.com/questions/5947999/can-rspec-stubbed-method-return-different-values-in-sequence
+ruby on rails - Can RSpec stubbed method return different values in sequence? - Stack Overflow
+
+===========================================================
+.[\]refactor mock = just add pending.
+===========================================================
+.[]delete these are aok
+#require 'rspec/mocks' #Name is rspec-mocks
+    #RSpec::Mocks::setup(Mirror.new)
+
+===========================================================
+.[]GREEN tiny mock
+===========================================================
+.[]WIP 150115w ; 1.'permission denied' gets; 2.mock get to rspec it.
+===========================================================
+.[]WORKS, lol, due to forgot to say to actually do it. 12.30p
+
+
+===========================================================
+.[]WORKS; rid of the expct bug; 
+require 'rspec'
+require 'rspec/mocks' #Name is rspec-mocks
+require 'logger'
+require './spec/lib/custom_stdout_matcher'
+
+# http://stackoverflow.com/questions/20275510/how-to-avoid-deprecation-warning-for-stub-chain-in-rspec-3-0
+# Notice that it's setting the rspec-mocks syntax, not the rspec-expectations syntax
+RSpec.configure do |config|
+  config.mock_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
+end
+
+===========================================================
+.[]small progress, stub without ! is ok, but still... 1.deprecated remark when no such should used; 2.claims no calls. 
+12.21p
+
+Deprecation Warnings:
+
+Using `stub` from rspec-mocks' old `:should` syntax without explicitly enabling the syntax is deprecated. Use the new `:expect` syntax or explicitly enable `:should` instead. Called from C:/amsrc/rmtry/specLib/zRspecMock_spec.rb:24:in `block (2 levels) in <top (required)>'.
+
+
+If you need more of the backtrace for any of these deprecations to
+identify where to make the necessary changes, you can configure
+`config.raise_errors_for_deprecations!`, and it will turn the
+deprecation warnings into errors, giving you the full backtrace.
+
+RSpec::Mocks::MockExpectationError: (#<Mirror:0x1d52558>).puts("stubbed-typing")
+    expected: 1 time with arguments: ("stubbed-typing")
+    received: 0 times with arguments: ("stubbed-typing")
+./specLib/zRspecMock_spec.rb:25:in `block (2 levels) in <top (required)>'
+==========================================================
+1.[]BUG 12p
+C:\Users\amoroney\amApps\lang\ruby\RailsInstaller\Ruby1.9.3\bin\ruby.exe -e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift) C:\Users\amoroney\amApps\lang\ruby\RailsInstaller\Ruby1.9.3\bin/rspec C:/amsrc/rmtry/specLib/zRspecMock_spec.rb --require teamcity/spec/runner/formatter/teamcity/formatter --format Spec::Runner::Formatter::TeamcityFormatter
+Testing started at 12:03 PM ...
+
+NoMethodError: undefined method `stub!' for #<Mirror:0x1d22558>
+./specLib/zRspecMock_spec.rb:24:in `block (2 levels) in <top (required)>'
+
+1 example, 1 failure, 0 passed
+
+Finished in 0.004996 seconds
+
+Process finished with exit code 1
+
+require 'rspec'
+require 'rspec/mocks' #Name is rspec-mocks
+require 'logger'
+require './spec/lib/custom_stdout_matcher'
+
+class Mirror
+  def prompt_and_echo
+    print "enter something: "
+    response = gets.chomp
+    puts "#{response}"
+  end
+end
+
+describe 'Read/Write from System IO.' do
+  # http://stackoverflow.com/questions/4609872/rspec-commandline-variable-input
+  def ask(aFcn)
+    # []TODO confirm yield not more appropriate
+    (Terminal::TerminalPos.new).aFcn
+  end
+
+  it '#prompt_and_echo: Writes Echo for text.' do
+    RSpec::Mocks::setup(Mirror.new)
+    @mirror = Mirror.new
+    @mirror.stub!(:gets) { "stubbed-typing\n" } #Collaborator
+    expect(@mirror).to receive( :puts ).with("stubbed-typing")
+    # Answering the prompt is not actually required.
+    #expect { gui.prompt_for_product }.to match_stdout("enter x to stop")
+  end
+end
+==========================================================
+1.[]NTF you’re declaring a mock in an example group (describe() block) instead of an example (it() block).; X.Pragmatic Forums | rspec - undefined method 'mock'
+https://forums.pragprog.com/forums/95/topics/3216
+Pragmatic Forums | rspec - undefined method 'mock'
+Back to: All Forums → The RSpec Book → rspec - undefined method 'mock'
+24 Aug 2009, 00:28
+Generic-user-small
+
+Adam Trepanier (4 posts)
+	
+
+I am working with Chapter 6.3 and trying to do mock(“messenger”) and the error I get with running rspec is: undefined method `mock’ for Spec::Example::ExampleGroup::Subclass_1::Subclass_1:Class (NoMethodError).
+
+No idea why it is not working. I have the rspec gem 1.2.8 installed.
+24 Aug 2009, 08:14
+Dchelimsky_pragsmall
+
+David Chelimsky (206 posts)
+	
+
+From the error message it sounds like you’re declaring a mock in an example group (describe() block) instead of an example (it() block).
+
+HTH, David
+24 Aug 2009, 22:47
+Generic-user-small
+
+Adam Trepanier (4 posts)
+	
+
+yeah I am a moron, I missed a whole line. ‘it “should send a welcome message” do’ your post lead me to the answer.
+==========================================================
+1.[]CQblog TODO; Biz that does remote CI/CD for people GREAT short 10m lots content video, with Transcript???! ; X.Codeship's Testing Tuesday #9: Stubbing and Mocking with RSpec | via @codeship
+http://blog.codeship.io/2013/06/11/testing-tuesday-9-stubbing-and-mocking-with-rspec.html
+Codeship's Testing Tuesday #9: Stubbing and Mocking with RSpec | via @codeship
+
+integration tests; 
+1.debug bug; problems if chg and try to debug, error will be somewhere else.
+2.speed bug; take 30m if use javascript, so slow
+
+spec framework to write examples . see rspec/relish DOC
+
+class user 
+class project
+scenario, placeholder for projects w/o name = called peter if not given
+given   [i'm signed up ]; when [visit prjpath]
+cuke expected but not find
+
+fix w/ex. @4.07
+describe prj do
+it 'named after peter if no name' do
+user = user.new first_name: 'peter', last_name: 'parker'
+prj = prj.new
+prj.user = user
+prj.name.should== 'peter parker's prj'
+end 
+end
+
+got nil at first. fix.
+prj
+belongs_to :user
+attr_accessible :name
+def name  = read_attribute(:name).presence || "peter p prj"
+=> ok
+
+bug;
+helper 
+def random_name
+('a'..'z').to_a.sample(5).join #COOL make 5 chars random
+
+so in describe ; 
+first, last = 2.times.map{random_name}
+#put at eof spec helper so have random
+
+#{user.rullname}
+
+
+bug; 
+when chg order or name in fullname, fail, but the name is actually the same
+this causes alot of work. 
+would need rerun all ex's 
+any dependencies on other components caused this.
+fix = stub
+
+fullname = random-name
+user.new ; user.stub fullname: fullname
+expect -='#{fullname}'s project"
+but actually user also we not need
+user = mock_model user, fullname; fullname
+
+even more generic; double
+fail b can't use active record  assn 
+stub that too
+prj= prj.new
+prj.stub user double( fullname: fullname)
+prj.name.should==
+
+bug? danger use mocks? never know if really working, but that's what integ tests are for. 
+esp great for stubbing behavior that doesn't even exist; your integ test will tell you how
+
+thx Amrit for topic, have a beautiful week.
+one more thing; Always Stay Shipping.
+
+
+==========================================================
+1.[]Re-look at answer given stub-passive ; X.ruby - rspec commandline variable input - Stack Overflow
+http://stackoverflow.com/questions/4609872/rspec-commandline-variable-input
+ruby - rspec commandline variable input - Stack Overflow
+class Mirror
+  def echo
+    print "enter something: "
+    response = gets.chomp
+    puts "#{response}"
+  end
+end
+
+require 'rspec'
+describe Mirror do
+  it "should echo" do #testing the puts person not the gets
+    @mirror = Mirror.new
+    @mirror.stub!(:gets) { "phrase\n" }
+    @mirror.should_receive(:puts).with("phrase")
+    @mirror.echo
+  end
+end
+==========================================================
+1.[] ; X.Configure any test framework to use rspec-mocks - Outside rspec - RSpec Mocks - RSpec - Relish
+https://www.relishapp.com/rspec/rspec-mocks/v/2-1/docs/outside-rspec/configure-any-test-framework-to-use-rspec-mocks
+Configure any test framework to use rspec-mocks - Outside rspec - RSpec Mocks - RSpec - Relish
+Configure any test framework to use rspec-mocks
+
+Test frameworks that want to use rspec-mocks can use
+RSpec::Mocks::setup(self) to hook into rspec-mocks. Doing so adds the
+following:
+
+To the object passed to setup:
+
+double # creates a test double
+mock   # creates a test double
+stub   # creates a test double
+
+To every object in the system:
+
+should_receive
+should_not_receive
+stub
+
+In order to give control to the consuming framework, none of these facilities
+are added until RSpec::Mocks::setup(self) is called. Simply requiring
+'rspec/mocks' is not sufficient.
+
+NOTICE: the stub() method that is added to the object passed to setup is not
+the same stub() method that is added to every other object.
+
+Scenarios
+
+        RSpec::Mocks::setup(object) adds double, mock, and stub methods to the submitted object
+        RSpec::Mocks::setup(anything) adds methods to Object
+        require "rspec/mocks" does not add methods to Object
+
+    RSpec::Mocks::setup(object) adds double, mock, and stub methods to the submitted object
+
+        Given
+            a file named "foo.rb" with:
+
+            require 'rspec/mocks'
+
+            class CodeExample
+              def init
+                RSpec::Mocks::setup(self)
+              end
+            end
+
+            example = CodeExample.new
+            example.init
+
+            puts example.respond_to?(:double)
+            puts example.respond_to?(:mock)
+            puts example.respond_to?(:stub)
+
+        When
+            I run "ruby foo.rb" 
+        Then
+            the output should contain "true" 
+        But
+            the output should not contain "false" 
+
+    RSpec::Mocks::setup(anything) adds methods to Object
+
+        Given
+            a file named "foo.rb" with:
+
+            require 'rspec/mocks'
+
+            RSpec::Mocks::setup(Object.new)
+
+            obj = Object.new
+
+            puts obj.respond_to?(:should_receive)
+            puts obj.respond_to?(:should_not_receive)
+            puts obj.respond_to?(:stub)
+
+        When
+            I run "ruby foo.rb" 
+        Then
+            the output should contain "true" 
+        But
+            the output should not contain "false" 
+
+    require "rspec/mocks" does not add methods to Object
+
+        Given
+            a file named "foo.rb" with:
+
+            require 'rspec/mocks'
+
+            obj = Object.new
+
+            puts obj.respond_to?(:should_receive)
+            puts obj.respond_to?(:should_not_receive)
+            puts obj.respond_to?(:stub)
+
+        When
+            I run "ruby foo.rb" 
+        Then
+            the output should contain "false" 
+        But
+            the output should not contain "true" 
+
+Last published about 1 year ago by dchelimsky.
+
+==========================================================
+4.[]DEFN: Double=can do either; Stub= passive, but need its collaboration; Mock= active exercised API, we say what method the API should have and then expect it is called onthe target ; X.RSpec double, mock, and stub
+http://blog.firsthand.ca/2011/01/rspec-double-mock-and-stub.html
+RSpec double, mock, and stub
+
+==========================================================
+5.[]GREAT sample; takeaway is if not caring about the readability/conventions, Double does same thing  ; X.An Example using RSpec double, mock, and stub
+http://blog.firsthand.ca/2011/12/example-using-rspec-double-mock-and.html
+An Example using RSpec double, mock, and stub
+Blog
+Wednesday, December 21, 2011
+An Example using RSpec double, mock, and stub
+
+This is a follow-up post for RSpec double, mock, and stub from earlier this year. A reader asked for an example code to illustrate the various double aliases in RSpec.
+
+For this example we will spec a Transfer class that encapsulates the use case of transferring an amount between two accounts, the source account and destination account. The Transfer is the subject of our examples, while the source and destination accounts are the collaborators.
+
+In the spec below, the first example "should decrease source amount by 10", specifies the interaction for the source account, hence the use of the mock to generate the test double. In this example, the destination account is treated as a secondary collaborator, as we are focusing on the role of the source account. Any object can play the role of the source account, as long as it responds to the #decrease method.
+
+In the second example "should increase destination account by 10", the destination account is the primary collaborator. The use of mock to generate the source account communicates this intent.
+	
+describe Transfer do
+  context "transfer with amount of 10" do
+    it "should decrease source account by 10" do
+      source_account      = mock('source account')
+      destination_account = stub('destination_account').as_null_object
+     
+      source_account.should_receive('decrease').with(10)
+     
+      transfer = Transfer.new(source_account, destination_account, 10)
+      transfer.call
+    end
+ 
+    it "should increase destination account by 10" do
+      source_account      = stub('source account').as_null_object
+      destination_account = mock('destination_account')
+     
+      destination_account.should_receive('increase').with(10)
+     
+      transfer = Transfer.new(source_account, destination_account, 10)
+      transfer.call
+    end
+  end
+end
+
+However, there is some duplication in this spec which can be eliminated by moving the test doubles to let blocks. It's appropriate to use double here to generate the source and destination accounts as both play primary and secondary collaborators in the following examples. Below we stub the methods for each collaborator, then set expectations on those methods for the appropriate examples.
+
+describe Transfer do
+  context "transfer with amount of 10" do
+    let(:source_account) { double('source account', :decrease => nil) }
+    let(:destination_account) { double('destination_account', :increase => nil) }
+ 
+    it "should decrease source account by 10" do
+      source_account.should_receive('decrease').with(10)
+     
+      transfer = Transfer.new(source_account, destination_account, 10)
+      transfer.call
+    end
+ 
+    it "should increase destination account by 10" do
+      destination_account.should_receive('increase').with(10)
+     
+      transfer = Transfer.new(source_account, destination_account, 10)
+      transfer.call
+    end
+  end
+end
+
+Update: Radoslav Stankov provides a cleaner refactoring of the spec.
+
+The implementation of the transfer class may look something like this:
+
+	
+class Transfer
+  def initialize(source_account, destination_account, amount)
+    @source_account      = source_account
+    @destination_account = destination_account
+    @amount              = amount
+  end
+   
+  def call
+    # In a complete implementation, it would make sense to have the following
+    # lines wrapped in a transaction, but I wanted to keep this example simple
+    #
+    @source_account.decrease(amount)
+    @destination_account.increase(amount)
+  end
+end
+
+It's important to remember that double, mock, and stub all return an instance of RSpec::Mocks::Mock. While the concepts of mocking, (i.e. setting a method expectation), and stubbing are "method-level concepts"[1], the use of mock and stub can communicate which collaborator you are specifying the behaviour for.
+
+[1] For a more complete discussion on this, checkout The RSpec Book.
+
+Posted by Nicholas Henry at 3:30 PM 4 Comments
+Labels: rspec 
+==========================================================
+6.[]PrjMgmt; Scrum/SPRINT DEFN: To ensure you get dedicated, focused time for your project, I book 4 day blocks (Monday-Thursday) at a time. A 4 day block is charged at $3000 (plus taxes), based on a $100/hr rate. Fridays are set aside for any maintance obligations for other clients, research or open source contributors.  a Time and Materials contract, not a Fixed-price  ; X.Fees - Firsthand Web Development Montréal, Ruby on Rails, Custom CMS
+http://www.firsthand.ca/fees
+Fees - Firsthand Web Development Montréal, Ruby on Rails, Custom CMS
+
+
+Call Montreal, Canada 524-949-6869
+Firsthand Web Design
+
+    Projects
+    About
+    Fees
+    Contact
+    Blog
+
+Fees
+Dedicated blocks of time, 100% focused on your project
+
+To ensure you get dedicated, focused time for your project, I book 4 day blocks (Monday-Thursday) at a time. A 4 day block is charged at $3000 (plus taxes), based on a $100/hr rate. Fridays are set aside for any maintance obligations for other clients, research or open source contributors. Depending on the type of project, our engagement can be a single week, or maybe several months.
+Estimates and Billing
+
+Our engagement is based on a Time and Materials contract, not a Fixed-price contract. A budget will be recommended before the project starts based on past projects with a similar scope. A deposit of $3000 (plus taxes) will be required before the project starts and invoices will be submitted every two weeks. Payment is required on receipt of an invoice.
+Project Visibility
+
+Demostrations of work completed are held every Thursday afternoon from week one to get your feedback and ensure you have the highest visibility into the project. You're not waiting for weeks or months before you get to see something.
+
+Ready to get started? »
+Development Experience
+
+    Over seventeen years application development experience, six years developing with Ruby on Rails
+    Content Management Systems (CMS) developed with RDBMS's and NoSQL's.
+    E-commerce with PayPal, Authorize.net, Braintree and Recurly integration.
+    Custom Backoffice Integration with XML.
+    Reusable Horizontal Applications using Engines.
+    Past experience in other server-side technologies such as Coldfusion and PHP
+
+Web Blog Entries
+
+    Installation instructions for Quarto on OSX
+    Vendoring Binaires on Heroku: An Example with Aspell
+    Talk: Meet Trello
+
+Recent Tweets
+
+    Still love this quote: "For better or for worse, the patterns you establish today will be replicated forever." @sandimetz #poodr
+    Just reminded myself meta programming is just plain wrong in your application layer.
+    RT @RitaJKing: "Best practices," can sometimes be more accurately referred to as "widely accepted habits that foster stagnation."
+
+Recently Bookmarked
+
+    New in RSpec 3: Composable Matchers // 16 January
+    Segregated DOM // 16 January
+    How Should This Work? - An Object Design Epiphany // 16 January
+
+Firsthand Web Development
+
+370 Fairmount Avenue Quest,
+Montréal, Québec
+Canada H2V 2G4
+Ph. 514-949-6869
+
+© 2002-2014 Firsthand
+All Rights Reserved
+Nicholas Henry
+Stay Connected
+
+    Follow me on Twitter
+    Read my blog
+    Subscribe to my blog
+    Connect via LinkedIn
+    GitHub
+
+Developing Ruby on Rails applications and custom Content Management Systems in Montréal. Contact Firsthand.
+
+==========================================================
+7.[] ; X.ruby - rspec commandline variable input - Stack Overflow
+http://stackoverflow.com/questions/4609872/rspec-commandline-variable-input
+ruby - rspec commandline variable input - Stack Overflow
+
+==========================================================
+1.[]ruby rspec INCLUDES mocks;  Use before(:each), not before(:all); much code is 2yrs ago; X.rspec/rspec-mocks
+https://github.com/rspec/rspec-mocks
+rspec/rspec-mocks
+ RSpec Mocks Build Status Code Climate
+
+rspec-mocks is a test-double framework for rspec with support for method stubs, fakes, and message expectations on generated test-doubles and real objects alike.
+Install
+
+gem install rspec       # for rspec-core, rspec-expectations, rspec-mocks
+gem install rspec-mocks # for rspec-mocks only
+
+Test Doubles
+
+A test double is an object that stands in for another object in your system during a code example. Use the double method, passing in an optional identifier, to create one:
+
+book = double("book")
+
+Most of the time you will want some confidence that your doubles resemble an existing object in your system. Verifying doubles are provided for this purpose. If the existing object is available, they will prevent you from adding stubs and expectations for methods that do not exist or that have an invalid number of parameters.
+
+book = instance_double("Book", :pages => 250)
+
+Verifying doubles have some clever tricks to enable you to both test in isolation without your dependencies loaded while still being able to validate them against real objects. More detail is available in their documentation.
+Method Stubs
+
+A method stub is an implementation that returns a pre-determined value. Method stubs can be declared on test doubles or real objects using the same syntax. rspec-mocks supports 3 forms for declaring method stubs:
+
+allow(book).to receive(:title) { "The RSpec Book" }
+allow(book).to receive(:title).and_return("The RSpec Book")
+
+You can also use this shortcut, which creates a test double and declares a method stub in one statement:
+
+book = double("book", :title => "The RSpec Book")
+
+The first argument is a name, which is used for documentation and appears in failure messages. If you don't care about the name, you can leave it out, making the combined instantiation/stub declaration very terse:
+
+double(:foo => 'bar')
+
+This is particularly nice when providing a list of test doubles to a method that iterates through them:
+
+order.calculate_total_price(double(:price => 1.99), double(:price => 2.99))
+
+Consecutive return values
+
+When a stub might be invoked more than once, you can provide additional arguments to and_return. The invocations cycle through the list. The last value is returned for any subsequent invocations:
+
+allow(die).to receive(:roll).and_return(1, 2, 3)
+die.roll # => 1
+die.roll # => 2
+die.roll # => 3
+die.roll # => 3
+die.roll # => 3
+
+To return an array in a single invocation, declare an array:
+
+allow(team).to receive(:players).and_return([double(:name => "David")])
+
+Message Expectations
+
+A message expectation is an expectation that the test double will receive a message some time before the example ends. If the message is received, the expectation is satisfied. If not, the example fails.
+
+validator = double("validator")
+expect(validator).to receive(:validate) { "02134" }
+zipcode = Zipcode.new("02134", validator)
+zipcode.valid?
+
+Test Spies
+
+Verifies the given object received the expected message during the course of the test. The method must have previously been stubbed in order for messages to be verified.
+
+Stubbing and verifying messages received in this way implements the Test Spy pattern.
+
+  invitation = double('invitation', :accept => true)
+
+  user.accept_invitation(invitation)
+
+  expect(invitation).to have_received(:accept)
+
+  # You can also use other common message expectations. For example:
+  expect(invitation).to have_received(:accept).with(mailer)
+  expect(invitation).to have_received(:accept).twice
+  expect(invitation).to_not have_received(:accept).with(mailer)
+
+Nomenclature
+Mock Objects and Test Stubs
+
+The names Mock Object and Test Stub suggest specialized Test Doubles. i.e. a Test Stub is a Test Double that only supports method stubs, and a Mock Object is a Test Double that supports message expectations and method stubs.
+
+There is a lot of overlapping nomenclature here, and there are many variations of these patterns (fakes, spies, etc). Keep in mind that most of the time we're talking about method-level concepts that are variations of method stubs and message expectations, and we're applying to them to one generic kind of object: a Test Double.
+Test-Specific Extension
+
+a.k.a. Partial Double, a Test-Specific Extension is an extension of a real object in a system that is instrumented with test-double like behaviour in the context of a test. This technique is very common in Ruby because we often see class objects acting as global namespaces for methods. For example, in Rails:
+
+person = double("person")
+allow(Person).to receive(:find) { person }
+
+In this case we're instrumenting Person to return the person object we've defined whenever it receives the find message. We can also set a message expectation so that the example fails if find is not called:
+
+person = double("person")
+expect(Person).to receive(:find) { person }
+
+RSpec replaces the method we're stubbing or mocking with its own test-double-like method. At the end of the example, RSpec verifies any message expectations, and then restores the original methods.
+Expecting Arguments
+
+expect(double).to receive(:msg).with(*args)
+expect(double).to_not receive(:msg).with(*args)
+
+You can set multiple expectations for the same message if you need to:
+
+expect(double).to receive(:msg).with("A", 1, 3)
+expect(double).to receive(:msg).with("B", 2, 4)
+
+Argument Matchers
+
+Arguments that are passed to with are compared with actual arguments received using ==. In cases in which you want to specify things about the arguments rather than the arguments themselves, you can use any of the matchers that ship with rspec-expectations. They don't all make syntactic sense (they were primarily designed for use with RSpec::Expectations), but you are free to create your own custom RSpec::Matchers.
+
+rspec-mocks also adds some keyword Symbols that you can use to specify certain kinds of arguments:
+
+expect(double).to receive(:msg).with(no_args())
+expect(double).to receive(:msg).with(any_args())
+expect(double).to receive(:msg).with(1, kind_of(Numeric), "b") #2nd argument can be any kind of Numeric
+expect(double).to receive(:msg).with(1, boolean(), "b") #2nd argument can be true or false
+expect(double).to receive(:msg).with(1, /abc/, "b") #2nd argument can be any String matching the submitted Regexp
+expect(double).to receive(:msg).with(1, anything(), "b") #2nd argument can be anything at all
+expect(double).to receive(:msg).with(1, duck_type(:abs, :div), "b")
+                    #2nd argument can be object that responds to #abs and #div
+
+Receive Counts
+
+expect(double).to receive(:msg).once
+expect(double).to receive(:msg).twice
+expect(double).to receive(:msg).exactly(n).times
+expect(double).to receive(:msg).at_least(:once)
+expect(double).to receive(:msg).at_least(:twice)
+expect(double).to receive(:msg).at_least(n).times
+expect(double).to receive(:msg).at_most(:once)
+expect(double).to receive(:msg).at_most(:twice)
+expect(double).to receive(:msg).at_most(n).times
+expect(double).to receive(:msg).any_number_of_times
+
+Ordering
+
+expect(double).to receive(:msg).ordered
+expect(double).to receive(:other_msg).ordered
+  # This will fail if the messages are received out of order
+
+This can include the same message with different arguments:
+
+expect(double).to receive(:msg).with("A", 1, 3).ordered
+expect(double).to receive(:msg).with("B", 2, 4).ordered
+
+Setting Responses
+
+Whether you are setting a message expectation or a method stub, you can tell the object precisely how to respond. The most generic way is to pass a block to receive:
+
+expect(double).to receive(:msg) { value }
+
+When the double receives the msg message, it evaluates the block and returns the result.
+
+expect(double).to receive(:msg).and_return(value)
+expect(double).to receive(:msg).exactly(3).times.and_return(value1, value2, value3)
+  # returns value1 the first time, value2 the second, etc
+expect(double).to receive(:msg).and_raise(error)
+  # error can be an instantiated object or a class
+  # if it is a class, it must be instantiable with no args
+expect(double).to receive(:msg).and_throw(:msg)
+expect(double).to receive(:msg).and_yield(values, to, yield)
+expect(double).to receive(:msg).and_yield(values, to, yield).and_yield(some, other, values, this, time)
+  # for methods that yield to a block multiple times
+
+Any of these responses can be applied to a stub as well
+
+allow(double).to receive(:msg).and_return(value)
+allow(double).to receive(:msg).and_return(value1, value2, value3)
+allow(double).to receive(:msg).and_raise(error)
+allow(double).to receive(:msg).and_throw(:msg)
+allow(double).to receive(:msg).and_yield(values, to, yield)
+allow(double).to receive(:msg).and_yield(values, to, yield).and_yield(some, other, values, this, time)
+
+Arbitrary Handling
+
+Once in a while you'll find that the available expectations don't solve the particular problem you are trying to solve. Imagine that you expect the message to come with an Array argument that has a specific length, but you don't care what is in it. You could do this:
+
+expect(double).to receive(:msg) do |arg|
+  expect(arg.size).to eq 7
+end
+
+If the method being stubbed itself takes a block, and you need to yield to it in some special way, you can use this:
+
+expect(double).to receive(:msg) do |&arg|
+  begin
+    arg.call
+  ensure
+    # cleanup
+  end
+end
+
+Delegating to the Original Implementation
+
+When working with a partial mock object, you may occasionally want to set a message expecation without interfering with how the object responds to the message. You can use and_call_original to achieve this:
+
+expect(Person).to receive(:find).and_call_original
+Person.find # => executes the original find method and returns the result
+
+Combining Expectation Details
+
+Combining the message name with specific arguments, receive counts and responses you can get quite a bit of detail in your expectations:
+
+expect(double).to receive(:<<).with("illegal value").once.and_raise(ArgumentError)
+
+While this is a good thing when you really need it, you probably don't really need it! Take care to specify only the things that matter to the behavior of your code.
+Stubbing and Hiding Constants
+
+See the mutating constants README for info on this feature.
+Use before(:each), not before(:all)
+
+Stubs in before(:all) are not supported. The reason is that all stubs and mocks get cleared out after each example, so any stub that is set in before(:all) would work in the first example that happens to run in that group, but not for any others.
+
+Instead of before(:all), use before(:each).
+Further Reading
+
+There are many different viewpoints about the meaning of mocks and stubs. If you are interested in learning more, here is some recommended reading:
+
+    Mock Objects: http://www.mockobjects.com/
+    Endo-Testing: http://stalatest.googlecode.com/svn/trunk/Literatur/mockobjects.pdf
+    Mock Roles, Not Objects: http://jmock.org/oopsla2004.pdf
+    Test Double: http://www.martinfowler.com/bliki/TestDouble.html
+    Test Double Patterns: http://xunitpatterns.com/Test%20Double%20Patterns.html
+    Mocks aren't stubs: http://www.martinfowler.com/articles/mocksArentStubs.html
+
+Also see
+
+    http://github.com/rspec/rspec
+    http://github.com/rspec/rspec-core
+    http://github.com/rspec/rspec-expectations
+
+==========================================================
+1.[]Tip Best practice Ruby, any Chain calls that don't return same object type repeatedly; Can be mocked however ; X.Stub a chain of methods - Stubs - RSpec Mocks - RSpec - Relish
+https://www.relishapp.com/rspec/rspec-mocks/v/2-2/docs/stubs/stub-a-chain-of-methods
+Stub a chain of methods - Stubs - RSpec Mocks - RSpec - Relish
+Stub a chain of methods
+
+The stub_chain method lets you to stub a chain of methods in one statement.
+Method chains are considered a design smell, but it's not really the method
+chain that is the problem - it's the dependency chain represented by a chain
+of messages to different objects:
+
+foo.getbar.getbaz
+
+This is a Law of Demeter violation if getbar() returns an object other than
+foo, and getbaz() returns yet another object.
+
+Fluent interfaces look similar from a caller's perspective, but don't
+represent a dependency chain (the caller depends only on the object it is
+calling). Consider this common example from Ruby on Rails:
+
+Article.recent.by(current_user)
+
+The recent() and by() methods return the same object, so this is not
+a Law of Demeter violation.
+
+Scenarios
+
+    stub a chain of methods
+
+        Given
+            a file named "stub_chain_spec.rb" with:
+
+            describe "stubbing a chain of methods" do
+              subject { Object.new }
+
+              context "given symbols representing methods" do
+                it "returns the correct value" do
+                  subject.stub_chain(:one, :two, :three).and_return(:four)
+                  subject.one.two.three.should eq(:four)
+                end
+              end
+
+              context "given a string of methods separated by dots" do
+                it "returns the correct value" do
+                  subject.stub_chain("one.two.three").and_return(:four)
+                  subject.one.two.three.should eq(:four)
+                end
+              end
+            end
+
+
+==========================================================
+1.[]ruby DEFN; Kernel#gets prompts and returns the line result, aka read next given file or nil at eof; EXTRA, can read paragraphs, DEFN double CR; EX. ARGV<<"afile"; print While gets => entire file is printed  ; X.Module: Kernel (Ruby 2.1.0)
+http://ruby-doc.org/core-2.1.0/Kernel.html#method-i-gets
+Module: Kernel (Ruby 2.1.0)
+ gets(sep=$/) → string or nil click to toggle source
+gets(limit) → string or nil
+gets(sep,limit) → string or nil
+
+Returns (and assigns to $_) the next line from the list of files in ARGV (or $*), or from standard input if no files are present on the command line. Returns nil at end of file. The optional argument specifies the record separator. The separator is included with the contents of each record. A separator of nil reads the entire contents, and a zero-length separator reads the input one paragraph at a time, where paragraphs are divided by two consecutive newlines. If the first argument is an integer, or optional second argument is given, the returning string would not be longer than the given value in bytes. If multiple filenames are present in ARGV, +gets(nil)+ will read the contents one file at a time.
+
+ARGV << "testfile"
+print while gets
+
+produces:
+
+This is line one
+This is line two
+This is line three
+And so on...
+
+The style of programming using $_ as an implicit parameter is gradually losing favor in the Ruby community.
+==========================================================
+1.[]ruby DEFN: String#chomp = new str without trailing \n, \n\r, \r and your specified suffix deleted, aka "record separator" ; X.Class: String (Ruby 2.0.0)
+http://www.ruby-doc.org/core-2.0.0/String.html#method-i-chomp
+Class: String (Ruby 2.0.0)
+
+==========================================================
+1.[]This version has require 'stringio' = not ok for the kata ; X.How do I write an RSpec test for a Ruby method that contains "gets.chomp"? - Stack Overflow
+http://stackoverflow.com/questions/17258630/how-do-i-write-an-rspec-test-for-a-ruby-method-that-contains-gets-chomp
+How do I write an RSpec test for a Ruby method that contains "gets.chomp"? - Stack Overflow
+4 down vote accepted
+	
+
+You can stub out standard input stream like this:
+
+require 'stringio'
+
+def capture_name
+  $stdin.gets.chomp
+end
+
+describe 'capture_name' do
+  before do
+    $stdin = StringIO.new("James T. Kirk\n")
+  end
+
+  after do
+    $stdin = STDIN
+  end
+
+  it "should be 'James T. Kirk'" do
+    expect(capture_name).to be == 'James T. Kirk'
+  end
+end
+
+share|improve this answer
+	
+answered Jun 23 '13
+==========================================================
+1.[]TRY x.new.stub!(:gets) {"thing to type\n"} ; X.ruby - rspec commandline variable input - Stack Overflow
+http://stackoverflow.com/questions/4609872/rspec-commandline-variable-input
+ruby - rspec commandline variable input - Stack Overflow
+
+rspec commandline variable input
+I have a ruby script I'm trying to test with rspec. Is there a way to pass variables to the commandline (ie enter keyboard data via rspec to "gets")
+
+Example:
+username = gets.chomp
+
+ruby rspec
+share|improve this question
+	
+asked Jan 5 '11 at 22:31
+djburdick
+1,94821936
+	add comment
+1 Answer
+active oldest votes
+up vote 10 down vote accepted
+	
+
+You can stub Kernel#gets, except that it is mixed into the object, so stub it there:
+
+class Mirror
+  def echo
+    print "enter something: "
+    response = gets.chomp
+    puts "#{response}"
+  end
+end
+
+require 'rspec'
+
+describe Mirror do
+  it "should echo" do
+    @mirror = Mirror.new
+    @mirror.stub!(:gets) { "phrase\n" }
+    @mirror.should_receive(:puts).with("phrase")
+    @mirror.echo
+  end
+end
+
+share|improve this answer
+	
+answered Jan 5 '11 at 23:16
+zetetic
+==========================================================
+1.[]WIN bug, SO says use Linux; It was a locking problem -- not a permission problem. ; X.ruby - Errno::EACCES: Permission denied - ./tmp/rspec_guard_result - Stack Overflow
+http://stackoverflow.com/questions/19608766/errnoeacces-permission-denied-tmp-rspec-guard-result
+ruby - Errno::EACCES: Permission denied - ./tmp/rspec_guard_result - Stack Overflow
+
+Errno::EACCES: Permission denied - ./tmp/rspec_guard_result
+up vote 0 down vote favorite
+	
+
+Trying settup rspec-guard-spork for learning app from http://ruby.railstutorial.org/
+
+Using Ruby 2.0, Rails 4.0 on Windows7 ( I know :( )
+
+When starting guard, get:
+
+23:02:51 - ERROR - Guard::RSpec failed to achieve its <run_on_modifications>, exception was:
+> [#] Errno::EACCES: Permission denied - ./tmp/rspec_guard_result
+...
+
+All gemfile, guardfile etc are edited according tutorial. Except 1) deleting win32console gem from gemfile because it turned console-out into a crap and raised an error.
+
+Permissions for a file is "F"(ull) for all cattegories:
+
+D:\WebDevelop\sample_app>cacls tmp\rspec_guard_result D:\WebDevelop\sample_app\tmp\rspec_guard_result
+
+    BUILTIN\Users:(ID)F
+    NT AUTHORITY\Authenticated:(ID)F
+    BUILTIN\Administrators:(ID)F
+    NT AUTHORITY\system:(ID)F
+
+What additional info should I provide here?
+ruby rspec railstutorial.org guard
+share|improve this question
+	
+asked Oct 26 '13 at 15:59
+Evgeniy Gatsalov
+183
+	
+	
+One advice from my experience..you should restart with Linux..I have done the same mistake but then i realized it is not going to complete rather than you will encounter many of other errors which have no relation with Rails and every time you will wonder what has went wrong or do other people don't know the answer..Yes, indeed they don't know the answer to your question cause they never encountered such problem at Linux..so for you smooth learning of RailsTutorial please switch to Linux .thanks :) – Abhinay Oct 31 '13 at 2:34
+	
+I gues you are right. What Linux distributive would you advice for rails development? – Evgeniy Gatsalov Nov 1 '13 at 3:00
+	
+I think, probably the best one is Ubuntu , but you can go as per your choice and as i am working on Ubuntu and from system end i haven't faced any kind of errors yet, which you usually encounter on Windows. – Abhinay Nov 3 '13 at 5:56
+	
+One more thing , every time you encounter any issue don't just follow one answer on single post, you should check at-least 4 to 5 post @StackOverflow and after you read them all, decide your path. – Abhinay Nov 3 '13 at 5:58
+	
+Actually I always try to check as much sources as possible. But I cant find anything about this error. At all. So I writing now this comment from Ubuntu 12.10. Of course it came with another bunch of issues (e.g. Nvidia video drivers setup and much more) but it's wellknown problems and great community helps. I wish I could mark your comment as answer. Thx for ur help! – Evgeniy Gatsalov Nov 4 '13 at 7:48
+	
+I am glad that you switched to Ubuntu and you can see yourself that how much useful is this to use rails on Ubuntu and from here on whichever issue you are going to face, you'll surely get answers to those in StackOverflow..as 80% of RoR developer are using linux and answer to many of the know issues has been resolved already..all the very best :) – Abhinay Nov 4 '13 at 9:19
+add comment
+1 Answer
+active oldest votes
+up vote 1 down vote
+	
+
+This appears to be a locking problem -- not a permission problem. For me:
+
+C:\Ruby19\lib\ruby\gems\1.9.1\gems\guard-rspec-4.0.3\lib\guard\rspec\inspector.rb line 51 in def _focused_path. The code tries to delete rspec_guard_result but can't because it's open. So ... close the file before it gets deleted.
+
+update: as of 11/7/13, the fix is up on https://github.com/guard/guard-rspec (master branch)
+share|improve this answer
+	
+edited Nov 7 '13 at 15:51 
+===========================================================
+.[]@start 10a; git RED
+
+Date:   Thu Jan 16 22:31:19 2014 -050
+
+    RED. Terminal idk how to truly put into rspec, fails now when before was ok to just see matches, also CLI works for start_prompt, though ugly, yet in rubymine fails.
+===========================================================
+.[]eacces permission error is; 
+code :46  = ithValue = gets.chomp
+
+Errno::EACCES: Permission denied - C:/amsrc/rmtry/spec/lib
+./lib/terminal.rb:46:in `gets'
+./lib/terminal.rb:46:in `gets'
+./lib/terminal.rb:46:in `block in prompt_for_product'
+./lib/terminal.rb:44:in `each'
+./lib/terminal.rb:44:in `prompt_for_product'
+./spec/lib/terminal_spec.rb:22:in `block (3 levels) in <top (required)>'
+./spec/lib/terminal_spec.rb:55:in `call'
+./spec/lib/terminal_spec.rb:55:in `block (2 levels) in <top (required)>'
+./spec/lib/terminal_spec.rb:22:in `block (2 levels) in <top (required)>'
+
+
+===========================================================
+.[]
+===========================================================
+.[]
 ===========================================================
 .[]WIP 150115w
 ===========================================================

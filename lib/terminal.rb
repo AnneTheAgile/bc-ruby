@@ -15,7 +15,6 @@ module Terminal
     print("Welcome to the Admin Process of entering products and their prices. \n ")
 
     list=[]
-
     while prompt_confirm
       ans = prompt_for_product
       list << ans
@@ -42,9 +41,9 @@ module Terminal
     map = {}
     keys = (Store::Store.new).product_metadata
     keys.each { |ithKey|
-      print(["Please enter the ",ithKey,".\n"])
+      print(["Please enter the ",ithKey,".\n"].join)
       ithValue = gets.chomp
-      print(["got value=",ithValue,"\n"])
+      print(["got value=",ithValue,"\n"].join)
       map[ithKey] = ithValue
     }
     map
