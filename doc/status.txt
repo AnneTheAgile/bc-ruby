@@ -3,7 +3,649 @@ C:\amsrc\rmtry\doc\status.txt
 http://www.windowsazure.com/en-us/campaigns/azure-vs-aws/
 
 ===========================================================
-.[]
+.[]140117f DONE Terminal how to mock.
+==========================================================
+1.[]DUP, what i was working on. ; X.An Example using RSpec double, mock, and stub
+http://blog.firsthand.ca/2011/12/example-using-rspec-double-mock-and.html
+An Example using RSpec double, mock, and stub
+
+describe Transfer do
+  context "transfer with amount of 10" do
+    let(:source_account) { double('source account', :decrease => nil) }
+    let(:destination_account) { double('destination_account', :increase => nil) }
+ 
+    it "should decrease source account by 10" do
+      source_account.should_receive('decrease').with(10)
+     
+      transfer = Transfer.new(source_account, destination_account, 10)
+      transfer.call
+    end
+ 
+    it "should increase destination account by 10" do
+      destination_account.should_receive('increase').with(10)
+     
+      transfer = Transfer.new(source_account, destination_account, 10)
+      transfer.call
+    end
+  end
+end
+==========================================================
+2.[]GREAT!; TODO ADD to spec_helper his random name creator, very nice; Codeship ; X.Codeship's Testing Tuesday #9: Stubbing and Mocking with RSpec | via @codeship
+http://blog.codeship.io/2013/06/11/testing-tuesday-9-stubbing-and-mocking-with-rspec.html
+Codeship's Testing Tuesday #9: Stubbing and Mocking with RSpec | via @codeship
+
+Search
+
+    Blog
+    Testing Tuesday
+    Deployment Academy
+    Tech Room
+    The Codeship Workflow
+    Archive
+
+via @codeship
+Learn about Continuous Integration and Continuous Deployment, Software Testing and Test-Driven Development.
+
+Where Continuous Integration and Continuous Deployment has its home.
+June 11, 2013
+Testing Tuesday #9: Stubbing and Mocking with RSpec
+18
+inShare
+
+This is the ninth Testing Tuesday episode. Every week we will share our insights and opinions on the software testing space. Drop by every Tuesday to learn more! Last week we talked about Behavior-Driven Integration and Unit Testing with Cucumber and RSpec.
+
+Set up Continuous Integration and Deployment for your Ruby on Rails projects. The Codeship supports GitHub and BitBucket projects and about any techstack you can imagine.
+Specifying examples with RSpec
+
+When you work Outside-In with Behavior-Driven Development your scenarios take care of checking that your application works from a user’s perspective. They don’t care at all how you implement something.
+
+Let’s say we refactor a class of our application. Then we permanently want to make sure that we didn’t break anything by moving things around. Unfortunately this is impossible with integration tests, because they are just too slow. This is why we write examples that explain how our single components – like for example classes – should behave. These examples should be fast, so we can run them continuously while we make changes to a class. And they should only specify behavior of the own scope and ignore all behavior of other classes.
+
+I am working in a Ruby on Rails App so I use RSpec to write these examples in this screencast, but there are Spec frameworks for a lot of other languages that work similar. Check out the further info section below to find out more.
+Stubbing and Mocking with RSpec
+
+Stubbing and Mocking makes your component examples independent of other components. You can stub methods on objects to let them return whatever you like. And you can use mock objects to replace instances of other classes. This screencast shows how to stub and mock using RSpec.
+Up next Testing Tuesday: Designing code with RSpec
+
+Stubbing and Mocking also facilitate designing software. They let you specify the code you wish you had without relying on code that’s already there. This makes you build better designed and more readable code. Check back next Testing Tuesday to find out how! Further info:
+
+    The Codeship
+
+    RSpec
+    Spec frameworks for other languages:
+        Java – why don’t you try running RSpec using JRuby?
+        Python – Should-DSL gives you RSpec-like matchers. Mock lets you replace parts of your system with mock objects.
+        PHP – There’s phpspec and spectrum for RSpec-like specifications and Phake for mocking.
+        NodeJS – Choose one of mocha, Jasmine and nodespec. For mocking you can use Sinon.JS, node-gently and nodemock.
+
+Transcript
+Hide transcript (1,935 Less Words)
+
+Ahoi and welcome! They call me Clemens Helm and this is Codeship Testing Tuesday #9. Last week we had a look at integration testing and unit testing. We learned how to write code outside-in with Behavior-Driven development and I also scratched the surface of specifying examples for single components of your application. We’ll go into more detail on this today: I’ll show you how to get most out of Rspec with Stubbing and Mocking and why RSpec examples are the perfect companions for your integration tests.
+
+When you work Outside-In with Behavior-Driven Development, your Scenarios take care of checking that your application works from a user’s perspective. They don’t care at all how you implement something. These Scenarios are great for verifying that your application still works after you made a change. But they have two major disadvantages:
+
+    Debugging (Working title)
+
+When something breaks, it can be tricky to find out where the root of the problem is. Your failing scenario might show you an error message with a stack trace, but often the trouble is an entirely different part of your application. That’s when you have to read through logs and start cumbersome debugging sessions.
+
+    Speed
+
+Running your Scenarios is slow. They test your whole application stack and sometimes they even use a browser to check Javascript functionality. If we run all scenarios of the Codeship web application, this will take more than half an hour.
+
+So integration tests are great for verifying that everything works as it should. But let’s say we refactor a class of our application. Then we permanently want to make sure that we didn’t break anything by moving things around. Unfortunately this is impossible with integration tests, because they are just too slow.
+
+This is why we write examples, how our single components – like for example classes – should behave. These examples should be fast, so we can run them continuously while we make changes to a class. And they should only specify behavior of the own scope and ignore all behavior of other classes. Our scenarios are responsible for making sure that all our components work together, so we don’t need to check that in our component examples.
+
+To write these examples we use RSpec here, but there are spec frameworks for a lot of other languages that work similar. Check out the further info section below to find out more.
+
+Let’s say we’ve got an application like the Codeship, where a user has many projects. A user also has a full name, consisting of the first name and the last name. And we’ve got a project that belongs to a user.
+
+App:
+
+class User
+  has_many :projects
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+end
+
+class Project
+  belongs_to :user
+end
+
+When the project name is not set, we’d like to have a placeholder containing the user’s full name. So we write a scenario:
+
+Scenario: Placeholder for projects without name
+  Given I'm signed up as "Peter Parker"
+  When I create a project without a name
+  Then the project should be called "Peter Parker's project"
+
+These are the step definitions for the scenario:
+
+Given(/I'm signed up as ".*"/) do |user_name|
+  first_name, last_name = user_name.split " "
+  visit sign_up_path
+  fill_in :first_name, with: first_name
+  fill_an :last_name, with: last_name
+  click_button :sign_up
+end
+
+When(/I create a project without a name/) do
+  visit projects_path
+  click_link "New project"
+  fill_in :name, with: ""
+  click_button :commit
+end
+
+Then(/the project should be called ".*"/) do |project_name|
+  find(".project").should have_content project_name
+end
+
+When we run this scenario, it fails, because the project name is empty. Let’s fix this by writing an example for the project:
+
+describe Project do
+  it "should be named after the user if no name is set" do
+    user = User.new first_name: "Peter", last_name: "Parker"
+    project = Project.new
+    project.user = user
+    project.full_name.should == "Peter Parker's project"
+  end
+end
+
+The Spec fails, but it’s quite easy to fix it:
+
+def name
+  read_attribute(:name) || "Peter Parker's project"
+end
+
+And now the example and the scenario succeed! But wait a minute, we filled in “Peter Parker”, so now the project is called “Peter Parker’s project”, no matter what user it belongs to. We strictly followed the guidelines of Behavior-Driven Development: Make the example pass with the least effort. So the next step would be to write the same scenario and the same example with a different name. In simple cases like this, I usually follow a different approach: I use random values for my examples.
+
+I use a helper method named “random_name” to make this work:
+
+describe Project do
+  it "should be named after the user if no name is set" do
+    first_name, last_name = 2.times.map { random_name }
+    user = User.new first_name: first_name, last_name: last_name
+    project = Project.new
+    project.user = user
+    project.full_name.should == "#{first_name} #{last_name}'s project"
+  end
+
+  def random_name
+    ('a'..'z').to_a.sample(5).join
+  end
+end
+
+This helper method generates a random name of 5 letters (show on irb shell). Let’s put this helper into our spec_helper file, so other examples can use it as well.
+
+Now our spec fails (show output). To make it work, we need to fill in the user’s full name:
+
+def name
+  read_attribute(:name) || "#{user.full_name} project"
+end
+
+So now it works! But what’s the problem with this example? We’re not only testing the project’s behavior, but also the user’s. When we change the implementation of the User‘s full_name, our Spec will fail:
+
+def full_name
+  "#{last_name}, #{first_name}"
+end
+
+This is unexpected, because the project is still named after the user, so actually the Spec should still work. When we have a large example suite, these dependencies can cause a lot of work. One little change could lead to dozens of failing specs throughout our whole application. This also means that we would have to run all our examples after every change to make sure we didn’t break anything. But wasn’t this our problem with integration tests that we wanted to solve by specifying little examples?
+
+As long as there are dependencies on other components in our examples, we will always run into this kind of problems. So how can we resolve them?
+
+By stubbing all behavior of other classes the way we expect it to work. Let’s change our example to use stubbing:
+
+describe Project do
+  it "should be named after the user if no name is set" do
+    full_name = random_name
+    user = User.new
+    user.stub full_name: full_name
+    project = Project.new
+    project.user = user
+    project.full_name.should == "#{full_name}'s project"
+  end
+
+  def random_name
+    ('a'..'z').to_a.sample(5).join
+  end
+end
+
+Stubbing simulates a method by simply returning the value we’ve specified. So our user’s full_name method is never called and this way we’re independent of its implementation in this example. But there is one more dependency on the user: If we call User.new, this will invoke the constructor method of the user, which could also make our example fail. In fact, we don’t actually need anything from our user but its full name.
+
+So we can just mock our user model instead. A mock is an object that we can use in behalf of another object. It has got only the functionality we assign it:
+
+it "should be named after the user if no name is set" do
+  full_name = random_name
+  user = mock_model User, full_name: full_name
+  project = Project.new
+  project.user = user
+  project.full_name.should == "#{full_name}'s project"
+end
+
+mock_model is RSpecs way of simulating a model. The advantage is that we can use it also as an association. There’s a more generic way of mocking an object: a double.
+
+it "should be named after the user if no name is set" do
+  full_name = random_name
+  user = double full_name: full_name
+  project = Project.new
+  project.user = user
+  project.full_name.should == "#{full_name}'s project"
+end
+
+The example fails now, because we can’t use a generic double as an association. However, we can just stub the association as well to make it work:
+
+it "should be named after the user if no name is set" do
+  full_name = random_name
+  project = Project.new
+  project.stub user: double(full_name: full_name)
+  project.full_name.should == "#{full_name}'s project"
+end
+
+This is the version of the example that I would prefer, because it is concise and has no dependencies on other components.
+
+Stubbing also helps us avoid database queries. Database queries are very slow in comparison to application code and they also add a dependency to our components, so we want to avoid them wherever possible. Consider this example:
+
+it "should list project names" do
+  number_names = rand 10
+  names = number_names.times.map { random_name }
+  user = User.create!
+  names.each { |name| user.projects.create! name: name }
+  user.project_names.should == names
+end
+
+Here we are creating a user and several associated projects in the database to prove that project names is a list of all projects’ names. But we neither need the database nor do we need projects in this example. We just need a list of objects with a name:
+
+it "should list project names" do
+  number_names = rand 10
+  names = number_names.times.map { random_name }
+  user = User.new
+  user.stub projects: names.map { |name| double name: name }
+  user.project_names.should == names
+end
+
+So in this example we didn’t need the database at all and we also didn’t need any project instances. The only component that was tested was the user class.
+
+But isn’t it dangerous to work with mocks? In the end we never know in our examples, if the class we’re mocking will behave the same way as the mock! What if we assume something that doesn’t work the way we mock it?
+
+Well, that’s what our integration tests are made for. Running our integration tests makes sure that everything we assumed in our component examples holds true in the “real” world. This is especially great for stubbing behavior that doesn’t even exist yet. Your integration tests will always remind you to implement this missing behavior.
+
+But we’ll look into this in more detail next week! I will show you how to design your application properly using Behavior-Driven development with RSpec. I hope you liked this episode, and as always I’m looking forward to your comments! Special thanks to Amrit who suggested the topic for today’s episode. Have a beautiful week and see you again next Testing Tuesday. … fade out … Oh, there’s one more thing: Always stay shipping.
+Further info:
+
+    Spec frameworks for other languages:
+        Java – why don’t you try running RSpec using JRuby?
+        Python – Should-DSL gives you RSpec-like matchers. Mock lets you replace parts of your system with mock objects.
+        PHP – There’s phpspec and spectrum for RSpec-like specifications and Phake for mocking.
+        NodeJS – Choose one of mocha, Jasmine and nodespec. For mocking you can use Sinon.JS, node-gently and nodemock
+
+
+Download Efficiency in Development Workflows: A free eBook for Software Developers. This book will save you a lot of time and make you and your development team happy.
+
+Offload your DevOps work to Codeship, a smart Continuous Integration and Continuous Deployment service that helps you move forward. Setup only takes 3 minutes.
+Author: Clemens Helm
+
+I’m a passionate web application developer and Ruby on Rails enthusiast. I love building stunning web applications and start-ups that rock. And I love boarding – on the street, on water, on snow – there’s a board for every season.
+
+Posted by: Clemens Helm | Conversation: 13 comments	| Category: Testing Tuesday	| Tags: continuous integration, frameworks, how-to, rails, RSpec, Ruby, screencast, tdd, testing, testing tuesday, tutorial	
+
+    Vote on Hacker News
+
+Next Post »
+« Previous Post
+The Codeship Blog
+
+Home of your Codeship Crew.
+We write about Continuous Integration, Continuous Deployment and show you how you can efficiently develop your software.
+Latest posts
+
+    Continuous Deployment to Google App Engine with Codeship
+    Memory Monitoring And Limiting With LXC
+    Continuous Integration and Continuous Deployment with Middleman, Codeship, and GitHub Pages
+    Continuous Deployment: Are You Afraid It Might Work?
+    The Best Podcasts of 2013
+
+Download Efficiency in Development Workflows: A free eBook for Software Developers. This book will save you a lot of time and make you and your development team happy.
+Find the Codeship elsewhere
+
+
+
+
+Join 9,718 Newsletter Subscribers
+
+The Codeship runs your tests and continuously deploys your code.
+
+Set it up in 3 minutes!
+
+Contact the Codeship crew on Twitter or shoot them a quick mail to contact@codeship.io.
+Want to publish guest posts on our blog? Write Manuel a mail!
+
+    RSS Feed
+    RSS Comments
+
+
+==========================================================
+3.[]TODO READ  ; X.Codeship's Testing Tuesday #11: Reliable mocks with Bogus | via @codeship
+http://blog.codeship.io/2013/06/25/testing-tuesday-11-reliable-mocks-with-bogus.html
+Codeship's Testing Tuesday #11: Reliable mocks with Bogus | via @codeship
+
+Learn about Continuous Integration and Continuous Deployment, Software Testing and Test-Driven Development.
+
+Where Continuous Integration and Continuous Deployment has its home.
+June 25, 2013
+Testing Tuesday #11: Reliable mocks with Bogus
+22
+inShare
+
+This is the eleventh Testing Tuesday episode. Every week we will share our insights and opinions on the software testing space. Drop by every Tuesday to learn more! Last week we talked about how to design your code in RSpec with stubbing and mocking before you even implement it.
+
+Set up Continuous Integration and Deployment for your Ruby on Rails projects. The Codeship supports GitHub and BitBucket projects and about any techstack you can imagine.
+Refactor with Bogus, not Integration tests
+
+In the last few episodes we always backed our RSpec examples with a Cucumber feature that checked if we implemented all behavior. This allowed us to stub behavior of other components in our unit tests, because Cucumber would check if this behavior works anyway.
+
+While this works well for implementing new features it is a pain when you want to refactor your code. You always need to run your whole slow integration test suite to make sure that all your mocked behavior still works.
+
+In this screencast we explore together with James Bond how to solve this problem using a nifty mocking library called Bogus in our RSpec examples.
+Up next Testing Tuesday: Our EuRuKo 2013 Recap
+
+Next week there’s a Testing Tuesday special edition. I will show you my personal highlights from the European Ruby conference EuRuKo that will take place this Friday and Saturday in Athens, Greece.
+Further info:
+
+    The Codeship
+    Bogus (Relish)
+    Bogus (GitHub)
+    RSpec
+    James Bond
+    Ruby 2.0: Keyword arguments
+
+Transcript
+Hide transcript (772 Less Words)
+
+Ahoy and welcome! My name is Clemens the Helm and you’re watching Codeship Testing Tuesday #11.
+
+Last week I showed you how to design your application with stubbing and mocking. Back then we used our Cucumber scenarios to make sure that all behavior we mocked got in fact implemented.
+
+This makes it hard to refactor your code though, because you need to run your slow integration test suite to check if your mocked behavior still works.
+
+This is where Bogus comes in handy.
+
+Offload your DevOps work to Codeship, a smart Continuous Integration and Continuous Deployment service that helps you move forward. Setup only takes 3 minutes.
+
+This week I feel very honored because James Bond himself ordered an application to manage his missions. One thing he wants to know is when he is ready to start a mission.
+
+Here is the first example of this behavior using RSpec doubles.
+
+describe Mission do
+  it "checks protocol for 007’s mission start" do
+    meeting_with_m = double outcome: [:top_secret_briefing]
+    meeting_with_q = double outcome: [:aston_martin, :laser_Rolex]
+    mission = Mission.new meetings: [meeting_with_m, meeting_with_q]
+    mission.should be_ready_to_go
+  end
+end
+
+So after getting the required assets in meetings with M and Q the mission should be ready to go. We’ve also got a Mission class that’s empty so far.
+
+We’re mocking the dependency on another class – probably a Meeting class – so we only test the behavior of our Mission. This Offload your DevOps work to Codeship, a smart Continuous Integration and Continuous Deployment service that helps you move forward. Setup only takes 3 minutes., where classes get implemented before other collaborators exist, is basically very nice, because it makes us independent of the other class’ implementation.
+
+But the problem is that we also expect a meeting to have an outcome method. When we implement this code we will probably be driven by an integration test that makes sure that all mocked behavior gets implemented. But when we refactor our code we don’t want to run the whole integration test suite to check all our mocks, because that would kill our productivity.
+
+So wouldn’t it be nice if our unit tests already verified the methods that we stub?
+
+Bogus is a library that aims to reduce the risks associated with isolated unit testing.
+
+It does not only make sure that our examples work using mocks, it also assures those mocked classes EXIST and have the methods we’re stubbing.
+
+Let’s run RSpec first to see what error we would get for this example.
+
+RSpec only complains about the constructor of our Mission class that doesn’t take any arguments.
+
+Let’s try the same with bogus. We need to require ‘bogus/rspec’ in our spec_helper.rb file and change our example to use bogus fakes:
+
+describe Mission do
+  it "checks protocol for 007’s mission start" do
+    meeting_with_m = fake :meeting, outcome: [:top_secret_briefing]
+    meeting_with_q = fake :meeting, outcome: [:stylish_Aston_Martin, :laser_Rolex]
+
+    mission = Mission.new meetings: [meeting_with_m, meeting_with_q]
+    mission.should be_ready_to_go
+  end
+end
+
+The first thing Bogus tells us when we run RSpec now is that it can’t find the Meeting class. So Bogus checks that we don’t mock a class that doesn’t actually exist. Let’s create this class.
+
+The next thing Bogus checks is if there is a method outcome for our Meeting class. Bogus doesn’t only check for the classes we mock, but also for the methods we stub.
+
+If we add the method, we finally receive the error message we got before using Bogus. We can fix it by implementing a constructor that accepts one argument. (meeting: meeting) By the way, this is a Ruby 2.0 named argument that makes your code a lot more descriptive. If you haven’t heard of them, you should definitely check them out!
+
+But back to the example. We still need a method ready_to_go? to make it work. Aaand ready to go should be true.
+
+Ok, now we’ve got our example working. Obviously we need more examples for this method to be complete, but let’s skip that for now.
+
+So what’s the real advantage of using Bogus? When we decide to change our outcome method to be called result at some point, Bogus will immediately complain.
+
+We don’t have to run our slow integration test suite to check that our mocked behavior works. This will keep us more productive, agile and – most of all – it will make testing more fun.
+
+This was a very short introduction, but there’s a lot more that Bogus has to offer. We’ll look into it in more detail in 2 weeks.
+
+I have to go now because I’ve got to pack my bags for Euruko, the European Ruby conference in Athens. If you go there as well, drop me a line to clemens@codeship.io, I’d be thrilled to meet you there!
+
+If not, check out next week’s episode where I’ll show you my personal Euruko highlights!
+
+Either way, there’s something that I need to tell you: Always stay shipping!
+==========================================================
+4.[] ; X.Message expectations - RSpec Mocks - RSpec - Relish
+https://relishapp.com/rspec/rspec-mocks/docs/message-expectations
+Message expectations - RSpec Mocks - RSpec - Relish
+Message expectations
+Basics
+
+# create a double
+obj = double()
+
+# expect a message
+obj.should_receive(:message)
+
+# specify a return value
+obj.should_receive(:message) { :value }
+obj.should_receive(:message => :value)
+obj.should_receive(:message).and_return(:value)
+
+These forms are somewhat interchangeable. The difference is that the
+block contents are evaluated lazily when the obj receives the
+message message, whereas the others are evaluated as they are read.
+Fake implementation
+
+obj.should_receive(:message) do |arg1, arg2|
+  # set expectations about the args in this block
+  # and set a return value
+end
+
+Using the original implementation
+
+obj.should_receive(:message).and_call_original
+
+Raising/Throwing
+
+obj.should_receive(:message).and_raise("this error")
+obj.should_receive(:message).and_throw(:this_symbol)
+
+You can also use the block format:
+
+obj.should_receive(:message) { raise "this error" }
+obj.should_receive(:message) { throw :this_symbol }
+
+Argument constraints
+Explicit arguments
+
+obj.should_receive(:message).with('an argument')
+obj.should_receive(:message).with('more_than', 'one_argument')
+
+Argument matchers
+
+obj.should_receive(:message).with(anything())
+obj.should_receive(:message).with(an_instance_of(Money))
+obj.should_receive(:message).with(hash_including(:a => 'b'))
+
+Regular expressions
+
+obj.should_receive(:message).with(/abc/)
+
+Counts
+
+obj.should_receive(:message).once
+obj.should_receive(:message).twice
+obj.should_receive(:message).exactly(3).times
+
+obj.should_receive(:message).at_least(:once)
+obj.should_receive(:message).at_least(:twice)
+obj.should_receive(:message).at_least(n).times
+
+obj.should_receive(:message).at_most(:once)
+obj.should_receive(:message).at_most(:twice)
+obj.should_receive(:message).at_most(n).times
+
+Ordering
+
+obj.should_receive(:one).ordered
+obj.should_receive(:two).ordered
+
+Topics
+
+    expect a message on any instance of a class
+    warn when expectation is set on nil
+    allow a message on any instance of a class
+    Calling the original method
+    expect message using `expect`
+    expect message using `should_receive`
+    Message chains in the expect syntax
+    receive counts
+
+==========================================================
+5.[] ; X.String concatenation and Ruby - Stack Overflow
+http://stackoverflow.com/questions/377768/string-concatenation-and-ruby
+String concatenation and Ruby - Stack Overflow
+ 157 down vote accepted
+	
+
+You can do that in several ways:
+
+    As you shown with << but that is not the usual way
+
+    With string interpolation
+
+    source = "#{ROOT_DIR}/#{project}/App.config"
+
+    with +
+
+    source = "#{ROOT_DIR}/" + project + "/App.config"
+
+The second method seems to be more efficient in term of memory/speed from what I've seen (not measured though). Methods 1 and 3 throw a NoMethodError when ROOT_DIR is nil.
+
+When dealing with pathnames, you may want to use File.join to avoid messing up with pathname separator.
+
+In the end, it is a matter of taste.
+share|improve this answer
+	
+edited Jul 23 '11 at 21:47 
+==========================================================
+6.[] ; X.Example rails 3.1 spec_helper.rb file using spork, rspec, factory_girl, database_cleaner, I18n
+https://gist.github.com/stanislaw/1731259
+Example rails 3.1 spec_helper.rb file using spork, rspec, factory_girl, database_cleaner, I18n
+require 'spork'
+ 
+Spork.prefork do
+# Loading more in this block will cause your tests to run faster. However,
+# if you change any configuration or code from libraries loaded here, you'll
+# need to restart spork for it take effect.
+ 
+# This file is copied to spec/ when you run 'rails generate rspec:install'
+ENV["RAILS_ENV"] ||= 'test'
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
+require 'rspec/autorun'
+ 
+require 'shoulda/matchers/integrations/rspec'
+ 
+require "rails/application"
+Spork.trap_method(Rails::Application::RoutesReloader, :reload!)
+ 
+# Requires supporting ruby files with custom matchers and macros, etc,
+# in spec/support/ and its subdirectories.
+Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+ 
+RSpec.configure do |config|
+config.mock_with :rspec
+ 
+require 'database_cleaner'
+config.before(:suite) do
+DatabaseCleaner.strategy = :transaction
+DatabaseCleaner.clean_with(:truncation)
+end
+ 
+config.before(:each) do
+DatabaseCleaner.start
+end
+ 
+config.after(:each) do
+DatabaseCleaner.clean
+end
+ 
+end
+end
+ 
+Spork.each_run do
+ 
+I18n.backend.reload!
+ 
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+ 
+require 'factory_girl'
+ 
+FactoryGirl.definition_file_paths = [
+File.join(Rails.root, 'spec', 'factories')
+]
+ 
+FactoryGirl.find_definitions
+ 
+end
+==========================================================
+7.[] ; X.One RSpec stub, many return values | mentalized
+http://mentalized.net/journal/2013/03/13/one_rspec_stub_many_return_values/
+One RSpec stub, many return values | mentalized
+
+One RSpec stub, many return values
+
+Posted March 13, 2013 in Programming
+
+Using RSpec Mocks it is trivially easy to stub a single method:
+
+colors.stub(:favorite).with("Person A").and_return("Mauve")
+
+It is also easy to have different stubs for different arguments:
+
+colors.stub(:favorite).with("Person A").and_return("Mauve")
+colors.stub(:favorite).with("Person B").and_return("Olive")
+
+However, the other day I needed to stub out the same method many times for a fair amount of different arguments and repeating the foo.stub(...).with(...).and_return() part gets tedious real fast.
+
+Thankfully, RSpec stubs have a way around this.
+
+RSpec docs call this a “Stub with substitute implementation”. You simply setup a fake implementation for a method by passing the stub a block.
+
+We can use this to setup a look up table inside the stubbed method to give is pretty granular control over what it returns:
+
+colors.stub(:favorite) do |argument|
+  values = {"Person A" => "Mauve", "Person B => "Olive"}
+  return values[argument]
+end
+
+This way, whenever your tests call colors.favorite the argument they pass along is used to look up the returned result in the Hash inside the stub.
+
+This has proven quite useful when your FavoriteColorService talks to a DNA sequencer live and we don’t want each test run to wait 4 weeks for each result.
 
 
 ===========================================================
