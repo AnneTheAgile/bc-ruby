@@ -24,27 +24,30 @@ describe 'Terminal/Shopping/' do
         expect{Terminal::TerminalPos.new($stdin)}.to  raise_error ArgumentError
       end
 
-        context 'Read/Write from System IO.' do
+      context 'Read/Write from System IO.' do
 
-          it "#prompt_for_product: Allows entry of a single product's pricelist as verified by 'enter' prompt." do
-            gui.stub(:gets) { "stubbed-typing\n" }
-            expect { gui.prompt_for_product }.to match_stdout("enter the")
-            expect(gui).to have_received( :gets).exactly(4).times
-
-            # example;
-            # stdout [Please enter the id.
-            #got value=stubbed-typing
-            #Please enter the price.
-            #                     got value=stubbed-typing
-            #Please enter the batchPrice.
-            #                     got value=stubbed-typing
-            #Please enter the numberForBatchDiscount.
-            #                     got value=stubbed-typing
-            #]
-            #./spec/lib/terminal_spec.rb:33:in `block (3 levels) in <top (required)>'
-
-          end
+        it "#prompt_confirm: Causes the user to verify another product should be entered." do
+          gui.stub(:gets) {"stubbed-y"}
+          expect {gui.prompt_confirm}.to match_stdout("confirm to continue")
         end
+
+        it "#prompt_for_product: Allows entry of a single product's pricelist as verified by 'enter' prompt." do
+          gui.stub(:gets) { "stubbed-typing\n" }
+          expect { gui.prompt_for_product }.to match_stdout("enter the")
+          expect(gui).to have_received( :gets).exactly(4).times
+
+          # example;
+          # stdout [Please enter the id.
+          #got value=stubbed-typing
+          #Please enter the price.
+          #                     got value=stubbed-typing
+          #Please enter the batchPrice.
+          #                     got value=stubbed-typing
+          #Please enter the numberForBatchDiscount.
+          #                     got value=stubbed-typing
+          #]
+        end
+      end
 
 
   context 'TBA' do
@@ -62,7 +65,13 @@ describe 'Terminal/Shopping/' do
       it 'FUTURE KATA: Redesign to be responsibility-based, not object-based.'
     # http://blog.rubybestpractices.com/posts/gregory/037-issue-8-uses-for-modules.html
 
-    end
+    it 'FUTURE: Allow Unix-style redirect of Stdio.'
+    # One example in init used;
+    #     @input = $stdin
+    #  @output = $stdout
+
+
+  end
 
   end
 

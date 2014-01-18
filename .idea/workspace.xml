@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a7ea4703-0214-496e-a82c-87beaf81d71a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/specZFut/spec_helper.rb" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/specLib/zRspecMock_spec.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/runConfigurations/All_specs_in_specLib__rmtry__4_.xml" afterPath="$PROJECT_DIR$/.idea/runConfigurations/All_specs_in_specLib__rmtry__4_.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/rmtry.iml" afterPath="$PROJECT_DIR$/.idea/rmtry.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/status.txt" afterPath="$PROJECT_DIR$/doc/status.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/lib/store_spec.rb" afterPath="$PROJECT_DIR$/spec/lib/store_spec.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/terminal.rb" afterPath="$PROJECT_DIR$/lib/terminal.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/lib/terminal_spec.rb" afterPath="$PROJECT_DIR$/spec/lib/terminal_spec.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/specLib/zRspec_spec.rb" afterPath="$PROJECT_DIR$/specLib/zRspec_spec.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/zRuby_BestPractices.txt" afterPath="$PROJECT_DIR$/doc/zRuby_BestPractices.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/specLib/zRuby_spec.rb" afterPath="$PROJECT_DIR$/specLib/zRuby_spec.rb" />
     </list>
     <ignored path="rmtry.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -48,8 +38,8 @@
     <SUITE FILE_PATH="coverage/rmtry@Run_spec__zRspec_let_spec___rmtry.coverage" NAME="Run spec 'zRspec_let_spec': rmtry Coverage Results" MODIFIED="1389798235292" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/specFut" MODULE_NAME="rmtry" />
     <SUITE FILE_PATH="coverage/rmtry@Run_spec__gifts_spec___rmtry.coverage" NAME="Run spec 'cart_spec': rmtry Coverage Results" MODIFIED="1389232058234" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/rmtry@zRuby_Printing_and_Logging_Tips__Can_Print__File_dirname___FILE____which_is_this_very_folder___rmtry.coverage" NAME="zRuby/Printing and Logging-Tips/ Can Print  File.dirname(__FILE__) which is this very folder.: rmtry Coverage Results" MODIFIED="1389803109557" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/specLib" MODULE_NAME="rmtry" />
-    <SUITE FILE_PATH="coverage/rmtry@Run_spec__terminal_spec___rmtry.coverage" NAME="Run spec 'terminal_spec': rmtry Coverage Results" MODIFIED="1389906579353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="rmtry" />
-    <SUITE FILE_PATH="coverage/rmtry@All_specs_in_specLib__rmtry__3_.coverage" NAME="All specs in specLib: rmtry (3) Coverage Results" MODIFIED="1390009632803" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="rmtry" />
+    <SUITE FILE_PATH="coverage/rmtry@Run_spec__terminal_spec___rmtry.coverage" NAME="Run spec 'terminal_spec': rmtry Coverage Results" MODIFIED="1390010093698" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="rmtry" />
+    <SUITE FILE_PATH="coverage/rmtry@All_specs_in_specLib__rmtry__3_.coverage" NAME="All specs in specLib: rmtry (3) Coverage Results" MODIFIED="1390009946016" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="rmtry" />
     <SUITE FILE_PATH="coverage/rmtry@Cart__When_Populated___Features__Resets_populated_cart_back_to_empty___rmtry.coverage" NAME="Cart/#When Populated - Features: Resets populated cart back to empty.: rmtry Coverage Results" MODIFIED="1389220509019" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/rmtry@Run_spec__zRspecMock_spec___rmtry.coverage" NAME="Run spec 'zRspecMock_spec': rmtry Coverage Results" MODIFIED="1389988365352" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/" MODULE_NAME="rmtry" />
     <SUITE FILE_PATH="coverage/rmtry@allRspec1.coverage" NAME="allRspec1 Coverage Results" MODIFIED="1390009623821" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" MODULE_NAME="rmtry" />
@@ -76,19 +66,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="terminal_spec.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="terminal_spec.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spec/lib/terminal_spec.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="58" selection-start="1225" selection-end="1225" vertical-scroll-proportion="0.3325062" vertical-offset="816" max-vertical-offset="3125">
+            <state line="68" column="31" selection-start="2554" selection-end="2554" vertical-scroll-proportion="0.0" vertical-offset="1423" max-vertical-offset="2900">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="terminal.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="terminal.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/terminal.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="5" selection-start="1437" selection-end="1437" vertical-scroll-proportion="0.0" vertical-offset="1225" max-vertical-offset="1450">
+            <state line="5" column="124" selection-start="217" selection-end="217" vertical-scroll-proportion="-0.44913152" vertical-offset="356" max-vertical-offset="1550">
               <folding />
             </state>
           </provider>
@@ -137,8 +127,8 @@
         <option value="$PROJECT_DIR$/specLib/zRuby_spec.rb" />
         <option value="$PROJECT_DIR$/specLib/zRspecMock_spec.rb" />
         <option value="$PROJECT_DIR$/spec/lib/store_spec.rb" />
-        <option value="$PROJECT_DIR$/lib/terminal.rb" />
         <option value="$PROJECT_DIR$/spec/lib/terminal_spec.rb" />
+        <option value="$PROJECT_DIR$/lib/terminal.rb" />
       </list>
     </option>
   </component>
@@ -314,7 +304,7 @@
       <recent name="C:\amsrc\rmtry\spec" />
     </key>
   </component>
-  <component name="RunManager" selected="RSpec.All specs in specLib: rmtry (3)">
+  <component name="RunManager" selected="RSpec.Run spec 'terminal_spec': rmtry">
     <configuration default="false" name="All specs in lib: rmtry" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
       <predefined_log_file id="RUBY_RSPEC" enabled="true" />
       <module name="rmtry" />
@@ -571,6 +561,41 @@
       <RTEST_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_OPTIONS" VALUE="" />
       <method />
     </configuration>
+    <configuration default="false" name="Run spec 'terminal_spec': rmtry" type="RSpecRunConfigurationType" factoryName="RSpec">
+      <predefined_log_file id="RUBY_RSPEC" enabled="true" />
+      <module name="rmtry" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="JRUBY_OPTS" value="-X+O" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <EXTENSION ID="org.jetbrains.plugins.ruby.motion.run.MotionSimulatorRunExtension" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="$MODULE_DIR$/spec/lib/terminal_spec.rb" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_RUNNER_PATH" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*_spec.rb" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="TEST_SCRIPT" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_ARGS" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_SPEC_RUNNER" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="DRB" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ZEUS" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
+      <RunnerSettings RunnerId="RubyRunner" />
+      <ConfigurationWrapper RunnerId="RubyRunner" />
+      <method />
+    </configuration>
     <list size="12">
       <item index="0" class="java.lang.String" itemvalue="RSpec.allRspec1" />
       <item index="1" class="java.lang.String" itemvalue="RSpec.Run spec 'cart_spec': rmtry" />
@@ -634,7 +659,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18466195" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29090908" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29090908" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -931,19 +956,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/store.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="17" selection-start="224" selection-end="224" vertical-scroll-proportion="0.6823821" vertical-offset="0" max-vertical-offset="4175" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/terminal.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="5" selection-start="1437" selection-end="1437" vertical-scroll-proportion="0.0" vertical-offset="1042" max-vertical-offset="1625">
+        <state line="10" column="17" selection-start="224" selection-end="224" vertical-scroll-proportion="0.6823821" vertical-offset="0" max-vertical-offset="4175">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/lib/terminal_spec.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="58" selection-start="1225" selection-end="1225" vertical-scroll-proportion="0.3325062" vertical-offset="816" max-vertical-offset="3125">
+        <state line="68" column="31" selection-start="2554" selection-end="2554" vertical-scroll-proportion="0.0" vertical-offset="1423" max-vertical-offset="2900">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/terminal.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="124" selection-start="217" selection-end="217" vertical-scroll-proportion="-0.44913152" vertical-offset="356" max-vertical-offset="1550">
           <folding />
         </state>
       </provider>
