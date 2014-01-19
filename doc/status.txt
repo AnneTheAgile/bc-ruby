@@ -3,6 +3,513 @@ C:\amsrc\rmtry\doc\status.txt
 http://www.windowsazure.com/en-us/campaigns/azure-vs-aws/
 
 ===========================================================
+.[]140118s 9p
+==========================================================
+1.[]TODO cool shortcut; true if Float(self) rescue false ; X.Test if string is a number in Ruby on Rails - Stack Overflow
+http://stackoverflow.com/questions/5661466/test-if-string-is-a-number-in-ruby-on-rails
+Test if string is a number in Ruby on Rails - Stack Overflow
+ 47 down vote accepted
+	
+
+If you want to be able to do
+
+mystring.is_number?
+
+you can declare your method on the String class:
+
+class String
+  def is_number?
+    true if Float(self) rescue false
+  end
+end
+
+Otherwise you need to use
+
+is_number?(mystring)
+
+as others have pointed out.
+
+===========================================================
+.[]TODO RSPEC idk subject/lets getting nils on let
+
+describe 'Terminal' do
+  #let(:theStore) { Store::Store.new }
+  #let(:gui) {  }
+
+  describe 'Requires Initialization and Setup.' do
+
+    subject do
+      Terminal::TerminalPos.new(aStore)
+    end
+
+    it '#Initialize Raises error if fail to provide a Store to the constructor.' do
+      expect{Terminal::TerminalPos.new}.to raise_error ArgumentError
+    end
+
+    it '#Initialize Requires a Store.' do
+      expect{Terminal::TerminalPos.new($stdin)}.to  raise_error(RuntimeError, /Argument is not a Store./)
+      expect{Terminal::TerminalPos.new(Store::Store.new)}.not_to  raise_error
+      expect(Terminal::TerminalPos.new(@gui)).not_to  raise_error #NilClass
+    end
+
+    it '#Initialize Says Hello to the (Admin) user upon instantiation.' do
+      expect { gui }.to match_stdout( "Hello from your POS") #" Terminal Controller!")
+    end
+
+  end
+==========================================================
+1.[] ; X.Dry up Your Rspec Files with subject & let Blocks - Ben Scheirman
+http://benscheirman.com/2011/05/dry-up-your-rspec-files-with-subject-let-blocks/
+Dry up Your Rspec Files with subject & let Blocks - Ben Scheirman
+
+#improved example
+require 'spec_helper'
+ 
+describe Card do
+subject do
+Card.new(card_type)
+end
+describe "#value" do
+context "Two of Hearts" do
+let(:card_type) { "2H" }
+its(:value) { should == 2 }
+end
+describe "Face Cards" do
+context "King of Clubs" do
+let(:card_type) { "KC" }
+its(:value) { should == 13 }
+end
+==========================================================
+1.[]uses pennies like i am doing ; X.RubyMoney/money
+https://github.com/RubyMoney/money
+RubyMoney/money
+ RubyMoney - Money
+
+Gem Version Build Status Code Climate Coverage Status Dependency Status License
+
+:warning: Please read the migration notes before upgrading to a new major version.
+
+If you miss String parsing, check out the new monetize gem. Introduction
+
+A Ruby Library for dealing with money and currency conversion.
+Features
+
+    Provides a Money class which encapsulates all information about an certain amount of money, such as its value and its currency.
+    Provides a Money::Currency class which encapsulates all information about a monetary unit.
+    Represents monetary values as integers, in cents. This avoids floating point rounding errors.
+    Represents currency as Money::Currency instances providing an high level of flexibility.
+    Provides APIs for exchanging money from one currency to another.
+
+Resources
+
+    Website
+    API Documentation
+    Git Repository
+
+Notes
+
+    Your app must use UTF-8 to function with this library. There are a number of non-ASCII currency attributes.
+    This app requires JSON. If you're using JRuby < 1.7.0 you'll need to add gem "json" to your Gemfile or similar.
+
+==========================================================
+1.[]substring, just say include? !!! ; X.How to check whether a string contains a substring in Ruby? - Stack Overflow
+http://stackoverflow.com/questions/8258517/how-to-check-whether-a-string-contains-a-substring-in-ruby
+How to check whether a string contains a substring in Ruby? - Stack Overflow
+81 down vote accepted
+	
+
+You can use the include? method:
+
+my_string = "abcdefg"
+if my_string.include? "cde"
+   puts "String includes 'cde'"
+end
+
+
+==========================================================
+1.[]very convoluted answers ; X.ruby on rails - Determine if a string is a valid float value - Stack Overflow
+http://stackoverflow.com/questions/1034418/determine-if-a-string-is-a-valid-float-value
+ruby on rails - Determine if a string is a valid float value - Stack Overflow
+
+ 0 down vote
+	
+
+I saw the unresolved discussion on cast+exceptions vs regex and I thought I would try to benchmark everything and produce an objective answer:
+
+Here is the source for the best case and worst of each method attempted here:
+
+require "benchmark"
+n = 500000
+
+def is_float?(fl)
+  !!Float(fl) rescue false
+end
+
+def is_float_reg(fl)
+  fl =~ /(^(\d+)(\.)?(\d+)?)|(^(\d+)?(\.)(\d+))/
+end
+
+class String
+  def to_float
+    Float self rescue (0.0 / 0.0)
+  end
+end
+
+
+Benchmark.bm(7) do |x|
+  x.report("Using cast best case") {
+    n.times do |i|
+      temp_fl = "#{i + 0.5}"
+      is_float?(temp_fl)
+    end
+  }
+  x.report("Using cast worst case") {
+    n.times do |i|
+      temp_fl = "asdf#{i + 0.5}"
+      is_float?(temp_fl)
+    end
+  }
+  x.report("Using cast2 best case") {
+    n.times do |i|
+      "#{i + 0.5}".to_float
+    end
+  }
+  x.report("Using cast2 worst case") {
+    n.times do |i|
+      "asdf#{i + 0.5}".to_float
+    end
+  }
+  x.report("Using regexp short") {
+    n.times do |i|
+      temp_fl = "#{i + 0.5}"
+      is_float_reg(temp_fl)
+    end
+  }
+  x.report("Using regexp long") {
+    n.times do |i|
+      temp_fl = "12340918234981234#{i + 0.5}"
+      is_float_reg(temp_fl)
+    end
+  }
+    x.report("Using regexp short fail") {
+    n.times do |i|
+      temp_fl = "asdf#{i + 0.5}"
+      is_float_reg(temp_fl)
+    end
+  }
+  x.report("Using regexp long fail") {
+    n.times do |i|
+      temp_fl = "12340918234981234#{i + 0.5}asdf"
+      is_float_reg(temp_fl)
+    end
+  }
+
+end
+
+With the following results with mri193:
+
+                  user     system      total        real
+    Using cast best case  0.608000   0.000000   0.608000 (  0.615000)
+    Using cast worst case  5.647000   0.094000   5.741000 (  5.745000)
+    Using cast2 best case  0.593000   0.000000   0.593000 (  0.586000)
+    Using cast2 worst case  5.788000   0.047000   5.835000 (  5.839000)
+    Using regexp short  0.951000   0.000000   0.951000 (  0.952000)
+    Using regexp long  1.217000   0.000000   1.217000 (  1.214000)
+    Using regexp short fail  1.201000   0.000000   1.201000 (  1.202000)
+    Using regexp long fail  1.295000   0.000000   1.295000 (  1.284000)
+
+Since we are dealing with only Linear time algorithms I think we use empirical measurements to make generalizations. It is plain to see that regex is more consistent and will only fluctuate a bit based on the length of the string passed. The cast is clearly faster when there are no failure, and much slower when there are failures.
+
+If we compare the success times we can see that the cast best case is about .3 seconds faster than regex best case. If we divide this by the amount of time in the case worst case we can estimate how many runs it would take to break even with exceptions slowing the cast down to match regex speeds. About 6 seconds dived by .3 gives us about 20. So if performance matters and you expect less than 1 in 20 of your test to fail then used cast+exceptions.
+
+JRuby 1.7.4 has completely different results:
+
+                  user     system      total        real
+    Using cast best case  2.575000   0.000000   2.575000 (  2.575000)
+    Using cast worst case 53.260000   0.000000  53.260000 ( 53.260000)
+    Using cast2 best case  2.375000   0.000000   2.375000 (  2.375000)
+    Using cast2 worst case 53.822000   0.000000  53.822000 ( 53.822000)
+    Using regexp short  2.637000   0.000000   2.637000 (  2.637000)
+    Using regexp long  3.395000   0.000000   3.395000 (  3.396000)
+    Using regexp short fail  3.072000   0.000000   3.072000 (  3.073000)
+    Using regexp long fail  3.375000   0.000000   3.375000 (  3.374000)
+
+Cast is only marginally faster in the best case (about 10%). Presuming this difference is appropriate for making generalizations(I do not think it is), then the break even point is somewhere between 200 and 250 runs with only 1 causing an exception.
+
+So exceptions should only be used when truly exceptional things happens, this is decision for you and your codebase. When they aren't used code they are in can be simpler and faster.
+
+If performance doesn't matter, you should probably just following whatever conventions you team or code base already has and ignore this whole answers.
+share|improve this answer
+	
+answered Jul 24 '13 at 15:20
+Sqeaky
+7831022
+	add comment
+==========================================================
+1.[] ; X.attribute of subject - Subject - RSpec Core - RSpec - Relish
+https://www.relishapp.com/rspec/rspec-core/v/2-0/docs/subject/attribute-of-subject
+attribute of subject - Subject - RSpec Core - RSpec - Relish
+
+attribute of subject
+
+Scenarios
+
+    simple attribute
+
+        Given
+            a file named "example_spec.rb" with:
+
+            describe Array do
+              its(:size) { should == 0 }
+            end
+
+        When
+            I run "rspec example_spec.rb --format documentation" 
+        Then
+            the output should contain:
+
+            Array
+              size
+                should == 0
+
+    nested attribute
+
+        Given
+            a file named "example_spec.rb" with:
+
+            class Person
+              attr_reader :phone_numbers
+              def initialize
+                @phone_numbers = []
+              end
+            end
+
+            describe Person do
+              subject do
+                person = Person.new
+                person.phone_numbers << "555-1212"
+                person
+              end
+
+              its("phone_numbers.first") { should == "555-1212" }
+            end
+
+        When
+            I run "rspec example_spec.rb --format documentation" 
+        Then
+            the output should contain:
+
+            Person
+              phone_numbers.first
+                should == "555-1212"
+
+
+===========================================================
+.[]
+===========================================================
+.[]140118S 11a
+===========================================================
+.[]GREAT BUG! validating pennies/int vs dollars/float is coming up with test failure 1.35p.
+3p back. will make Dollars.
+===========================================================
+.[]Win-tip; Cygwin's unix emulation cannot avoid the need for explicit '.bat' usage, eg rspec.bat, whereas windows/terminal knows about bat and runs it by default thus does not need. 
+===========================================================
+.[]11.50a after rearrange doc of specs; 
+
+$ rspec.bat ./spec/lib/*spec.rb --format documentation
+
+Cart
+  Context: Each Cart's associated Store knows about the available products.
+    #add Raises error if add a new item without any arguments, ie no Id.
+    #Count is 1 when one item is in the cart.
+    #Count is 2 when two items are in the cart.
+    #Clear Resets a populated cart back to empty.
+    #Report Describes a cart with one item as a string.
+    #Report Describes a cart with two items as a string.
+    #Report Describes an empty cart as having no elements.
+  FUTURE Possible work.
+    Can delete an item from the cart. (PENDING: Not yet implemented)
+    Can find whether a product is in the cart. (PENDING: Not yet implemented)
+
+Store
+  #Add_Product
+    Raises error if duplicate product is entered.
+    Raises error if discount quantity but not price is entered.
+    Raises error if add a new item without any arguments, ie no Id.
+    Raises error if add a new item without both Id and Price.
+  Can Report its Content and Metadata.
+    #ProductMetadata gives the list of attributes found in the maximal constructor.
+    #Find_Product Returns true upon searching a product that is in the store.
+    #Find_Product Returns false upon searching a product that is not in the store.
+    #Count is 1 for one element.
+    #Count is 2 for two elements.
+    #Clear Resets the Store's population of products back to empty.
+    #Report Describes the Store's contents as a string.
+    #Report Describes an empty Store as having no elements.
+  Knows about Dollars, Pennies, and Prices of its Products.
+    #ConvertDollarsToPennies Rounds up.
+    #Price_in_pennies: Raises error if price-check an empty store.
+    #Price_in_pennies: Raises error if price-check an item not in the store.
+    #Price_in_pennies: Returns the non-discounted price in pennies for quantity of one.
+    #Price_in_pennies: Returns the non-discounted price in pennies when no discount volume quantity exists.
+    #Price_in_pennies: Returns the discounted total price in pennies for purchase size exactly equal to the discount volume quantity.
+    #Price_in_pennies: Returns the minimally discounted total price in pennies for purchase size larger than the discount volume quantity.
+  FUTURE Possible work.
+    Refactor Products Map to use symbols instead of strings as hash keys. (PENDING: cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby)
+
+Terminal/Shopping/
+  Can Start and Read/Write from System IO.
+    Says Hello to the (Admin) user upon instantiation.
+    Does Not accept a redefined $stdin nor $stdout.
+Hello from your POS Terminal Controller!
+    #prompt_confirm: Causes the user to verify another product should be entered.
+Hello from your POS Terminal Controller!
+    #prompt_for_product: Allows entry of a single product's pricelist as verified by 'enter' prompt.
+  TBA - requirements not completed yet.
+    Allows entry of product-id, price, defaulting for quantity and price (PENDING: Not yet implemented)
+    Allows entry of product-id, price, qualifying quantity, and discounted price (PENDING: Not yet implemented)
+    Verifies any item added to a cart is in the store. (PENDING: (first dependency))
+  FUTURE possible work.
+    Allows less-strict entry of products, eg defaults. (PENDING: Not yet implemented)
+    Rector, KATA: Redesign to be responsibility-based, not object-based. (PENDING: Not yet implemented)
+    Allows Unix-style redirect of Standard IO, stdin/stdout. (PENDING: Not yet implemented)
+    #prompt_for_product: Specifically includes four prompts. (PENDING: Not yet implemented)
+
+Pending:
+  Cart FUTURE Possible work. Can delete an item from the cart.
+    # Not yet implemented
+    # ./spec/lib/cart_spec.rb:66
+  Cart FUTURE Possible work. Can find whether a product is in the cart.
+    # Not yet implemented
+    # ./spec/lib/cart_spec.rb:67
+  Store FUTURE Possible work. Refactor Products Map to use symbols instead of strings as hash keys.
+    # cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby
+    # ./spec/lib/store_spec.rb:120
+  Terminal/Shopping/ TBA - requirements not completed yet. Allows entry of product-id, price, defaulting for quantity and price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:54
+  Terminal/Shopping/ TBA - requirements not completed yet. Allows entry of product-id, price, qualifying quantity, and discounted price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:56
+  Terminal/Shopping/ TBA - requirements not completed yet. Verifies any item added to a cart is in the store.
+    # (first dependency)
+    # ./spec/lib/terminal_spec.rb:58
+  Terminal/Shopping/ FUTURE possible work. Allows less-strict entry of products, eg defaults.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:67
+  Terminal/Shopping/ FUTURE possible work. Rector, KATA: Redesign to be responsibility-based, not object-based.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:70
+  Terminal/Shopping/ FUTURE possible work. Allows Unix-style redirect of Standard IO, stdin/stdout.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:73
+  Terminal/Shopping/ FUTURE possible work. #prompt_for_product: Specifically includes four prompts.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:78
+
+Finished in 0.0625 seconds
+40 examples, 0 failures, 10 pending
+
+amoroney@surf256pro /cygdrive/c/amsrc/rmtry
+
+===========================================================
+.[]Status; Where i am; 
+
+amoroney@surf256pro /cygdrive/c/amsrc/rmtry
+$ rspec --version
+C:\Users\amoroney\amApps\lang\ruby\RailsInstaller\Ruby1.9.3\bin\ruby.exe: No such file or directory -- /cygdrive/c/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/bin/rspec (LoadError)
+
+amoroney@surf256pro /cygdrive/c/amsrc/rmtry
+$
+
+amoroney@surf256pro /cygdrive/c/amsrc/rmtry
+$ rspec.bat ./spec/lib/*spec.rb --format documentation
+
+Cart
+  Context: There is a Store associated with this Cart to check products.
+    #add Raises error if add a new item without any arguments, ie no Id.
+    #count is 1 for one element.
+    #count is 2 for two elements.
+    #clear Resets a populated cart back to empty.
+    #report Describes contents of one item as a string.
+    #report Describes its contents of two items as a string.
+    #report Describes an empty cart as having no elements.
+
+Store
+  #ProductMetadata gives the list of attributes found in the maximal constructor.
+  #ConvertDollarsToPennies Rounds up.
+  #Find_Product Returns true upon searching a product that is in the store.
+  #Find_Product Returns false upon searching a product that is not in the store.
+  #Find_Product Returns false upon searching for an invalid product.
+  #Add_Product Raises error if duplicate product is entered.
+  #Add_Product Raises error if discount quantity but not price is entered.
+  #Add_Product Raises error if add a new item without any arguments, ie no Id.
+  #Add_Product Raises error if add a new item without both Id and Price.
+  #count is 1 for one element.
+  #count is 2 for two elements.
+  #clear Resets a populated store back to empty.
+  #report Describes its contents as a string.
+  #report Describes an empty store as having no elements.
+  #Price_in_pennies: Raises error if price-check an empty store.
+  #Price_in_pennies: Raises error if price-check an item not in the store.
+  #Price_in_pennies: Returns the price in pennies for quantity of one.
+  #Price_in_pennies: Returns the non-discounted price in pennies when there is no discount volume quantity.
+  #Price_in_pennies: Returns the discounted total price in pennies for purchase size exactly equal to the discount volume quantity.
+  #Price_in_pennies: Returns the minimally discounted total price in pennies for purchase size larger than the discount volume quantity.
+  FUTURE Possible Refactorings.
+    Products Map Uses symbols instead of strings as hash keys. (PENDING: cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby)
+
+Terminal/Shopping/
+  Says Hello to the (Admin) user upon instantiation.
+  Does Not accept a redefined $stdin nor $stdout.
+  Read/Write from System IO.
+Hello from your POS Terminal Controller!
+    #prompt_confirm: Causes the user to verify another product should be entered.
+Hello from your POS Terminal Controller!
+    #prompt_for_product: Allows entry of a single product's pricelist as verified by 'enter' prompt.
+  TBA
+    Allows entry of product-id, price, defaulting for quantity and price (PENDING: Not yet implemented)
+    allows entry of product-id, price, qualifying quantity, and discounted price (PENDING: Not yet implemented)
+    verifies item added to a cart is in the store. (PENDING: (first dependency))
+    allows less-strict entry of products, eg defaults. (PENDING: Not yet implemented)
+    FUTURE KATA: Redesign to be responsibility-based, not object-based. (PENDING: Not yet implemented)
+    FUTURE: Allow Unix-style redirect of Stdio. (PENDING: Not yet implemented)
+
+Pending:
+  Store FUTURE Possible Refactorings. Products Map Uses symbols instead of strings as hash keys.
+    # cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby
+    # ./spec/lib/store_spec.rb:113
+  Terminal/Shopping/ TBA Allows entry of product-id, price, defaulting for quantity and price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:54
+  Terminal/Shopping/ TBA allows entry of product-id, price, qualifying quantity, and discounted price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:56
+  Terminal/Shopping/ TBA verifies item added to a cart is in the store.
+    # (first dependency)
+    # ./spec/lib/terminal_spec.rb:58
+  Terminal/Shopping/ TBA allows less-strict entry of products, eg defaults.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:62
+  Terminal/Shopping/ TBA FUTURE KATA: Redesign to be responsibility-based, not object-based.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:65
+  Terminal/Shopping/ TBA FUTURE: Allow Unix-style redirect of Stdio.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:68
+
+Finished in 0.06251 seconds
+38 examples, 0 failures, 7 pending
+
+amoroney@surf256pro /cygdrive/c/amsrc/rmtry
+$
+
+
+===========================================================
+.[]
+===========================================================
+.[]
+===========================================================
 .[]140117f DONE Terminal how to mock.
 ==========================================================
 1.[]DUP, what i was working on. ; X.An Example using RSpec double, mock, and stub
