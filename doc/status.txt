@@ -3,20 +3,118 @@ C:\amsrc\rmtry\doc\status.txt
 http://www.windowsazure.com/en-us/campaigns/azure-vs-aws/
 
 ===========================================================
+.[]
+===========================================================
+.[]
+===========================================================
+.[]
+===========================================================
+.[]Refactored so Green and nice. 140119x 9.40a
+C:\amsrc\rmtry>rspec
+........**.........**......................*****...Hello from your POS Terminal Controller!
+.Hello from your POS Terminal Controller!
+.*********
+
+Pending:
+  Cart FUTURE Possible work. Can delete an item from the cart.
+    # Not yet implemented
+    # ./spec/lib/cart_spec.rb:75
+  Cart FUTURE Possible work. Can find whether a product is in the cart.
+    # Not yet implemented
+    # ./spec/lib/cart_spec.rb:76
+  Money FUTURE possible work. Refactor: Use Class-based, not instance-based, methods for the Math functions.
+    # Not yet implemented
+    # ./spec/lib/money_spec.rb:83
+  Money FUTURE possible work. #Add .1 USD, ie no leading zero, Raises Syntax error.
+    # Cannot directly test due to ruby considers 'a=.1' an error.
+    # ./spec/lib/money_spec.rb:85
+  Store FUTURE possible work. Refactor Store Validation to use Type Casting instead of checking ValidAsXType.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:144
+  Store FUTURE possible work. Refactor to avoid Raising Exceptions during data input validation.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:145
+  Store FUTURE possible work. Refactor Products Map to use symbols instead of strings as hash keys.
+    # cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby
+    # ./spec/lib/store_spec.rb:146
+  Store FUTURE possible work. Refactor Product into a separate class.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:149
+  Store FUTURE possible work. Can initialize with a list of products.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:150
+  Terminal TBA - requirements not completed yet. Allows entry of product-id, price, defaulting for quantity and price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:73
+  Terminal TBA - requirements not completed yet. Allows entry of product-id, price, qualifying quantity, and discounted price
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:75
+  Terminal TBA - requirements not completed yet. Verifies any item added to a cart is in the store.
+    # (first dependency)
+    # ./spec/lib/terminal_spec.rb:77
+  Terminal FUTURE possible work. Allows less-strict entry of products, eg defaults.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:86
+  Terminal FUTURE possible work. Rector, KATA: Redesign to be responsibility-based, not object-based.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:89
+  Terminal FUTURE possible work. Enables tests to be silent so $sysout from prompting does not clutter the Rspec output.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:92
+  Terminal FUTURE possible work. Allows Unix-style redirect of Standard IO, stdin/stdout.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:94
+  Terminal FUTURE possible work. #prompt_for_product: Specifically includes four prompts. (Add test to prove this.)
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:99
+  Terminal FUTURE possible work. Refactor; Use Rspec Let to construct a complex, nested object.
+    # Grok Rspec's Let vs Subject vs Method call prep.
+    # ./spec/lib/terminal_spec.rb:111
+
+Finished in 0.12501 seconds
+62 examples, 0 failures, 18 pending
+
+C:\amsrc\rmtry>
+C:\amsrc\rmtry>
+C:\amsrc\rmtry>git status
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#       new file:   .idea/runConfigurations/Run_spec__terminal_spec___rmtry.xml
+#       renamed:    lib/pennies.rb -> lib/money.rb
+#       new file:   spec/lib/money_spec.rb
+#       deleted:    spec/lib/pennies_spec.rb
+#
+# Changes not staged for commit:
+#   (use "git add/rm <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#       modified:   .idea/rmtry.iml
+#       deleted:    .idea/runConfigurations/Run_spec__terminal_spec___rmtry.xml
+#       modified:   .idea/workspace.xml
+#       modified:   doc/status.txt
+#       modified:   lib/money.rb
+#       modified:   lib/store.rb
+#       modified:   spec/lib/money_spec.rb
+#       modified:   spec/lib/store_spec.rb
+#       modified:   spec/lib/terminal_spec.rb
+#       modified:   zFutureMaybe/db_spec.rb
+#
+
+C:\amsrc\rmtry>
+===========================================================
 .[]140118s 9p
 ==========================================================
 1.[]TODO cool shortcut; true if Float(self) rescue false ; X.Test if string is a number in Ruby on Rails - Stack Overflow
 http://stackoverflow.com/questions/5661466/test-if-string-is-a-number-in-ruby-on-rails
 Test if string is a number in Ruby on Rails - Stack Overflow
  47 down vote accepted
-	
-
 If you want to be able to do
 
 mystring.is_number?
 
 you can declare your method on the String class:
-
 class String
   def is_number?
     true if Float(self) rescue false

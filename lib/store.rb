@@ -1,11 +1,11 @@
 # C:\amsrc\rmtry\lib\store.rb
 require './lib/cart'
 require './lib/store'
-require './lib/pennies'
+require './lib/money'
 
 module Store
 
-  # Product and Price list data are housed in the Store class.
+  # Product and Price list data, based dollars using whole pennies, are housed in the Store class.
   class Store
 
     def initialize()
@@ -21,9 +21,9 @@ module Store
       validAsProduct(aItemId, aPrice, aMinimumBatchQuantity, aBatchPrice)
       new_item = Hash[
           :id=> aItemId,
-          :price=> (Pennies::Pennies.new).add( aPrice),
+          :price=> (Money::Money.new).add( aPrice),
           :numberForBatchDiscount => aMinimumBatchQuantity,
-          :batchPrice=> (Pennies::Pennies.new).add( aBatchPrice)
+          :batchPrice=> (Money::Money.new).add( aBatchPrice)
       ]
       @products = @products << new_item
     end
@@ -51,7 +51,7 @@ module Store
     end
 
     def validAsBatchQuantity(aNumber)
-      Pennies::Pennies.new.validAsNonNegativeFiniteNumber(aNumber)
+      Money::Money.new.validAsNonNegativeFiniteNumber(aNumber)
     end
 
     def validAsRetailPrice(aPrice)
@@ -60,7 +60,7 @@ module Store
     end
 
     def validAsBatchPrice(aPrice)
-      Pennies::Pennies.new.validAsDollars(aPrice)
+      Money::Money.new.validAsDollars(aPrice)
     end
 
     def clear_products_list()
@@ -73,36 +73,27 @@ module Store
 
     # Validate that the given aProductId is in the store. (Boolean)
     def find_product? (aProductId)
-      begin
-        validAsProductID(aProductId)
-      rescue
-        return false
-      end
-      @products.each { |aMap|   return true if aMap[:id]==aProductId }
-      false
+      return false if (find_product(aProductId) == {})
+      return true
     end
 
     # Return the Product map for the given aProductId, if it is in the store, or the empty map, {}, if not.
     def find_product (aProductId)
-      begin
-        validAsProductID(aProductId)
-      rescue
-        return {}
-      end
+      validAsProductID(aProductId) rescue return {}
       @products.each { |aMap|   return aMap if aMap[:id]==aProductId }
-      {}
+      return {}
     end
 
-    def product_list_showing_prices_in_pennies
+    def product_list_showing_prices_in_dollars
       @products.to_s
     end
 
     def report
-      product_list_showing_prices_in_pennies
+      product_list_showing_prices_in_dollars
     end
 
     # Using the algorithm that only complete sets are discounted, any extra items are charged full price, get the total bill for the given quantity of the given product.
-    def minimal_price_in_pennies(aProduct, aQtyToBuy)
+    def minimal_price_in_dollars(aProduct, aQtyToBuy)
       stdPrice = aProduct[:price]
       discPrice = aProduct[:batchPrice]
       discQty = aProduct[:numberForBatchDiscount]
@@ -116,14 +107,16 @@ module Store
           batches = (aQtyToBuy - leftovers) / discQty
       end
       price = (discPrice * batches) + (stdPrice * leftovers)
-      print "--minimal= (#{discPrice} * #{batches}) + (#{stdPrice} * #{leftovers}) == #{price}"
+      #print "--rpt= #{aProduct}"
+      #print "--minimal= (#{discPrice} * #{batches}) + (#{stdPrice} * #{leftovers}) == #{price}"
+      price
     end
 
     # Return the total price for the given aQuantity of aId products and use the minimal discount.
-    def total_pennies_for_quantity(aId, aQuantity=1)
+    def price_in_dollars_for_quantity(aId, aQuantity=1)
       product = find_product(aId)
       raise "No such product." if product=={}
-      return (minimal_price_in_pennies(product,aQuantity))
+      return (minimal_price_in_dollars(product,aQuantity))
     end
   end
 end

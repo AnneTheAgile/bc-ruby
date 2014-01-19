@@ -21,16 +21,16 @@ describe 'Db' do
     aDb.add_product('a', 1)
     expect{c}.not_to be_nil
     aDb.clear_products_list()
-    expect(aDb.product_list_showing_prices_in_pennies()).to match /\[\]/
+    expect(aDb.product_list_showing_prices_in_dollars()).to match /\[\]/
   end
 
   it '#report Describes its contents as a string.' do
     aDb.add_product('a', 1)
-    expect(aDb.product_list_showing_prices_in_pennies).to eq('[{:id=>"a", :price=>1, :numberForBatchDiscount=>0, :batchPrice=>0}]')
+    expect(aDb.product_list_showing_prices_in_dollars).to eq('[{:id=>"a", :price=>1, :numberForBatchDiscount=>0, :batchPrice=>0}]')
   end
 
   it '#report Describes an empty db as having no elements.' do
-    expect(aDb.product_list_showing_prices_in_pennies).to eq("[]")
+    expect(aDb.product_list_showing_prices_in_dollars).to eq("[]")
   end
 
 

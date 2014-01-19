@@ -80,74 +80,73 @@ describe 'Store' do
       aStore.add_product('a', 1.0)
       expect{c}.not_to be_nil
       aStore.clear_products_list()
-      expect(aStore.product_list_showing_prices_in_pennies()).to match /\[\]/
+      expect(aStore.product_list_showing_prices_in_dollars()).to match /\[\]/
     end
 
     it "#Report Describes the Store's contents as a string." do
       aStore.add_product('a', 1.0)
-      expect(aStore.product_list_showing_prices_in_pennies).to eq('[{:id=>"a", :price=>1.0, :numberForBatchDiscount=>0, :batchPrice=>0.0}]')
+      expect(aStore.product_list_showing_prices_in_dollars).to eq('[{:id=>"a", :price=>1.0, :numberForBatchDiscount=>0, :batchPrice=>0.0}]')
     end
 
     it '#Report Describes an empty Store as having no elements.' do
-      expect(aStore.product_list_showing_prices_in_pennies).to eq("[]")
+      expect(aStore.product_list_showing_prices_in_dollars).to eq("[]")
     end
 
   end
 
   describe 'Knows about Dollars, Pennies, and Prices of its Products.' do
 
-    it '#Price_in_pennies: Raises error if price-check an empty store.' do
-      expect{aStore.total_pennies_for_quantity('a',1)}.to raise_error(RuntimeError, /No such product./)
+    it '#Price_in_dollars_for_quantity: Raises error if price-check an empty store.' do
+      expect{aStore.price_in_dollars_for_quantity('a',1)}.to raise_error(RuntimeError, /No such product./)
     end
 
-    it '#Price_in_pennies: Raises error if price-check an item not in the store.' do
+    it '#Price_in_dollars_for_quantity: Raises error if price-check an item not in the store.' do
         #add a different product just to be totally sure not making a null case
         aStore.add_product('a',1.0)
-        expect{aStore.total_pennies_for_quantity('b',2)}.to raise_error(RuntimeError, /No such product./)
+        expect{aStore.price_in_dollars_for_quantity('b',2)}.to raise_error(RuntimeError, /No such product./)
     end
 
-    it '#Price_in_pennies: Returns the non-discounted price in pennies for quantity of one.' do
+    it '#Price_in_dollars_for_quantity: Returns the non-discounted price in pennies for quantity of one.' do
       s = theStore
       s.add_product('a',1.0)
-      expect(s.report).to eq("idk")
-      answer = s.total_pennies_for_quantity('a',1)
+#      expect(s.report).to eq("idk")
+      answer = s.price_in_dollars_for_quantity('a',1)
       #help ="--Q; a,$1,qty=1--"+answer.to_s
       #expect(help).to eq(100)
+      expect(answer).to eq(1)
+    end
+
+    it '#Price_in_dollars_for_quantity: Returns the non-discounted price in pennies when no discount volume quantity exists.' do
+      s = theStore
+      s.add_product('a',1.0)
+      answer = s.price_in_dollars_for_quantity('a',9)
+      #print "--Q; a,$1,qty=9--"
+      expect(answer).to eq(9)
+    end
+
+    it '#Price_in_dollars_for_quantity: Returns the discounted total price in pennies for purchase size exactly equal to the discount volume quantity.' do
+      s = theStore
+      s.add_product('a',1.0,11,100.0)
+      answer = s.price_in_dollars_for_quantity('a',11)
       expect(answer).to eq(100)
     end
 
-    it '#Price_in_pennies: Returns the non-discounted price in pennies when no discount volume quantity exists.' do
-      s = theStore
-      s.add_product('a',1.0)
-      answer = s.total_pennies_for_quantity('a',9)
-      #print "--Q; a,$1,qty=9--"
-      expect(answer).to eq(900)
-    end
-
-    it '#Price_in_pennies: Returns the discounted total price in pennies for purchase size exactly equal to the discount volume quantity.' do
-      s = theStore
-      s.add_product('a',1.0,11,100.0)
-      answer = s.total_pennies_for_quantity('a',11)
-      expect(answer).to eq(10000)
-    end
-
-    it '#Price_in_pennies: Returns the minimally discounted total price in pennies for purchase size larger than the discount volume quantity.' do
+    it '#Price_in_dollars_for_quantity: Returns the minimally discounted total price in pennies for purchase size larger than the discount volume quantity.' do
       s = theStore
       s.add_product('a',100.0,20,1.0)
-      answer = s.total_pennies_for_quantity('a',46)
-      expect(answer).to eq(60200)
+      answer = s.price_in_dollars_for_quantity('a',46)
+      expect(answer).to eq(602)
     end
 
   end
 
-  describe 'FUTURE Possible work.' do
-    it 'Refactor Store Validation of Product attributes, not properly consolidated.'
-    it 'Product price attributes Allow Fixnum Integers instead of Float only.'
+  describe 'FUTURE possible work.' do
+    it 'Refactor Store Validation to use Type Casting instead of checking ValidAsXType.'
+    it 'Refactor to avoid Raising Exceptions during data input validation.'
     it 'Refactor Products Map to use symbols instead of strings as hash keys.'  do
       pending 'cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby'
     end
     it 'Refactor Product into a separate class.'
-    it 'Refactor to avoid Raising Exceptions during data input.'
     it 'Can initialize with a list of products.'
   end
 

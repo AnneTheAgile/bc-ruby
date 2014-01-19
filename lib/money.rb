@@ -1,7 +1,7 @@
-module Pennies
+module Money
 
   # Convert and manipulate US currency money (USD), as either dollars, eg 1.57, or pennies, eg 157.
-  class Pennies
+  class Money
     attr_reader :pennies, :dollars
 
     def self.kPenniesPerDollar
@@ -30,13 +30,13 @@ module Pennies
     def dollarsToPennies(aUsdAmount)
       validAsDollars(aUsdAmount)
       # Ruby needs to-float to ensure result of division is a float.
-      ((aUsdAmount.to_f)*Pennies.kPenniesPerDollar).round
+      ((aUsdAmount.to_f)*Money.kPenniesPerDollar).round
     end
 
     # Returns at most two decimal places of accuracy.
     def roundDollarsToFullCents(aUsdAmount)
       # Ruby needs to-float to ensure result of division is a float.
-      (dollarsToPennies(aUsdAmount)) / Pennies.kPenniesPerDollar
+      (dollarsToPennies(aUsdAmount)) / Money.kPenniesPerDollar
     end
 
     # Throws error if the given aUsdAmount is not convertible, positive, and finite.
@@ -67,7 +67,7 @@ module Pennies
 
     def penniesToDollars(aNbrOfPennies)
       validAsPennies(aNbrOfPennies)
-      aNbrOfPennies.to_f / Pennies.kPenniesPerDollar
+      aNbrOfPennies.to_f / Money.kPenniesPerDollar
     end
 
   end
