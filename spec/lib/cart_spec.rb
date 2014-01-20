@@ -69,6 +69,39 @@ describe 'Cart' do
       expect(aCart0.report).to eq("[]")
     end
 
+    it '#CartAsMapOfProductsAndQuantities converts the List of Products Ordered into a Map of products and total quantities.' do
+      aCart, aStore = new_Cart_with_StoreHavingProduct('a','b')
+      aCart.add('b')
+      aCart.add('b')
+      aCart.add('b')
+      aCart.add('a')
+      aCart.add('b')
+      aCart.add('a')
+      aCart.add('b')
+      expect(aCart.cartAsMapOfProductsAndQuantities.inspect).to eq("{\"a\"=>2, \"b\"=>5}")
+    end
+
+    it '#TotalPrice, #Report_total both Return the price for all the Products in the cart.' do
+      aCart, aStore = new_Cart_with_StoreHavingProduct('a','b')
+      aStore.add_product('c', 100, 2, 30)
+      aCart.add('b')
+      aCart.add('b')
+      aCart.add('c')
+      aCart.add('c')
+      aCart.add('c')
+      aCart.add('b')
+      aCart.add('a')
+      aCart.add('b')
+      aCart.add('c')
+      aCart.add('a')
+      aCart.add('c')
+      aCart.add('b')
+      expect(aCart.cartAsMapOfProductsAndQuantities.inspect).to eq("{\"a\"=>2, \"b\"=>5, \"c\"=>5}")
+      # Spending per item is ; ["a", 2.0]["b", 5.0]["c", 160.0]
+      expect(aCart.totalPrice).to eq(167)
+      expect(aCart.report_total).to eq("$167.00")
+    end
+
   end
 
   describe 'FUTURE Possible work.'do

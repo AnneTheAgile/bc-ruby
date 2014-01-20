@@ -5,6 +5,12 @@ require './spec/lib/custom_stdout_matcher'
 
 describe 'zRuby/Rspec-Tips' do
 
+  it 'Curly brace item compared to a string fails, reporting name of object.' do
+    a="hi"
+    expect{a.to_s}.not_to eq('a')
+    # Matches a Class which is ; #("#<Proc:0x2446128@C:/amsrc/rmtry/specLib/zRspec_spec.rb:10>")
+  end
+
   it 'Match, either prefix or postfix, does Regex matching strings.' do
     expect(/ab/).to match("aaabbb")
     expect("aaabbb").to match(/ab/)

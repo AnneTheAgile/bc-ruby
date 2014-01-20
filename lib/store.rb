@@ -16,6 +16,17 @@ module Store
       [:id, :price, :batchPrice, :numberForBatchDiscount]
     end
 
+    def add_product_map(aMap)
+      print "-Got map=#{aMap.to_s}"
+      print "-map's vals=#{aMap[:id].to_s} #{aMap[:price]}"
+      add_product(
+          aMap[:id],
+          aMap[:price],
+          aMap[:numberForBatchDiscount],
+          aMap[:batchPrice]
+      )
+    end
+
     # To @products, add the given data as a map, where price is in dollars.
     def add_product(aItemId, aPrice, aMinimumBatchQuantity=0, aBatchPrice=0.0)
       validAsProduct(aItemId, aPrice, aMinimumBatchQuantity, aBatchPrice)
@@ -25,6 +36,7 @@ module Store
           :numberForBatchDiscount => aMinimumBatchQuantity,
           :batchPrice=> (Money::Money.new).add( aBatchPrice)
       ]
+      #print "-Add-product: #{new_item.to_s}"
       @products = @products << new_item
     end
 
@@ -115,7 +127,7 @@ module Store
     # Return the total price for the given aQuantity of aId products and use the minimal discount.
     def price_in_dollars_for_quantity(aId, aQuantity=1)
       product = find_product(aId)
-      raise "No such product." if product=={}
+      raise "No such product in the store: #{aId.to_s} with quantity= #{aQuantity.to_s}." if product=={}
       return (minimal_price_in_dollars(product,aQuantity))
     end
   end

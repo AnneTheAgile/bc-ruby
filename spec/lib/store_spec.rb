@@ -2,7 +2,7 @@ require 'rspec'
 require './lib/store'
 
 describe 'Store' do
-  let(:aStore) { Store::Store.new } #BUG
+  let(:aStore) { Store::Store.new } #BUG when try to access members
 
   def theStore
     Store::Store.new
@@ -48,6 +48,24 @@ describe 'Store' do
 
   end
 
+  describe 'Can Modify its Content.' do
+
+    it '#Add_product_map enables adding a new item as a preformed hashmap.' do
+      aMap = {:id=>"a", :price=>3, :numberForBatchDiscount=>2, :batchPrice=>2}
+      aStore = theStore
+      aStore.add_product_map(aMap)
+      expect(aStore.report).to eq("[{:id=>\"a\", :price=>3.0, :numberForBatchDiscount=>2, :batchPrice=>2.0}]")
+    end
+
+    it "#Clear Resets the Store's population of products back to empty." do
+      aStore.add_product('a', 1.0)
+      expect{c}.not_to be_nil
+      aStore.clear_products_list()
+      expect(aStore.product_list_showing_prices_in_dollars()).to match /\[\]/
+    end
+
+  end
+
   describe 'Can Report its Content and Metadata.' do
 
     it '#ProductMetadata gives the list of attributes found in the maximal constructor.' do
@@ -76,19 +94,17 @@ describe 'Store' do
       expect(aStore.count_products).to eq(2)
     end
 
-    it "#Clear Resets the Store's population of products back to empty." do
+    it "#Report Describes the Store's contents as a string." do
       aStore.add_product('a', 1.0)
-      expect{c}.not_to be_nil
-      aStore.clear_products_list()
-      expect(aStore.product_list_showing_prices_in_dollars()).to match /\[\]/
+      expect(aStore.report).to eq('[{:id=>"a", :price=>1.0, :numberForBatchDiscount=>0, :batchPrice=>0.0}]')
     end
 
-    it "#Report Describes the Store's contents as a string." do
+    it "#Product_list_showing_prices_in_dollars Describes the Store's contents as a string." do
       aStore.add_product('a', 1.0)
       expect(aStore.product_list_showing_prices_in_dollars).to eq('[{:id=>"a", :price=>1.0, :numberForBatchDiscount=>0, :batchPrice=>0.0}]')
     end
 
-    it '#Report Describes an empty Store as having no elements.' do
+    it '#Product_list_showing_prices_in_dollars Describes an empty Store as having no elements.' do
       expect(aStore.product_list_showing_prices_in_dollars).to eq("[]")
     end
 

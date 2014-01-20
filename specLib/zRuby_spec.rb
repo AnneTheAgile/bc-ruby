@@ -16,6 +16,13 @@ describe 'zRuby/Data-Structures-Tips/' do
       expect(a.to_s).to eq("[1, 2, \"b\"]")
     end
   end
+
+  it '#Ruby#each_with_object can convert List to Map of the Set.' do
+    aList = ['z','a','b','a','c','b','a']
+    aMap = aList.each_with_object(Hash.new) {|i, m| m[i]+=1 rescue m[i]=1}
+    # no need for merge, uniq, sort, collect!!
+    expect(aMap.inspect).to eq("{\"z\"=>1, \"a\"=>3, \"b\"=>2, \"c\"=>1}")
+  end
 end #end array
 
 describe '#Ruby HashMap' do

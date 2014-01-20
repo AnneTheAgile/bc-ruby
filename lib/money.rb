@@ -14,9 +14,9 @@ module Money
     end
 
     # Tell the current @dollars value as a string including the $ prefix, with no padding.
-    def report_dollars()
+    def report_dollars(aDollars=@dollars)
       # http://stackoverflow.com/questions/4974812/how-do-i-force-a-number-to-10-decimal-places-in-ruby-on-rails
-      float = @dollars
+      float = aDollars
       "$" + "%0.2f" %float
     end
 

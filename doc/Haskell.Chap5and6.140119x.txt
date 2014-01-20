@@ -1,0 +1,28 @@
+Haskell.Chap5and6.140119x.txt
+
+paper why fcnal pgm matters 1984 best ever written
+tells why pure lazy fcnal matters; like bldg chair
+single blk of wood must carve chair, hard
+instead compose parts,and get that
+
+1.lazy make possible ; not care re eval order 
+it will terminate, enough elmts chosen to make it work
+2.purity ; no side effects not 1x, 2x
+
+today; recurse, but really it is why fcnal matters
+
+fact :: Int -> Int #metadata
+fact n = product [1..n] #map nay int to n
+
+more extreme; 
+product (take n[1..]) //infinite list start at one
+so composed 3 pc, outer = multiply all, strict lang would fail NT
+am> must pass a nbr
+no repl will actually infinite loop if you fail to choose 3 from it 
+like recursive fcn on how to gen an infinite list 
+recurses as much as want given what you say
+strict/eager won't do that; wants satisfytttttttttttttttttttttttttttttttttttttttttttttttttttttt the list first
+
+also beware, iowanted it to read in but failed to b 
+//BUG t-key stuck on, had to quit. 
+rest of notes are handwritten

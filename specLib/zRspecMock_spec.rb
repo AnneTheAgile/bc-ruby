@@ -71,7 +71,7 @@ describe 'Read/Write from System IO - via regular stub.' do
   # http://stackoverflow.com/questions/4609872/rspec-commandline-variable-input
   def ask(aFcn) #helper
     # []TODO confirm yield not more appropriate
-    (Terminal::TerminalPos.new).aFcn
+    (Terminal::Terminal.new).aFcn
   end
 
 end

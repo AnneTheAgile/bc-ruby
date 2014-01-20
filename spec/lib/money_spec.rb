@@ -10,6 +10,10 @@ describe Money do
     expect(aMoney.report_dollars).to eq("$1.10")
   end
 
+  it '#Report_dollars with an argument of dollars prepends the $ to the value and includes two decimal places.' do
+    expect(aMoney.report_dollars(1.1)).to eq("$1.10")
+  end
+
   describe 'Can add monies, tracking both pennies and dollars.' do
 
     it '#Add 1 USD to 0 => 100 pennies = 1.00 dollars.' do
