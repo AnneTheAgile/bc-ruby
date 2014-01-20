@@ -3,6 +3,261 @@ C:\amsrc\rmtry\doc\status.txt
 http://www.windowsazure.com/en-us/campaigns/azure-vs-aws/
 
 ===========================================================
+.[]RSPEC
+===========================================================
+.[]On windows. 140120m.12.12p
+
+C:\amsrc\rmtry>rspec --format documentation
+
+Cart
+  #Initialize: Each Cart has an associated Store in order to know about the available products.
+    #Initialize Raises error if fail to provide a Store to the constructor.
+  Can Add and Check items in the Cart.
+    #add Raises error if add a new item without any arguments, ie no Id.
+    #Count is 1 when one item is in the cart.
+    #Count is 2 when two items are in the cart.
+    #Clear Resets a populated cart back to empty.
+    #Report Describes a cart with one item as a string.
+    #Report Describes a cart with two items as a string.
+    #Report Describes an empty cart as having no elements.
+    #CartAsMapOfProductsAndQuantities converts the List of Products Ordered into a Map of products and total quantities.
+    #TotalPrice, #Report_total both Return the price for all the Products in the cart.
+  FUTURE Possible work.
+    Can delete an item from the cart. (PENDING: Not yet implemented)
+    Can find whether a product is in the cart. (PENDING: Not yet implemented)
+
+Money
+  #Report_dollars prepends the $ to the current @dollars and includes two decimal places.
+  #Report_dollars with an argument of dollars prepends the $ to the value and includes two decimal places.
+  Can add monies, tracking both pennies and dollars.
+    #Add 1 USD to 0 => 100 pennies = 1.00 dollars.
+    #Add 0.01 USD, ie one penny, to 0 => 1 penny = 0.01 dollars.
+    #Add 1.119 USD to 0 (rounds up) => 112 pennies = 1.12 dollars.
+  Can validate and convert between dollars and pennies.
+    #Pennies_to_dollars uses the class constant to convert.
+    #Add and all Validators Raise error if provide a string instead of USD or pennies.
+    #Add and all Validators Raise error if provide a negative number for USD or pennies.
+    #Add and all Validators Raise error if provide infinity for USD or pennies.
+    #DollarsToPennies Rounds up.
+  FUTURE possible work.
+    Refactor: Use Class-based, not instance-based, methods for the Math functions. (PENDING: Not yet implemented)
+    #Add .1 USD, ie no leading zero, Raises Syntax error. (PENDING: Cannot directly test due to ruby considers 'a=.1' an error.)
+
+Store
+  #Add_Product
+    Raises error if add a new item without any arguments, ie no Id.
+    Raises error if add a new item without both Id and Price.
+    Raises error if the given ID is not a string.
+    Raises error if duplicate product ID is entered.
+    Allows the given Price to be convertible to a float, eg 1 not 1.0.
+    Raises error if the given Discount quantity is not an integer.
+    Raises error if the given Batch Price is not convertible to a float.
+    Raises error if Discount quantity but not price is entered.
+    #Add_product: Converts a String input for BatchQuantity (numberForBatchDiscount) to integer (Fix ISSUE#01 In CLI, Exception upon specify a non-zero numberForBatchDiscount - due to Ruby Gets produces Strings, and Ruby argument parser converts only perceived floats, not integers.
+  Can Modify its Content.
+    #Add_product_map enables adding a new item as a preformed hashmap.
+    #Clear Resets the Store's population of products back to empty.
+  Can Report its Content and Metadata.
+    #ProductMetadata gives the list of attributes found in the maximal constructor.
+    #Find_Product Returns true upon searching a product that is in the store.
+    #Find_Product Returns false upon searching a product that is not in the store.
+    #Count is 1 for one element.
+    #Count is 2 for two elements.
+    #Report Describes the Store's contents as a string.
+    #Product_list_showing_prices_in_dollars Describes the Store's contents as a string.
+    #Product_list_showing_prices_in_dollars Describes an empty Store as having no elements.
+  Knows about Dollars, Pennies, and Prices of its Products.
+    #Price_in_dollars_for_quantity: Raises error if price-check an empty store.
+    #Price_in_dollars_for_quantity: Raises error if price-check an item not in the store.
+    #Price_in_dollars_for_quantity: Returns the non-discounted price in pennies for quantity of one.
+    #Price_in_dollars_for_quantity: Returns the non-discounted price in pennies when no discount volume quantity exists.
+    #Price_in_dollars_for_quantity: Returns the discounted total price in pennies for purchase size exactly equal to the discount volume quantity.
+    #Price_in_dollars_for_quantity: Returns the minimally discounted total price in pennies for purchase size larger than the discount volume quantity.
+  FUTURE possible work.
+    Product entry refuses BatchPrice > Standard Price. (PENDING: Not yet implemented)
+    Refactor Store Validation to use Type Casting instead of checking ValidAsXType. (PENDING: Not yet implemented)
+    Refactor to avoid Raising Exceptions during data input validation. (PENDING: Not yet implemented)
+    Refactor Products Map to use symbols instead of strings as hash keys. (PENDING: cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby)
+    Refactor Product into a separate class. (PENDING: Not yet implemented)
+    Can initialize with a list of products. (PENDING: Not yet implemented)
+
+Terminal
+  API Access allows simple manipulations.
+Hello from your POS Terminal Controller!
+    #SetPricing: Enables Admin to enter a set of products and their prices.
+Hello from your POS Terminal Controller!
+    #SetPricing: Sample Test: Can enter A=2/1, 4/7; B=12; C=1.25/1, 6/6; D=0.15.
+Hello from your POS Terminal Controller!
+    #Scan will add items to the cart.
+Hello from your POS Terminal Controller!
+    #Total provides the bill, without itemization.
+Hello from your POS Terminal Controller!
+    #Total: Sample Test#1: Cart of ABCDABAA should be $32.40.
+Hello from your POS Terminal Controller!
+    #Total: Sample Test#2: Cart of CCCCCCC should be $7.25.
+Hello from your POS Terminal Controller!
+    #Total: Sample Test#3: Cart of ABCD should be $15.40.
+Hello from your POS Terminal Controller!
+    #Total: Sample Test#4: Cart of A should be $2.00.
+  Admin can Initialize the Store with a CLI.
+    #Initialize Raises error if fail to provide a Store to the constructor.
+    #Initialize Requires a Store.
+  Admin can Add Products to the store through the CLI - Read/Write of System IO.
+Hello from your POS Terminal Controller!
+    #Prompt_confirm: Causes the user to verify another product should be entered.
+Hello from your POS Terminal Controller!
+    #Prompt_for_product: Allows entry of a single product's pricelist ( product-id, price, qualifying quantity, and discounted price) as verified by the prompt and the store's pricelist.
+Hello from your POS Terminal Controller!
+    #Prompt_loop__for_products Allows entry of two Products' data.
+  User can Add to a Cart and Get Totals with through the CLI with System IO.
+Hello from your POS Terminal Controller!
+    #Prompt_for_cart_item: Accepts entry of a single Product ID.
+Hello from your POS Terminal Controller!
+    #Prompt_loop_for_cart Allows entry of any desired products to purchase.
+  FUTURE possible work.
+    Add Help option. (PENDING: Not yet implemented)
+    Refactor Rspec Test fixtures are not DRY. (PENDING: Not yet implemented)
+    Refactor, Consolidate to single prompt_loop with yield. (PENDING: Not yet implemented)
+    During entry of product's price, display a convenient message that Zero (0) is the Default value for quantity and price. (PENDING: Not yet implemented)
+    Allows less-strict entry of products, eg defaults. (PENDING: Not yet implemented)
+    Rector, KATA: Redesign to be responsibility-based, not object-based. (PENDING: Not yet implemented)
+    #Initialize Does Not Say Hello to the (Admin) user upon instantiation if running Non-Interactively. (PENDING: Stdout fix so that one or two tests will pass/fail whether automated (this passes) or not (it fails).)
+    Enables tests to be silent so $sysout from prompting does not clutter the Rspec output. (PENDING: Not yet implemented)
+    Allows Unix-style redirect of Standard IO, stdin/stdout. (PENDING: Not yet implemented)
+    #prompt_for_product: Specifically includes four prompts. (Add test to prove this.) (PENDING: Not yet implemented)
+    Refactor; Use Rspec Let to construct a complex, nested object instead of Method calls. (PENDING: Grok Rspec's Let vs Subject vs Method call prep.)
+
+Pending:
+  Cart FUTURE Possible work. Can delete an item from the cart.
+    # Not yet implemented
+    # ./spec/lib/cart_spec.rb:108
+  Cart FUTURE Possible work. Can find whether a product is in the cart.
+    # Not yet implemented
+    # ./spec/lib/cart_spec.rb:109
+  Money FUTURE possible work. Refactor: Use Class-based, not instance-based, methods for the Math functions.
+    # Not yet implemented
+    # ./spec/lib/money_spec.rb:87
+  Money FUTURE possible work. #Add .1 USD, ie no leading zero, Raises Syntax error.
+    # Cannot directly test due to ruby considers 'a=.1' an error.
+    # ./spec/lib/money_spec.rb:89
+  Store FUTURE possible work. Product entry refuses BatchPrice > Standard Price.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:166
+  Store FUTURE possible work. Refactor Store Validation to use Type Casting instead of checking ValidAsXType.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:167
+  Store FUTURE possible work. Refactor to avoid Raising Exceptions during data input validation.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:168
+  Store FUTURE possible work. Refactor Products Map to use symbols instead of strings as hash keys.
+    # cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby
+    # ./spec/lib/store_spec.rb:169
+  Store FUTURE possible work. Refactor Product into a separate class.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:172
+  Store FUTURE possible work. Can initialize with a list of products.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:173
+  Terminal FUTURE possible work. Add Help option.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:168
+  Terminal FUTURE possible work. Refactor Rspec Test fixtures are not DRY.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:170
+  Terminal FUTURE possible work. Refactor, Consolidate to single prompt_loop with yield.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:172
+  Terminal FUTURE possible work. During entry of product's price, display a convenient message that Zero (0) is the Default value for quantity and price.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:186
+  Terminal FUTURE possible work. Allows less-strict entry of products, eg defaults.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:188
+  Terminal FUTURE possible work. Rector, KATA: Redesign to be responsibility-based, not object-based.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:191
+  Terminal FUTURE possible work. #Initialize Does Not Say Hello to the (Admin) user upon instantiation if running Non-Interactively.
+    # Stdout fix so that one or two tests will pass/fail whether automated (this passes) or not (it fails).
+    # ./spec/lib/terminal_spec.rb:194
+  Terminal FUTURE possible work. Enables tests to be silent so $sysout from prompting does not clutter the Rspec output.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:204
+  Terminal FUTURE possible work. Allows Unix-style redirect of Standard IO, stdin/stdout.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:206
+  Terminal FUTURE possible work. #prompt_for_product: Specifically includes four prompts. (Add test to prove this.)
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:211
+  Terminal FUTURE possible work. Refactor; Use Rspec Let to construct a complex, nested object instead of Method calls.
+    # Grok Rspec's Let vs Subject vs Method call prep.
+    # ./spec/lib/terminal_spec.rb:223
+
+Finished in 0.68753 seconds
+81 examples, 0 failures, 21 pending
+
+C:\amsrc\rmtry>
+===========================================================
+.[]CLI DEMO Example
+===========================================================
+.[]
+
+C:\amsrc\rmtry>ruby .\lib\terminal.rb
+Hello from your POS Terminal Controller!
+
+Welcome to the Admin Process of entering the Store's Products and their Prices.
+ Please confirm to continue with 'y' for yes.
+y
+Please enter this product's details.
+Please enter the id.
+a
+Please enter the price.
+10
+Please enter the numberForBatchDiscount.
+2
+Please enter the batchPrice.
+1
+Please confirm to continue with 'y' for yes.
+n
+Thank you for entering the Store's Price list. It is;
+[{:id=>"a", :price=>10.0, :numberForBatchDiscount=>2, :batchPrice=>1.0}]
+
+Welcome to the Customer Process of entering a list of Products to put in the Cart for purchase.
+  1.In between each entry, you will be given a chance to stop.
+  2.For NumerForBatchDiscount and BatchPrice, zero may be used to indicate no discounts are available.
+Please confirm to continue with 'y' for yes.
+y
+Please enter a Product ID to add to your shopping cart.
+a
+Please confirm to continue with 'y' for yes.
+y
+Please enter a Product ID to add to your shopping cart.
+a
+Please confirm to continue with 'y' for yes.
+y
+Please enter a Product ID to add to your shopping cart.
+a
+Please confirm to continue with 'y' for yes.
+n
+Thank you for entering your Cart list. It is;
+["a", "a", "a"]
+
+Thank you for your purchases! Your total is: $11.00
+
+C:\amsrc\rmtry>
+C:\amsrc\rmtry>
+===========================================================
+.[]
+===========================================================
+.[]
+==========================================================
+1.[] ; X.ruby - How can I determine if my process is being run interactively? - Stack Overflow
+http://stackoverflow.com/questions/3384982/how-can-i-determine-if-my-process-is-being-run-interactively
+ruby - How can I determine if my process is being run interactively? - Stack Overflow
+===========================================================
+.[]
+===========================================================
+.[]
+===========================================================
 .[]WORKS?!  140119x 9.40p
 
 C:\amsrc\rmtry>rspec -f d

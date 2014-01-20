@@ -29,7 +29,7 @@ module Money
     # Validate and then Convert the given aUsdAmount to pennies, rounding up and returning float.
     def dollarsToPennies(aUsdAmount)
       validAsDollars(aUsdAmount)
-      # Ruby needs to-float to ensure result of division is a float.
+      # Ruby needs to_f, ie float, to ensure result of division is a float.
       ((aUsdAmount.to_f)*Money.kPenniesPerDollar).round
     end
 

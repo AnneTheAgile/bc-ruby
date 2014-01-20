@@ -28,6 +28,12 @@ describe 'Terminal' do
       expect(g.store.report).to eq("[{:id=>\"a\", :price=>1.0, :numberForBatchDiscount=>0, :batchPrice=>0.0}, {:id=>\"b\", :price=>20.0, :numberForBatchDiscount=>2, :batchPrice=>10.0}, {:id=>\"c\", :price=>3.0, :numberForBatchDiscount=>3, :batchPrice=>2.0}]")
     end
 
+    it "#SetPricing: Sample Test: Can enter A=2/1, 4/7; B=12; C=1.25/1, 6/6; D=0.15." do
+      g = theGui
+      g.setPricing([['A',2,4,7],['B',12],['C',1.25,6,6],['D',0.15]])
+      expect(g.store.report).to eq("[{:id=>\"A\", :price=>2.0, :numberForBatchDiscount=>4, :batchPrice=>7.0}, {:id=>\"B\", :price=>12.0, :numberForBatchDiscount=>0, :batchPrice=>0.0}, {:id=>\"C\", :price=>1.25, :numberForBatchDiscount=>6, :batchPrice=>6.0}, {:id=>\"D\", :price=>0.15, :numberForBatchDiscount=>0, :batchPrice=>0.0}]")
+    end
+
     it '#Scan will add items to the cart.' do
       g = theGui
       g.setPricing([['a',1],['b',20,2,10],['c',3,3,2]])
@@ -44,6 +50,50 @@ describe 'Terminal' do
       expect(g.total).to eq("$4.00")
     end
 
+    it '#Total: Sample Test#1: Cart of ABCDABAA should be $32.40.' do
+      g = theGui
+      g.setPricing([['A',2,4,7],['B',12],['C',1.25,6,6],['D',0.15]])
+      g.scan('A')
+      g.scan('B')
+      g.scan('C')
+      g.scan('D')
+      g.scan('A')
+      g.scan('B')
+      g.scan('A')
+      g.scan('A')
+      expect(g.total).to eq("$32.40")
+    end
+
+    it '#Total: Sample Test#2: Cart of CCCCCCC should be $7.25.' do
+      g = theGui
+      g.setPricing([['A',2,4,7],['B',12],['C',1.25,6,6],['D',0.15]])
+      g.scan('C')
+      g.scan('C')
+      g.scan('C')
+      g.scan('C')
+      g.scan('C')
+      g.scan('C')
+      g.scan('C')
+      expect(g.total).to eq("$7.25")
+    end
+
+    it '#Total: Sample Test#3: Cart of ABCD should be $15.40.' do
+      g = theGui
+      g.setPricing([['A',2,4,7],['B',12],['C',1.25,6,6],['D',0.15]])
+      g.scan('A')
+      g.scan('B')
+      g.scan('C')
+      g.scan('D')
+      expect(g.total).to eq("$15.40")
+    end
+
+    it '#Total: Sample Test#4: Cart of A should be $2.00.' do
+      g = theGui
+      g.setPricing([['A',2,4,7],['B',12],['C',1.25,6,6],['D',0.15]])
+      g.scan('A')
+      expect(g.total).to eq("$2.00")
+    end
+
   end
 
   describe 'Admin can Initialize the Store with a CLI.' do
@@ -54,10 +104,6 @@ describe 'Terminal' do
 
     it '#Initialize Requires a Store.' do
       expect{Terminal::Terminal.new($stdin)}.to  raise_error(RuntimeError, /Argument is not a Store./)
-    end
-
-    it '#Initialize Says Hello to the (Admin) user upon instantiation.' do
-      expect { theGui }.to match_stdout( "Hello from your POS") #" Terminal Controller!")
     end
 
   end
@@ -75,7 +121,7 @@ describe 'Terminal' do
       g.stub(:gets).and_return("aId\n","5\n","6\n","7\n")
       expect { g.prompt_for_product }.to match_stdout("enter the")
       expect(g).to have_received( :gets).exactly(4).times
-      expect(g.store.report).to eq("[{:id=>\"aId\", :price=>5.0, :numberForBatchDiscount=>\"7\", :batchPrice=>6.0}]")
+      expect(g.store.report).to eq("[{:id=>\"aId\", :price=>5.0, :numberForBatchDiscount=>6, :batchPrice=>7.0}]")
     end
 
     it "#Prompt_loop__for_products Allows entry of two Products' data." do
@@ -83,7 +129,7 @@ describe 'Terminal' do
       g.stub(:gets).and_return("y","aId\n","5\n","6\n","7\n","y","bId\n","5\n","6\n","7\n","no-halt")
       expect { g.prompt_loop__for_products }.to match_stdout("enter the")
       expect(g).to have_received( :gets).exactly(11).times
-      expect(g.store.report).to eq("[{:id=>\"aId\", :price=>5.0, :numberForBatchDiscount=>\"7\", :batchPrice=>6.0}, {:id=>\"bId\", :price=>5.0, :numberForBatchDiscount=>\"7\", :batchPrice=>6.0}]")
+      expect(g.store.report).to eq("[{:id=>\"aId\", :price=>5.0, :numberForBatchDiscount=>6, :batchPrice=>7.0}, {:id=>\"bId\", :price=>5.0, :numberForBatchDiscount=>6, :batchPrice=>7.0}]")
     end
 
   end
@@ -95,7 +141,7 @@ describe 'Terminal' do
       g = theGui
       g.store.add_product('aId',5,6,7)
       g.stub(:gets).and_return("aId\n","5\n","6\n","7\n")
-      expect { g.prompt_for_cart_item }.to match_stdout("enter the")
+      expect { g.prompt_for_cart_item }.to match_stdout("enter a")
       expect(g).to have_received( :gets).exactly(1).times
       expect(g.cart.report).to eq("[\"aId\"]")
     end
@@ -105,7 +151,7 @@ describe 'Terminal' do
       g.store.add_product('aId',5,6,7)
       g.store.add_product('bId',8,9,10)
       g.stub(:gets).and_return("y","aId\n","y","bId\n","no-halt")
-      expect { g.prompt_loop_for_cart }.to match_stdout("enter the")
+      expect { g.prompt_loop_for_cart }.to match_stdout("enter a")
       expect(g).to have_received( :gets).exactly(5).times
       expect(g.cart.report).to eq("[\"aId\", \"bId\"]")
     end
@@ -114,6 +160,14 @@ describe 'Terminal' do
 
 
   describe 'TBA - requirements not completed yet.' do
+
+  end
+
+  describe 'FUTURE possible work.' do
+
+    it 'Add Help option.'
+
+    it "Refactor Rspec Test fixtures are not DRY."
 
     it "Refactor, Consolidate to single prompt_loop with yield."
     # http://stackoverflow.com/questions/10451060/use-of-yield-and-return-in-ruby
@@ -129,10 +183,6 @@ describe 'Terminal' do
     end
 =end
 
-  end
-
-  describe 'FUTURE possible work.' do
-
     it "During entry of product's price, display a convenient message that Zero (0) is the Default value for quantity and price."
 
     it 'Allows less-strict entry of products, eg defaults.'
@@ -140,6 +190,16 @@ describe 'Terminal' do
 
     it 'Rector, KATA: Redesign to be responsibility-based, not object-based.'
   # http://blog.rubybestpractices.com/posts/gregory/037-issue-8-uses-for-modules.html
+
+    it '#Initialize Does Not Say Hello to the (Admin) user upon instantiation if running Non-Interactively.' do
+      pending "Stdout fix so that one or two tests will pass/fail whether automated (this passes) or not (it fails)."
+      #expect { theGui }.to match_stdout( "Hello from your POS") if $stdout.isatty #" Terminal Controller!")
+      # Mocking of stdout did not work yet
+      # expect { theGui }.to match_stdout( "Hello from your POS") if $stdout.isatty #" Terminal Controller!")
+      # # See pending test, mocking of stdout did not work yet
+      # stdo = double("$stdout":isatty=>true)
+      # expect { theGui }.to match_stdout( "Hello from your POS")
+    end
 
     it 'Enables tests to be silent so $sysout from prompting does not clutter the Rspec output.'
 

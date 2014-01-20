@@ -13,12 +13,11 @@ module Store
     end
 
     def product_attributes
-      [:id, :price, :batchPrice, :numberForBatchDiscount]
+      [:id, :price, :numberForBatchDiscount, :batchPrice]
     end
 
     def add_product_map(aMap)
-      print "-Got map=#{aMap.to_s}"
-      print "-map's vals=#{aMap[:id].to_s} #{aMap[:price]}"
+      #print "-AddProd Got map=#{aMap.to_s}"
       add_product(
           aMap[:id],
           aMap[:price],
@@ -33,10 +32,9 @@ module Store
       new_item = Hash[
           :id=> aItemId,
           :price=> (Money::Money.new).add( aPrice),
-          :numberForBatchDiscount => aMinimumBatchQuantity,
+          :numberForBatchDiscount => aMinimumBatchQuantity.to_i, # ISSUE#01
           :batchPrice=> (Money::Money.new).add( aBatchPrice)
       ]
-      #print "-Add-product: #{new_item.to_s}"
       @products = @products << new_item
     end
 
@@ -119,7 +117,6 @@ module Store
           batches = (aQtyToBuy - leftovers) / discQty
       end
       price = (discPrice * batches) + (stdPrice * leftovers)
-      #print "--rpt= #{aProduct}"
       #print "--minimal= (#{discPrice} * #{batches}) + (#{stdPrice} * #{leftovers}) == #{price}"
       price
     end

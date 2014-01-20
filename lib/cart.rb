@@ -39,16 +39,13 @@ module Cart
     # Transform the list of products, which is unsorted and contains duplicates, into a map with zero quantities to start.
     def cartAsMapOfProductsAndQuantities
       aMap = @products.sort.each_with_object(Hash.new) {|i, m| m[i]+=1 rescue m[i]=1}
+      #print(["-cartAsMap=",aMap.inspect,"\n"].join)
+      aMap
     end
 
     def totalPrice
       items = cartAsMapOfProductsAndQuantities
-      # m.inject(0)  {|atot,ipair| atot+=ipair[1] * price(ipair[0])}
-      items.each{|iPair| print ([ iPair[0],
-                                  @store.price_in_dollars_for_quantity(iPair[0], iPair[1])
-                               ])}
       total = items.inject(0) {|aTotal, iPair| aTotal += @store.price_in_dollars_for_quantity(iPair[0], iPair[1]) }
-      #total = items.each_with_object(0) {|i, total| total += @store.price_in_dollars_for_quantity(i[0], i[1]) }
     end
 
   end

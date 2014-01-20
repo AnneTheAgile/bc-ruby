@@ -46,6 +46,13 @@ describe 'Store' do
       expect{aStore.add_product('a',1.0,2)}.to raise_error( RuntimeError,/Argument aBatchPrice .* was not specified but aMinimumBatchQuantity .* was./)
     end
 
+    it "#Add_product: Converts a String input for BatchQuantity (numberForBatchDiscount) to integer (Fix ISSUE#01 In CLI, Exception upon specify a non-zero numberForBatchDiscount - due to Ruby Gets produces Strings, and Ruby argument parser converts only perceived floats, not integers." do
+      expect{aStore.add_product('a','1','2','3')}.not_to  raise_error
+      expect(aStore.inspect.to_s).to match /:numberForBatchDiscount=>2/
+      expect(aStore.inspect.to_s).to match /:price=>1.0/
+      #/"products=[{:id=>"a\", :price=>1.0, :numberForBatchDiscount=>2, :batchPrice=>3.0}]"/
+    end
+
   end
 
   describe 'Can Modify its Content.' do
@@ -69,7 +76,7 @@ describe 'Store' do
   describe 'Can Report its Content and Metadata.' do
 
     it '#ProductMetadata gives the list of attributes found in the maximal constructor.' do
-      expect(aStore.product_attributes).to eq([:id, :price, :batchPrice, :numberForBatchDiscount])
+      expect(aStore.product_attributes).to eq([:id, :price, :numberForBatchDiscount, :batchPrice])
     end
 
     it '#Find_Product Returns true upon searching a product that is in the store.' do
@@ -136,7 +143,6 @@ describe 'Store' do
       s = theStore
       s.add_product('a',1.0)
       answer = s.price_in_dollars_for_quantity('a',9)
-      #print "--Q; a,$1,qty=9--"
       expect(answer).to eq(9)
     end
 
@@ -157,6 +163,7 @@ describe 'Store' do
   end
 
   describe 'FUTURE possible work.' do
+    it 'Product entry refuses BatchPrice > Standard Price.'
     it 'Refactor Store Validation to use Type Casting instead of checking ValidAsXType.'
     it 'Refactor to avoid Raising Exceptions during data input validation.'
     it 'Refactor Products Map to use symbols instead of strings as hash keys.'  do
