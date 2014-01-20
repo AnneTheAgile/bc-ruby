@@ -3,7 +3,218 @@ C:\amsrc\rmtry\doc\status.txt
 http://www.windowsazure.com/en-us/campaigns/azure-vs-aws/
 
 ===========================================================
-.[]
+.[]WORKS?!  140119x 9.40p
+
+C:\amsrc\rmtry>rspec -f d
+
+Cart
+  #Initialize: Each Cart has an associated Store in order to know about the available products.
+    #Initialize Raises error if fail to provide a Store to the constructor.
+  Can Add and Check items in the Cart.
+    #add Raises error if add a new item without any arguments, ie no Id.
+    #Count is 1 when one item is in the cart.
+    #Count is 2 when two items are in the cart.
+    #Clear Resets a populated cart back to empty.
+    #Report Describes a cart with one item as a string.
+    #Report Describes a cart with two items as a string.
+    #Report Describes an empty cart as having no elements.
+    #CartAsMapOfProductsAndQuantities converts the List of Products Ordered into a Map of products and total quantities.
+["a", 2.0]["b", 5.0]["c", 160.0]["a", 2.0]["b", 5.0]["c", 160.0]    #TotalPrice, #Report_total both Return the price for all the Products in the cart.
+  FUTURE Possible work.
+    Can delete an item from the cart. (PENDING: Not yet implemented)
+    Can find whether a product is in the cart. (PENDING: Not yet implemented)
+
+Money
+  #Report_dollars prepends the $ to the current @dollars and includes two decimal places.
+  #Report_dollars with an argument of dollars prepends the $ to the value and includes two decimal places.
+  Can add monies, tracking both pennies and dollars.
+    #Add 1 USD to 0 => 100 pennies = 1.00 dollars.
+    #Add 0.01 USD, ie one penny, to 0 => 1 penny = 0.01 dollars.
+    #Add 1.119 USD to 0 (rounds up) => 112 pennies = 1.12 dollars.
+  Can validate and convert between dollars and pennies.
+    #Pennies_to_dollars uses the class constant to convert.
+    #Add and all Validators Raise error if provide a string instead of USD or pennies.
+    #Add and all Validators Raise error if provide a negative number for USD or pennies.
+    #Add and all Validators Raise error if provide infinity for USD or pennies.
+    #DollarsToPennies Rounds up.
+  FUTURE possible work.
+    Refactor: Use Class-based, not instance-based, methods for the Math functions. (PENDING: Not yet implemented)
+    #Add .1 USD, ie no leading zero, Raises Syntax error. (PENDING: Cannot directly test due to ruby considers 'a=.1' an error.)
+
+Store
+  #Add_Product
+    Raises error if add a new item without any arguments, ie no Id.
+    Raises error if add a new item without both Id and Price.
+    Raises error if the given ID is not a string.
+    Raises error if duplicate product ID is entered.
+    Allows the given Price to be convertible to a float, eg 1 not 1.0.
+    Raises error if the given Discount quantity is not an integer.
+    Raises error if the given Batch Price is not convertible to a float.
+    Raises error if Discount quantity but not price is entered.
+  Can Modify its Content.
+-Got map={:id=>"a", :price=>3, :numberForBatchDiscount=>2, :batchPrice=>2}-map's vals=a 3    #Add_product_map enables adding a new item as a preformed hashmap.
+    #Clear Resets the Store's population of products back to empty.
+  Can Report its Content and Metadata.
+    #ProductMetadata gives the list of attributes found in the maximal constructor.
+    #Find_Product Returns true upon searching a product that is in the store.
+    #Find_Product Returns false upon searching a product that is not in the store.
+    #Count is 1 for one element.
+    #Count is 2 for two elements.
+    #Report Describes the Store's contents as a string.
+    #Product_list_showing_prices_in_dollars Describes the Store's contents as a string.
+    #Product_list_showing_prices_in_dollars Describes an empty Store as having no elements.
+  Knows about Dollars, Pennies, and Prices of its Products.
+    #Price_in_dollars_for_quantity: Raises error if price-check an empty store.
+    #Price_in_dollars_for_quantity: Raises error if price-check an item not in the store.
+    #Price_in_dollars_for_quantity: Returns the non-discounted price in pennies for quantity of one.
+    #Price_in_dollars_for_quantity: Returns the non-discounted price in pennies when no discount volume quantity exists.
+    #Price_in_dollars_for_quantity: Returns the discounted total price in pennies for purchase size exactly equal to the discount volume quantity.
+    #Price_in_dollars_for_quantity: Returns the minimally discounted total price in pennies for purchase size larger than the discount volume quantity.
+  FUTURE possible work.
+    Refactor Store Validation to use Type Casting instead of checking ValidAsXType. (PENDING: Not yet implemented)
+    Refactor to avoid Raising Exceptions during data input validation. (PENDING: Not yet implemented)
+    Refactor Products Map to use symbols instead of strings as hash keys. (PENDING: cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby)
+    Refactor Product into a separate class. (PENDING: Not yet implemented)
+    Can initialize with a list of products. (PENDING: Not yet implemented)
+
+Terminal
+  API Access allows simple manipulations.
+Hello from your POS Terminal Controller!
+["--setPricing recd;", "[[\"a\", 1], [\"b\", 20, 2, 10], [\"c\", 3, 3, 2]]"]["--setPricing ", "[\"a\", 1]", "and giving=", "a, 1"]["--iarg 2 parts;", "a", 1]["--setPricing ", "[\"b\", 20, 2, 10]", "and giving=", "b, 20, 2, 10"]["--iarg 2 parts;", "b", 20]["--setPricing ", "[\"c\", 3, 3, 2]", "and gi
+ving=", "c, 3, 3, 2"]["--iarg 2 parts;", "c", 3]    #SetPricing: Enables Admin to enter a set of products and their prices.
+Hello from your POS Terminal Controller!
+["--setPricing recd;", "[[\"a\", 1], [\"b\", 20, 2, 10], [\"c\", 3, 3, 2]]"]["--setPricing ", "[\"a\", 1]", "and giving=", "a, 1"]["--iarg 2 parts;", "a", 1]["--setPricing ", "[\"b\", 20, 2, 10]", "and giving=", "b, 20, 2, 10"]["--iarg 2 parts;", "b", 20]["--setPricing ", "[\"c\", 3, 3, 2]", "and gi
+ving=", "c, 3, 3, 2"]["--iarg 2 parts;", "c", 3]    #Scan will add items to the cart.
+Hello from your POS Terminal Controller!
+["--setPricing recd;", "[[\"a\", 1], [\"b\", 20, 2, 10], [\"c\", 3, 3, 2]]"]["--setPricing ", "[\"a\", 1]", "and giving=", "a, 1"]["--iarg 2 parts;", "a", 1]["--setPricing ", "[\"b\", 20, 2, 10]", "and giving=", "b, 20, 2, 10"]["--iarg 2 parts;", "b", 20]["--setPricing ", "[\"c\", 3, 3, 2]", "and gi
+ving=", "c, 3, 3, 2"]["--iarg 2 parts;", "c", 3]["a", 1.0]["c", 3.0]    #Total provides the bill, without itemization.
+  Admin can Initialize the Store with a CLI.
+    #Initialize Raises error if fail to provide a Store to the constructor.
+    #Initialize Requires a Store.
+    #Initialize Says Hello to the (Admin) user upon instantiation.
+  Admin can Add Products to the store through the CLI - Read/Write of System IO.
+Hello from your POS Terminal Controller!
+    #Prompt_confirm: Causes the user to verify another product should be entered.
+Hello from your POS Terminal Controller!
+    #Prompt_for_product: Allows entry of a single product's pricelist ( product-id, price, qualifying quantity, and discounted price) as verified by the prompt and the store's pricelist.
+Hello from your POS Terminal Controller!
+    #Prompt_loop__for_products Allows entry of two Products' data.
+  User can Add to a Cart and Get Totals with through the CLI with System IO.
+Hello from your POS Terminal Controller!
+    #Prompt_for_cart_item: Accepts entry of a single Product ID.
+Hello from your POS Terminal Controller!
+    #Prompt_loop_for_cart Allows entry of any desired products to purchase.
+  TBA - requirements not completed yet.
+    Refactor, Consolidate to single prompt_loop with yield. (PENDING: Not yet implemented)
+  FUTURE possible work.
+    During entry of product's price, display a convenient message that Zero (0) is the Default value for quantity and price. (PENDING: Not yet implemented)
+    Allows less-strict entry of products, eg defaults. (PENDING: Not yet implemented)
+    Rector, KATA: Redesign to be responsibility-based, not object-based. (PENDING: Not yet implemented)
+    Enables tests to be silent so $sysout from prompting does not clutter the Rspec output. (PENDING: Not yet implemented)
+    Allows Unix-style redirect of Standard IO, stdin/stdout. (PENDING: Not yet implemented)
+    #prompt_for_product: Specifically includes four prompts. (Add test to prove this.) (PENDING: Not yet implemented)
+    Refactor; Use Rspec Let to construct a complex, nested object instead of Method calls. (PENDING: Grok Rspec's Let vs Subject vs Method call prep.)
+
+Pending:
+  Cart FUTURE Possible work. Can delete an item from the cart.
+    # Not yet implemented
+    # ./spec/lib/cart_spec.rb:108
+  Cart FUTURE Possible work. Can find whether a product is in the cart.
+    # Not yet implemented
+    # ./spec/lib/cart_spec.rb:109
+  Money FUTURE possible work. Refactor: Use Class-based, not instance-based, methods for the Math functions.
+    # Not yet implemented
+    # ./spec/lib/money_spec.rb:87
+  Money FUTURE possible work. #Add .1 USD, ie no leading zero, Raises Syntax error.
+    # Cannot directly test due to ruby considers 'a=.1' an error.
+    # ./spec/lib/money_spec.rb:89
+  Store FUTURE possible work. Refactor Store Validation to use Type Casting instead of checking ValidAsXType.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:160
+  Store FUTURE possible work. Refactor to avoid Raising Exceptions during data input validation.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:161
+  Store FUTURE possible work. Refactor Products Map to use symbols instead of strings as hash keys.
+    # cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby
+    # ./spec/lib/store_spec.rb:162
+  Store FUTURE possible work. Refactor Product into a separate class.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:165
+  Store FUTURE possible work. Can initialize with a list of products.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:166
+  Terminal TBA - requirements not completed yet. Refactor, Consolidate to single prompt_loop with yield.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:118
+  Terminal FUTURE possible work. During entry of product's price, display a convenient message that Zero (0) is the Default value for quantity and price.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:136
+  Terminal FUTURE possible work. Allows less-strict entry of products, eg defaults.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:138
+  Terminal FUTURE possible work. Rector, KATA: Redesign to be responsibility-based, not object-based.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:141
+  Terminal FUTURE possible work. Enables tests to be silent so $sysout from prompting does not clutter the Rspec output.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:144
+  Terminal FUTURE possible work. Allows Unix-style redirect of Standard IO, stdin/stdout.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:146
+  Terminal FUTURE possible work. #prompt_for_product: Specifically includes four prompts. (Add test to prove this.)
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:151
+  Terminal FUTURE possible work. Refactor; Use Rspec Let to construct a complex, nested object instead of Method calls.
+    # Grok Rspec's Let vs Subject vs Method call prep.
+    # ./spec/lib/terminal_spec.rb:163
+
+Finished in 0.57815 seconds
+72 examples, 0 failures, 17 pending
+
+C:\amsrc\rmtry>git status
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#       deleted:    .idea/runConfigurations/Run_spec__cart_spec___rmtry.xml
+#       modified:   lib/terminal.rb
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#       modified:   .idea/rmtry.iml
+#       modified:   .idea/workspace.xml
+#       modified:   lib/cart.rb
+#       modified:   lib/money.rb
+#       modified:   lib/store.rb
+#       modified:   lib/terminal.rb
+#       modified:   spec/lib/cart_spec.rb
+#       modified:   spec/lib/get_in_out.rb
+#       modified:   spec/lib/money_spec.rb
+#       modified:   spec/lib/store_spec.rb
+#       modified:   spec/lib/terminal_spec.rb
+#       modified:   specLib/zRspecMock_spec.rb
+#       modified:   specLib/zRspec_spec.rb
+#       modified:   specLib/zRuby_spec.rb
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#       doc/Haskell.Chap5and6.140119x.txt
+#       doc/zTRY.sort.txt
+
+C:\amsrc\rmtry>git add -A
+
+C:\amsrc\rmtry>git commit -m "GRN. WORKS?! Terminal now has both API and CLI a
+ccess to it."
+[master 195f704] GRN. WORKS?! Terminal now has both API and CLI access to it.
+ 17 files changed, 764 insertions(+), 229 deletions(-)
+ delete mode 100644 .idea/runConfigurations/Run_spec__cart_spec___rmtry.xml
+ create mode 100644 doc/Haskell.Chap5and6.140119x.txt
+ create mode 100644 doc/zTRY.sort.txt
+
+C:\amsrc\rmtry>
 ===========================================================
 .[]
 ===========================================================
