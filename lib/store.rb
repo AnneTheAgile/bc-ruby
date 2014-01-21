@@ -5,7 +5,7 @@ require './lib/money'
 
 module Store
 
-  # Product and Price list data, based dollars using whole pennies, are housed in the Store class.
+  # The reference to each Product's Name (ID) and Price list data, based dollars using whole pennies. (A Controller)
   class Store
 
     def initialize()
@@ -32,12 +32,13 @@ module Store
       new_item = Hash[
           :id=> aItemId,
           :price=> (Money::Money.new).add( aPrice),
-          :numberForBatchDiscount => aMinimumBatchQuantity.to_i, # ISSUE#01
+          :numberForBatchDiscount => Integer(aMinimumBatchQuantity), # ISSUE#01
           :batchPrice=> (Money::Money.new).add( aBatchPrice)
       ]
       @products = @products << new_item
     end
 
+    # Ascertain that the given arguments are suitable to create a Product.
     def validAsProduct(aItemId, aPrice, aMinimumBatchQuantity, aBatchPrice)
       validAsProductID(aItemId)
       raise "Duplicate products are not allowed in the store." if find_product?(aItemId)
@@ -62,6 +63,10 @@ module Store
 
     def validAsBatchQuantity(aNumber)
       Money::Money.new.validAsNonNegativeFiniteNumber(aNumber)
+      # Check if a Text number is non-integer by checking if it raises an error upon cast.
+       Integer(aNumber) rescue raise "Argument #{aNumber} is not castable to an integer."
+      # Check if a Numeric value is non-integer by checking if it is Truncated upon cast.
+      raise "Argument #{aNumber} is not an integer." if Integer(aNumber) != Float(aNumber)
     end
 
     def validAsRetailPrice(aPrice)

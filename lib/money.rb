@@ -1,6 +1,6 @@
 module Money
 
-  # Convert and manipulate US currency money (USD), as either dollars, eg 1.57, or pennies, eg 157.
+  # A way to Convert and manipulate US currency money (USD), as either dollars, eg 1.57, or pennies, eg 157. (A Model)
   class Money
     attr_reader :pennies, :dollars
 

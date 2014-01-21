@@ -5,7 +5,7 @@ describe Money do
 
   let(:aMoney) { Money::Money.new }
 
-  it '#Report_dollars prepends the $ to the current @dollars and includes two decimal places.' do
+  it '#Report_dollars without arguments prepends the $ to the current @dollars and includes two decimal places.' do
     aMoney.add(1.1)
     expect(aMoney.report_dollars).to eq("$1.10")
   end

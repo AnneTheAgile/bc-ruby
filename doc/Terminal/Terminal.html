@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+
+  <title>Class: Terminal::Terminal</title>
+
+  <link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+  <script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body id="top" class="class">
+
+  <div id="metadata">
+    <div id="home-metadata">
+      <div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+      </div>
+    </div>
+
+    <div id="file-metadata">
+      <div id="file-list-section" class="section">
+        <h3 class="section-header">In Files</h3>
+        <div class="section-body">
+          <ul>
+          
+            <li><a href="../lib/terminal_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/terminal.rb">lib/terminal.rb</a></li>
+          
+          </ul>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <div id="class-metadata">
+      
+      <!-- Parent Class -->
+      <div id="parent-class-section" class="section">
+        <h3 class="section-header">Parent</h3>
+        
+        <p class="link">Object</p>
+        
+      </div>
+      
+
+      
+
+      
+
+      
+      <!-- Method Quickref -->
+      <div id="method-list-section" class="section">
+        <h3 class="section-header">Methods</h3>
+        <ul class="link-list">
+          
+          <li><a href="#method-c-new">::new</a></li>
+          
+          <li><a href="#method-i-prompt_confirm">#prompt_confirm</a></li>
+          
+          <li><a href="#method-i-prompt_for_cart_item">#prompt_for_cart_item</a></li>
+          
+          <li><a href="#method-i-prompt_for_product">#prompt_for_product</a></li>
+          
+          <li><a href="#method-i-prompt_loop_customized">#prompt_loop_customized</a></li>
+          
+          <li><a href="#method-i-prompt_loop_for_cart">#prompt_loop_for_cart</a></li>
+          
+          <li><a href="#method-i-prompt_loop_for_products">#prompt_loop_for_products</a></li>
+          
+          <li><a href="#method-i-report">#report</a></li>
+          
+          <li><a href="#method-i-runInteractive">#runInteractive</a></li>
+          
+          <li><a href="#method-i-scan">#scan</a></li>
+          
+          <li><a href="#method-i-setPricing">#setPricing</a></li>
+          
+        </ul>
+      </div>
+      
+
+      
+    </div>
+
+    <div id="project-metadata">
+      
+      
+
+      <div id="classindex-section" class="section project-section">
+        <h3 class="section-header">Class/Module Index
+          <span class="search-toggle"><img src="../images/find.png"
+            height="16" width="16" alt="[+]"
+            title="show/hide quicksearch" /></span></h3>
+        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+        <fieldset>
+          <legend>Quicksearch</legend>
+          <input type="text" name="quicksearch" value=""
+            class="quicksearch-field" />
+        </fieldset>
+        </form>
+
+        <ul class="link-list">
+        
+          <li><a href="../Cart.html">Cart</a></li>
+        
+          <li><a href="../Cart/Cart.html">Cart::Cart</a></li>
+        
+          <li><a href="../Money.html">Money</a></li>
+        
+          <li><a href="../Money/Money.html">Money::Money</a></li>
+        
+          <li><a href="../Store.html">Store</a></li>
+        
+          <li><a href="../Store/Store.html">Store::Store</a></li>
+        
+          <li><a href="../Terminal.html">Terminal</a></li>
+        
+          <li><a href="../Terminal/Terminal.html">Terminal::Terminal</a></li>
+        
+        </ul>
+        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <div id="documentation">
+    <h1 class="class">Terminal::Terminal</h1>
+
+    <div id="description" class="description">
+      
+<p>A Point of Sale (POS) <a href="Terminal.html">Terminal</a>, aka a Cash
+Register, that provides the ability for an Admin to create a shop of
+products and a Buyer to choose items for purchas. Both an API and a simple
+Command-line User interface (CLI) are available. (A View)</p>
+
+    </div><!-- description -->
+
+    
+    
+    
+    <div id="5Buntitled-5D" class="documentation-section">
+      
+
+      
+
+      
+
+      
+      <!-- Attributes -->
+      <div id="attribute-method-details" class="method-section section">
+        <h3 class="section-header">Attributes</h3>
+
+        
+        <div id="cart-attribute-method" class="method-detail">
+          <a name="cart"></a>
+          
+          <div class="method-heading attribute-method-heading">
+            <span class="method-name">cart</span><span
+              class="attribute-access-type">[R]</span>
+          </div>
+
+          <div class="method-description">
+          
+          
+          
+          </div>
+        </div>
+        
+        <div id="live-attribute-method" class="method-detail">
+          <a name="live"></a>
+          
+          <a name="live="></a>
+          
+          <div class="method-heading attribute-method-heading">
+            <span class="method-name">live</span><span
+              class="attribute-access-type">[RW]</span>
+          </div>
+
+          <div class="method-description">
+          
+          
+          
+          </div>
+        </div>
+        
+        <div id="store-attribute-method" class="method-detail">
+          <a name="store"></a>
+          
+          <div class="method-heading attribute-method-heading">
+            <span class="method-name">store</span><span
+              class="attribute-access-type">[R]</span>
+          </div>
+
+          <div class="method-description">
+          
+          
+          
+          </div>
+        </div>
+        
+        <div id="total-attribute-method" class="method-detail">
+          <a name="total"></a>
+          
+          <div class="method-heading attribute-method-heading">
+            <span class="method-name">total</span><span
+              class="attribute-access-type">[R]</span>
+          </div>
+
+          <div class="method-description">
+          
+          
+          
+          </div>
+        </div>
+        
+      </div><!-- attribute-method-details -->
+      
+
+      <!-- Methods -->
+      
+      <div id="public-class-method-details" class="method-section section">
+        <h3 class="section-header">Public Class Methods</h3>
+
+      
+        <div id="new-method" class="method-detail ">
+          <a name="method-c-new"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">new</span><span
+              class="method-args">(aStore, aLive=false)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="new-source">
+<pre>
+<span class="ruby-comment"># File lib/terminal.rb, line 13</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span> (<span class="ruby-identifier">aStore</span>, <span class="ruby-identifier">aLive</span>=<span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Error, Argument is not a Store, it is  #{aStore.class.to_s}.&quot;</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">aStore</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">!=</span> <span class="ruby-constant">Store</span><span class="ruby-operator">::</span><span class="ruby-constant">Store</span>
+  <span class="ruby-ivar">@store</span> = <span class="ruby-identifier">aStore</span>
+  <span class="ruby-ivar">@cart</span> = <span class="ruby-constant">Cart</span><span class="ruby-operator">::</span><span class="ruby-constant">Cart</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@store</span>)
+  <span class="ruby-ivar">@live</span> = <span class="ruby-identifier">aLive</span>
+  <span class="ruby-identifier">print</span>(<span class="ruby-node">&quot;Hello from your POS Terminal Controller! Value of Running-Live=#{aLive}\n&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@live</span><span class="ruby-operator">==</span><span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- new-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- new-method -->
+
+      
+      </div><!-- public-class-method-details -->
+    
+      <div id="public-instance-method-details" class="method-section section">
+        <h3 class="section-header">Public Instance Methods</h3>
+
+      
+        <div id="prompt_confirm-method" class="method-detail ">
+          <a name="method-i-prompt_confirm"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">prompt_confirm</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="prompt_confirm-source">
+<pre>
+<span class="ruby-comment"># File lib/terminal.rb, line 41</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">prompt_confirm</span>()
+  <span class="ruby-identifier">print</span>(<span class="ruby-string">&quot;Please confirm to continue with 'y' for yes.\n&quot;</span>)
+  <span class="ruby-identifier">doAnother</span> = <span class="ruby-identifier">gets</span>.<span class="ruby-identifier">chomp</span>
+  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">doAnother</span><span class="ruby-operator">==</span><span class="ruby-string">'y'</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- prompt_confirm-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- prompt_confirm-method -->
+
+      
+        <div id="prompt_for_cart_item-method" class="method-detail ">
+          <a name="method-i-prompt_for_cart_item"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">prompt_for_cart_item</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>1.Ask the user to enter a Product code; 2.Add it to the cart.</p>
+            
+
+            
+            <div class="method-source-code" id="prompt_for_cart_item-source">
+<pre>
+<span class="ruby-comment"># File lib/terminal.rb, line 97</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">prompt_for_cart_item</span>()
+  <span class="ruby-identifier">print</span>([<span class="ruby-string">&quot;Please enter a &quot;</span>,<span class="ruby-string">&quot;Product ID to add to your shopping cart.&quot;</span>,<span class="ruby-string">&quot;\n&quot;</span>].<span class="ruby-identifier">join</span>)
+  <span class="ruby-identifier">aProduct</span> = <span class="ruby-identifier">gets</span>.<span class="ruby-identifier">chomp</span>
+  <span class="ruby-ivar">@cart</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">aProduct</span>)
+  <span class="ruby-identifier">aProduct</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- prompt_for_cart_item-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- prompt_for_cart_item-method -->
+
+      
+        <div id="prompt_for_product-method" class="method-detail ">
+          <a name="method-i-prompt_for_product"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">prompt_for_product</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>1.Ask the user to enter all the data for a single product - No defaults
+allowed - Secret zero value for last two items; 2.Add it to the store.</p>
+            
+
+            
+            <div class="method-source-code" id="prompt_for_product-source">
+<pre>
+<span class="ruby-comment"># File lib/terminal.rb, line 82</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">prompt_for_product</span>()
+  <span class="ruby-identifier">print</span>(<span class="ruby-string">&quot;Please enter this product's details.\n&quot;</span> <span class="ruby-operator">+</span>
+      <span class="ruby-string">&quot;  1.For NumberForBatchDiscount and BatchPrice, zero may be used to indicate no discounts are available.\n&quot;</span>)
+  <span class="ruby-identifier">map</span> = {}
+  <span class="ruby-identifier">keys</span> = (<span class="ruby-constant">Store</span><span class="ruby-operator">::</span><span class="ruby-constant">Store</span>.<span class="ruby-identifier">new</span>).<span class="ruby-identifier">product_attributes</span>
+  <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">ithKey</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">print</span>([<span class="ruby-string">&quot;Please enter the &quot;</span>,<span class="ruby-identifier">ithKey</span>,<span class="ruby-string">&quot;.\n&quot;</span>].<span class="ruby-identifier">join</span>)
+    <span class="ruby-identifier">ithValue</span> = <span class="ruby-identifier">gets</span>.<span class="ruby-identifier">chomp</span> <span class="ruby-comment">#Outputs a String without the \n</span>
+    <span class="ruby-identifier">map</span>[<span class="ruby-identifier">ithKey</span>] = <span class="ruby-identifier">ithValue</span>
+  }
+  <span class="ruby-ivar">@store</span>.<span class="ruby-identifier">add_product_map</span>(<span class="ruby-identifier">map</span>)
+  <span class="ruby-identifier">map</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- prompt_for_product-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- prompt_for_product-method -->
+
+      
+        <div id="prompt_loop_customized-method" class="method-detail ">
+          <a name="method-i-prompt_loop_customized"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">prompt_loop_customized</span><span
+              class="method-args">(aHiString, aByeString)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>Provide the overhead functionality for prompting and yield to the given
+block for specific prompt. (ISSUE#03) Note; It would be preferable to delay
+the presentation of the object’s printing, as done previously, but one
+cannot pass two different yield blocks, so now clients are responsible for
+printing verification messages.</p>
+            
+
+            
+            <div class="method-source-code" id="prompt_loop_customized-source">
+<pre>
+<span class="ruby-comment"># File lib/terminal.rb, line 54</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">prompt_loop_customized</span>(<span class="ruby-identifier">aHiString</span>, <span class="ruby-identifier">aByeString</span>)
+  <span class="ruby-identifier">print</span>(<span class="ruby-node">&quot;\nWelcome to #{aHiString}. \n &quot;</span>)
+  <span class="ruby-keyword">while</span> <span class="ruby-identifier">prompt_confirm</span>
+    <span class="ruby-identifier">ans</span> = <span class="ruby-keyword">yield</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">print</span> ([<span class="ruby-node">&quot;Thank you for #{aByeString}.\n&quot;</span>].<span class="ruby-identifier">join</span>)
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- prompt_loop_customized-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- prompt_loop_customized-method -->
+
+      
+        <div id="prompt_loop_for_cart-method" class="method-detail ">
+          <a name="method-i-prompt_loop_for_cart"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">prompt_loop_for_cart</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="prompt_loop_for_cart-source">
+<pre>
+<span class="ruby-comment"># File lib/terminal.rb, line 71</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">prompt_loop_for_cart</span>()
+  <span class="ruby-identifier">aHi</span> = <span class="ruby-string">&quot;the Customer Process of entering a list of Products to put in the Cart for purchase.\n&quot;</span> <span class="ruby-operator">+</span>
+      <span class="ruby-string">&quot;  1.In between each entry, you will be given a chance to stop. \n&quot;</span>
+  <span class="ruby-identifier">aBye</span> =<span class="ruby-string">&quot;entering your Cart list&quot;</span>
+  <span class="ruby-identifier">prompt_loop_customized</span>(  <span class="ruby-identifier">aHi</span>, <span class="ruby-identifier">aBye</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">prompt_for_cart_item</span>
+    <span class="ruby-identifier">print</span>([<span class="ruby-string">&quot;...So far your Cart is;&quot;</span>,<span class="ruby-ivar">@cart</span>.<span class="ruby-identifier">report</span>,<span class="ruby-node">&quot; #{i.to_s} \n&quot;</span>,].<span class="ruby-identifier">join</span>)
+  }
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- prompt_loop_for_cart-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- prompt_loop_for_cart-method -->
+
+      
+        <div id="prompt_loop_for_products-method" class="method-detail ">
+          <a name="method-i-prompt_loop_for_products"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">prompt_loop_for_products</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="prompt_loop_for_products-source">
+<pre>
+<span class="ruby-comment"># File lib/terminal.rb, line 62</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">prompt_loop_for_products</span>()
+  <span class="ruby-identifier">aHi</span> = <span class="ruby-string">&quot;the Admin Process of entering the Store's Products and their Prices&quot;</span>
+  <span class="ruby-identifier">aBye</span> =<span class="ruby-string">&quot;entering the Store's Price list&quot;</span>
+  <span class="ruby-identifier">prompt_loop_customized</span>(  <span class="ruby-identifier">aHi</span>, <span class="ruby-identifier">aBye</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">prompt_for_product</span>
+    <span class="ruby-identifier">print</span>([<span class="ruby-string">&quot;...So far your product is;&quot;</span>,<span class="ruby-ivar">@store</span>.<span class="ruby-identifier">report</span>,<span class="ruby-node">&quot; #{i.to_s} \n&quot;</span>,].<span class="ruby-identifier">join</span>)
+  }
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- prompt_loop_for_products-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- prompt_loop_for_products-method -->
+
+      
+        <div id="report-method" class="method-detail ">
+          <a name="method-i-report"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">report</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="report-source">
+<pre>
+<span class="ruby-comment"># File lib/terminal.rb, line 108</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">report</span>
+  <span class="ruby-ivar">@cart</span>.<span class="ruby-identifier">report_total</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- report-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- report-method -->
+
+      
+        <div id="runInteractive-method" class="method-detail ">
+          <a name="method-i-runInteractive"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">runInteractive</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>Prompt for all data and report the receipt total. (Called when run this
+file rather than use its API.)</p>
+            
+
+            
+            <div class="method-source-code" id="runInteractive-source">
+<pre>
+<span class="ruby-comment"># File lib/terminal.rb, line 22</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">runInteractive</span>
+  <span class="ruby-identifier">prompt_loop_for_products</span>
+  <span class="ruby-identifier">prompt_loop_for_cart</span>
+  <span class="ruby-identifier">print</span>([<span class="ruby-string">&quot;\nThank you for your purchases! Your total is: &quot;</span>,<span class="ruby-identifier">total</span>,<span class="ruby-string">&quot;\n&quot;</span>].<span class="ruby-identifier">join</span>)
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- runInteractive-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- runInteractive-method -->
+
+      
+        <div id="scan-method" class="method-detail ">
+          <a name="method-i-scan"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">scan</span><span
+              class="method-args">(aId)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="scan-source">
+<pre>
+<span class="ruby-comment"># File lib/terminal.rb, line 104</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">scan</span>(<span class="ruby-identifier">aId</span>)
+  <span class="ruby-ivar">@cart</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">aId</span>)
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- scan-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- scan-method -->
+
+      
+        <div id="setPricing-method" class="method-detail ">
+          <a name="method-i-setPricing"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">setPricing</span><span
+              class="method-args">(aArrayOfProductInfoArrays)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="setPricing-source">
+<pre>
+<span class="ruby-comment"># File lib/terminal.rb, line 28</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">setPricing</span>(<span class="ruby-identifier">aArrayOfProductInfoArrays</span>)
+  <span class="ruby-identifier">aArrayOfProductInfoArrays</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">iProduct</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">iProduct</span>.<span class="ruby-identifier">length</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-value">0</span>,<span class="ruby-value">3</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Each product entry item must have either two or four aguments (ItemId, Price, MinimumBatchQuantity, BatchPrice). Problem for: #{iProduct.to_s}&quot;</span>   <span class="ruby-keyword">if</span> ((<span class="ruby-identifier">iProduct</span>.<span class="ruby-identifier">length</span><span class="ruby-operator">==</span><span class="ruby-value">3</span>)<span class="ruby-operator">||</span>(<span class="ruby-identifier">iProduct</span>.<span class="ruby-identifier">length</span><span class="ruby-operator">&gt;</span><span class="ruby-value">4</span>))
+      <span class="ruby-keyword">when</span> <span class="ruby-value">2</span>
+        <span class="ruby-ivar">@store</span>.<span class="ruby-identifier">add_product</span>(<span class="ruby-identifier">iProduct</span>[<span class="ruby-value">0</span>],<span class="ruby-identifier">iProduct</span>[<span class="ruby-value">1</span>],<span class="ruby-value">0</span>,<span class="ruby-value">0</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">iProduct</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-value">4</span>
+        <span class="ruby-ivar">@store</span>.<span class="ruby-identifier">add_product</span>(<span class="ruby-identifier">iProduct</span>[<span class="ruby-value">0</span>],<span class="ruby-identifier">iProduct</span>[<span class="ruby-value">1</span>],<span class="ruby-identifier">iProduct</span>[<span class="ruby-value">2</span>],<span class="ruby-identifier">iProduct</span>[<span class="ruby-value">3</span>]) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">iProduct</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">4</span>)
+    <span class="ruby-keyword">end</span>
+  }
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- setPricing-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- setPricing-method -->
+
+      
+      </div><!-- public-instance-method-details -->
+    
+    </div><!-- 5Buntitled-5D -->
+  
+
+  </div><!-- documentation -->
+
+  <div id="validator-badges">
+    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+      Rdoc Generator</a> 2</small>.</p>
+  </div>
+
+</body>
+</html>
+

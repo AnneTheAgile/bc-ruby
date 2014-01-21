@@ -8,42 +8,41 @@ describe 'Store' do
     Store::Store.new
   end
 
-  describe '#Add_Product' do
 
-    it 'Raises error if add a new item without any arguments, ie no Id.' do
+  describe 'Can Add a Product Price List to the Store.' do
+
+    it '#Add_product: Raises error if add a new item without any arguments, ie no Product ID.' do
       expect{aStore.add_product()}.to raise_error ArgumentError
     end
 
-    it 'Raises error if add a new item without both Id and Price.' do
+    it '#Add_product: Raises error if add a new item without both Id and Price.' do
       expect{aStore.add_product('a')}.to raise_error ArgumentError
     end
 
-    it 'Raises error if the given ID is not a string.' do
+    it '#Add_product: Raises error if the given ID is not a string.' do
       expect{aStore.add_product(1,1.0)}.to  raise_error(RuntimeError, /Argument .* not a string./)
     end
 
-    it 'Raises error if duplicate product ID is entered.' do
+    it '#Add_product: Raises error if duplicate product ID is entered.' do
       aStore.add_product('a',1.0,2,3.0)
       expect{aStore.add_product('a',4.0,5,6.0)}.to raise_error( RuntimeError,/Duplicate products are not allowed in the store./)
     end
 
-    it 'Allows the given Price to be convertible to a float, eg 1 not 1.0.' do
+    it '#Add_product: Allows the given Price to be convertible to a float, eg 1 not 1.0.' do
       expect{aStore.add_product('a',1)}.not_to  raise_error
     end
 
-    it 'Raises error if the given Discount quantity is not an integer.' do
-      expect{aStore.add_product('a',1.0,2.2)}.to raise_error( RuntimeError)
-      #,/Argument aMinimumBatchQuantity is non-integer./)
-      #Actually now get;
-      # Argument aBatchPrice 0.0 was not specified but aMinimumBatchQuantity 2.2 was.
+    it '#Add_product: Raises error if the given Discount quantity is not an integer.' do
+      expect{aStore.add_product('a',1.0,'b',3)}.to raise_error( RuntimeError)
+      expect{aStore.add_product('a',1.0,2.2,3)}.to raise_error( RuntimeError)
+    end
+
+    it '#Add_product: Raises error if Discount quantity but not Batch price is entered.' do
+      expect{aStore.add_product('a',1.0,2)}.to raise_error( RuntimeError,/Argument aBatchPrice .* was not specified but aMinimumBatchQuantity .* was./)
     end
 
     it 'Raises error if the given Batch Price is not convertible to a float.' do
-      expect{aStore.add_product('a',1.0,'b',9)}.to raise_error( RuntimeError,/Argument b is not convertible to an integer./)
-    end
-
-    it 'Raises error if Discount quantity but not price is entered.' do
-      expect{aStore.add_product('a',1.0,2)}.to raise_error( RuntimeError,/Argument aBatchPrice .* was not specified but aMinimumBatchQuantity .* was./)
+      expect{aStore.add_product('a',1.0,2,'b')}.to raise_error( RuntimeError,/Argument b is not convertible to an integer./)
     end
 
     it "#Add_product: Converts a String input for BatchQuantity (numberForBatchDiscount) to integer (Fix ISSUE#01 In CLI, Exception upon specify a non-zero numberForBatchDiscount - due to Ruby Gets produces Strings, and Ruby argument parser converts only perceived floats, not integers." do
@@ -60,7 +59,7 @@ describe 'Store' do
     it '#Add_product_map enables adding a new item as a preformed hashmap.' do
       aMap = {:id=>"a", :price=>3, :numberForBatchDiscount=>2, :batchPrice=>2}
       aStore = theStore
-      aStore.add_product_map(aMap)
+      aStore.add_product_map(aMap) #Could not use Let, ie aStore original value.
       expect(aStore.report).to eq("[{:id=>\"a\", :price=>3.0, :numberForBatchDiscount=>2, :batchPrice=>2.0}]")
     end
 
@@ -132,11 +131,8 @@ describe 'Store' do
     it '#Price_in_dollars_for_quantity: Returns the non-discounted price in pennies for quantity of one.' do
       s = theStore
       s.add_product('a',1.0)
-#      expect(s.report).to eq("idk")
-      answer = s.price_in_dollars_for_quantity('a',1)
-      #help ="--Q; a,$1,qty=1--"+answer.to_s
-      #expect(help).to eq(100)
-      expect(answer).to eq(1)
+      answer = s.price_in_dollars_for_quantity('a',2)
+      expect(answer).to eq(2)
     end
 
     it '#Price_in_dollars_for_quantity: Returns the non-discounted price in pennies when no discount volume quantity exists.' do
@@ -166,11 +162,11 @@ describe 'Store' do
     it 'Product entry refuses BatchPrice > Standard Price.'
     it 'Refactor Store Validation to use Type Casting instead of checking ValidAsXType.'
     it 'Refactor to avoid Raising Exceptions during data input validation.'
-    it 'Refactor Products Map to use symbols instead of strings as hash keys.'  do
-      pending 'cf Ruby Design rules; https:\/\/github.com\/styleguide\/ruby'
-    end
-    it 'Refactor Product into a separate class.'
-    it 'Can initialize with a list of products.'
+    it 'Refactor Product into a separate class?'
+
+    it 'Product Allows the two Batch-related keys in its data to be defaulted even when input through the CLI.'
+    # example of CLI and case statement.
+    # http://stackoverflow.com/questions/7534905/how-can-i-fix-this-ruby-yes-no-style-loop
   end
 
 end

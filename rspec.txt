@@ -1,0 +1,124 @@
+RmTry  2014-01-20m v 1.04 : First production-worthy release.
+
+Summary;
+All Files (97.76% covered at 16.93 hits/line) 
+ 9 files in total. 580 relevant lines. 567 lines covered and 13 lines missed 
+ 
+
+Details;
+$ rspec.bat --format documentation > rspec.txt
+
+Cart
+  Can Modify its Content.
+    #Initialize Raises error if fail to provide a Store to the constructor to know about the available products.
+    #add Raises error if add a new item without any arguments, ie no Id.
+    #Clear Resets a populated cart back to empty.
+  Can Report on the items in the Cart.
+    #Count is 1 when one item is in the cart.
+    #Count is 2 when two items are in the cart.
+    #Report Describes a cart with one item as a string.
+    #Report Describes a cart with two items as a string.
+    #Report Describes an empty cart as having no elements.
+    #CartAsMapOfProductsAndQuantities converts the List of Products Ordered into a Map of products and total quantities.
+    #TotalPrice, #Report_total both Return the price for all the Products in the cart.
+  FUTURE Possible work.
+    Can delete an item from the cart. (PENDING: Not yet implemented)
+    Can find whether a product is in the cart. (PENDING: Not yet implemented)
+
+Money
+  #Report_dollars without arguments prepends the $ to the current @dollars and includes two decimal places.
+  #Report_dollars with an argument of dollars prepends the $ to the value and includes two decimal places.
+  Can add monies, tracking both pennies and dollars.
+    #Add 1 USD to 0 => 100 pennies = 1.00 dollars.
+    #Add 0.01 USD, ie one penny, to 0 => 1 penny = 0.01 dollars.
+    #Add 1.119 USD to 0 (rounds up) => 112 pennies = 1.12 dollars.
+  Can validate and convert between dollars and pennies.
+    #Pennies_to_dollars uses the class constant to convert.
+    #Add and all Validators Raise error if provide a string instead of USD or pennies.
+    #Add and all Validators Raise error if provide a negative number for USD or pennies.
+    #Add and all Validators Raise error if provide infinity for USD or pennies.
+    #DollarsToPennies Rounds up.
+  FUTURE possible work.
+    Refactor: Use Class-based, not instance-based, methods for the Math functions. (PENDING: Not yet implemented)
+    #Add .1 USD, ie no leading zero, Raises Syntax error. (PENDING: Cannot directly test due to ruby considers 'a=.1' an error.)
+
+Store
+  Can Add a Product Price List to the Store.
+    #Add_product: Raises error if add a new item without any arguments, ie no Product ID.
+    #Add_product: Raises error if add a new item without both Id and Price.
+    #Add_product: Raises error if the given ID is not a string.
+    #Add_product: Raises error if duplicate product ID is entered.
+    #Add_product: Allows the given Price to be convertible to a float, eg 1 not 1.0.
+    #Add_product: Raises error if the given Discount quantity is not an integer.
+    #Add_product: Raises error if Discount quantity but not Batch price is entered.
+    Raises error if the given Batch Price is not convertible to a float.
+    #Add_product: Converts a String input for BatchQuantity (numberForBatchDiscount) to integer (Fix ISSUE#01 In CLI, Exception upon specify a non-zero numberForBatchDiscount - due to Ruby Gets produces Strings, and Ruby argument parser converts only perceived floats, not integers.
+  Can Modify its Content.
+    #Add_product_map enables adding a new item as a preformed hashmap.
+    #Clear Resets the Store's population of products back to empty.
+  Can Report its Content and Metadata.
+    #ProductMetadata gives the list of attributes found in the maximal constructor.
+    #Find_Product Returns true upon searching a product that is in the store.
+    #Find_Product Returns false upon searching a product that is not in the store.
+    #Count is 1 for one element.
+    #Count is 2 for two elements.
+    #Report Describes the Store's contents as a string.
+    #Product_list_showing_prices_in_dollars Describes the Store's contents as a string.
+    #Product_list_showing_prices_in_dollars Describes an empty Store as having no elements.
+  Knows about Dollars, Pennies, and Prices of its Products.
+    #Price_in_dollars_for_quantity: Raises error if price-check an empty store.
+    #Price_in_dollars_for_quantity: Raises error if price-check an item not in the store.
+    #Price_in_dollars_for_quantity: Returns the non-discounted price in pennies for quantity of one.
+    #Price_in_dollars_for_quantity: Returns the non-discounted price in pennies when no discount volume quantity exists.
+    #Price_in_dollars_for_quantity: Returns the discounted total price in pennies for purchase size exactly equal to the discount volume quantity.
+    #Price_in_dollars_for_quantity: Returns the minimally discounted total price in pennies for purchase size larger than the discount volume quantity.
+  FUTURE possible work.
+    Product entry refuses BatchPrice > Standard Price. (PENDING: Not yet implemented)
+    Refactor Store Validation to use Type Casting instead of checking ValidAsXType. (PENDING: Not yet implemented)
+    Refactor to avoid Raising Exceptions during data input validation. (PENDING: Not yet implemented)
+    Refactor Product into a separate class? (PENDING: Not yet implemented)
+    Product Allows the two Batch-related keys in its data to be defaulted even when input through the CLI. (PENDING: Not yet implemented)
+
+Terminal
+  Has Basic Housekeeping Metadata.
+    Code Review of RDoc API Documentation can pass.
+  Has API Access.
+    #SetPricing: Enables Admin to enter a set of products and their prices.
+    #SetPricing: Sample Test: Can enter A=2/1, 4/7; B=12; C=1.25/1, 6/6; D=0.15.
+    #Scan will add items to the cart.
+    #Total provides the bill, without itemization.
+    #Total: Sample Test#1: Cart of ABCDABAA should be $32.40.
+    #Total: Sample Test#2: Cart of CCCCCCC should be $7.25.
+    #Total: Sample Test#3: Cart of ABCD should be $15.40.
+    #Total: Sample Test#4: Cart of A should be $2.00.
+  Admin can Initialize the Storein a CLI, ie Read/Write of System IO.
+    #Initialize Raises error if fail to provide a Store to the constructor.
+    #Initialize Requires a Store.
+    #Initialize Says Hello to the (Admin) user upon instantiation only if running Live/Interactively.(ISSUE#02)
+  Admin can Add Products to the store in a CLI, ie Read/Write of System IO.
+    #Prompt_confirm: Causes the user to verify another product should be entered.
+    #Prompt_for_product: Allows entry of a single product's pricelist ( product-id, price, qualifying quantity, and discounted price) as verified by the prompt and the store's pricelist.
+    #Prompt_loop_for_products Allows entry of Two Products' data.
+    #Prompt_loop_for_products Displays a message that Zero (0) is the Default value for Batch quantity and price.
+  User can Add to a Cart and Get Totals in a CLI, ie Read/Write of System IO.
+    #Prompt_for_cart_item: Accepts entry of a single Product ID.
+    #Prompt_loop_for_cart Allows entry of any desired products to purchase.
+  TBA - requirements not completed yet.
+    Code Review can pass Ruby Lint on both Windows/Mac. (PENDING: []Ask for advice on which Ruby Lint to use and/or what RubyMine highlighting rules (only fixed Red errors 2014-01-20).)
+  FUTURE possible work.
+    FUTURE Houskeeping work
+      Add Help option, Consolidate prompts for CLI. (PENDING: Not yet implemented)
+      Refactor so that Documentation strings for the CLI Prompts are not stored in Terminal but rather in the relevant objects, Cart and Store. (PENDING: Not yet implemented)
+      Refactor Tests because the Rspec Test fixtures for Terminal/CLI look clunky? (PENDING: Not yet implemented)
+      Add VERSION.txt and uptick helper. (PENDING: []Find the Version helper on Github, was it only Python?)
+      Upload to Github with Copyright (Name??), Kudos, Tix, Links to DOC on readme.md, etc, if OK. (PENDING: Not yet implemented)
+      Refactor as KATA: Re-Architect to be responsibility-based, instead of object-based. (PENDING: Not yet implemented)
+      Use Logger gem but Enable it to gracefully fail if requirement is not met, thus silent on $sysout except as desired. (PENDING: Not yet implemented)
+    FUTURE Code work.
+      Allow Unix-style redirect of Standard IO, stdin/stdout. (PENDING: Not yet implemented)
+      #prompt_for_product: Gives four prompts. (A test that proves this might hinder refactoring?) (PENDING: Not yet implemented)
+      Refactor; Use Rspec Let to construct Lazy-Loaded, complex, nested objects instead of using Method calls. (PENDING: Grok Rspec's Let vs Subject vs Method call prep.)
+
+	  ... //Redundant PENDING items removed.
+Finished in 0.10938 seconds
+83 examples, 0 failures, 20 pending

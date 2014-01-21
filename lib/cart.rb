@@ -3,7 +3,7 @@ require './lib/store'
 require './lib/money'
 
 module Cart
-  # A collection of pending purchases is stored in a Cart.
+  # A place to collect pending purchases. (A Model)
   class Cart
     attr_reader :store, :products #not r/w  attr_accessor
     def initialize(aStore)
