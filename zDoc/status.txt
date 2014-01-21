@@ -2,6 +2,191 @@ C:\amsrc\rmtry\doc\status.txt
 []add ; 7.55p MS  Win Azure outperforms amazon ec2 on average by 3x; read cloud spectator report. 
 http://www.windowsazure.com/en-us/campaigns/azure-vs-aws/
 
+
+==========================================================
+.[]Version 1.04 is a wrap. 9.25p.
+==========================================================
+.[]URLS-LIST 2014-01-20 
+==========================================================
+1.[] ; X.attribute of subject - Subject - RSpec Core - RSpec - Relish
+https://www.relishapp.com/rspec/rspec-core/v/2-0/docs/subject/attribute-of-subject
+attribute of subject - Subject - RSpec Core - RSpec - Relish
+
+==========================================================
+2.[] ; X.Type Check matchers - RSpec Expectations - RSpec - Relish
+https://www.relishapp.com/rspec/rspec-expectations/v/2-0/docs/matchers/type-check-matchers
+Type Check matchers - RSpec Expectations - RSpec - Relish
+
+==========================================================
+3.[] ; X.Built in matchers - RSpec Expectations - RSpec - Relish
+https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+Built in matchers - RSpec Expectations - RSpec - Relish
+
+==========================================================
+4.[] ; X.block - Use of yield and return in Ruby - Stack Overflow
+http://stackoverflow.com/questions/10451060/use-of-yield-and-return-in-ruby
+block - Use of yield and return in Ruby - Stack Overflow
+
+==========================================================
+5.[] ; X.Should I define a main method in my ruby scripts? - Stack Overflow
+http://stackoverflow.com/questions/582686/should-i-define-a-main-method-in-my-ruby-scripts
+Should I define a main method in my ruby scripts? - Stack Overflow
+
+==========================================================
+6.[] ; X.Class: Array (Ruby 2.1.0)
+http://www.ruby-doc.org/core-2.1.0/Array.html#method-i-collect
+Class: Array (Ruby 2.1.0)
+
+==========================================================
+7.[] ; X.Class: Hash (Ruby 1.9.3)
+http://www.ruby-doc.org/core-1.9.3/Hash.html
+Class: Hash (Ruby 1.9.3)
+
+==========================================================
+8.[] ; X.Jay Fields' Thoughts: Ruby: inject
+http://blog.jayfields.com/2008/03/ruby-inject.html
+Jay Fields' Thoughts: Ruby: inject
+
+==========================================================
+9.[] ; X.Ruby: inject issue when turning array into hash - Stack Overflow
+http://stackoverflow.com/questions/10575052/ruby-inject-issue-when-turning-array-into-hash
+Ruby: inject issue when turning array into hash - Stack Overflow
+
+==========================================================
+10.[] ; X.each_with_object (Enumerable) - APIdock
+http://apidock.com/ruby/Enumerable/each_with_object
+each_with_object (Enumerable) - APIdock
+
+==========================================================
+11.[] ; X.Ruby Cookbook > Arrays > Building Up a Hash Using Injection : Safari Books Online
+http://my.safaribooksonline.com/book/web-development/ruby/0596523696/arrays/rubyckbk-chp-4-sect-12
+Ruby Cookbook > Arrays > Building Up a Hash Using Injection : Safari Books Online
+
+==========================================================
+12.[] ; X.each_with_object (Enumerable) - APIdock
+http://apidock.com/rails/Enumerable/each_with_object
+each_with_object (Enumerable) - APIdock
+
+==========================================================
+13.[] ; X.Why use Ruby's attr_accessor, attr_reader and attr_writer? - Stack Overflow
+http://stackoverflow.com/questions/5046831/why-use-rubys-attr-accessor-attr-reader-and-attr-writer
+Why use Ruby's attr_accessor, attr_reader and attr_writer? - Stack Overflow
+
+==========================================================
+14.[] ; X.ruby - Why does Array.to_s return brackets? - Stack Overflow
+http://stackoverflow.com/questions/8829600/why-does-array-to-s-return-brackets
+ruby - Why does Array.to_s return brackets? - Stack Overflow
+
+==========================================================
+15.[] ; X.java - Intellij IDEA 12 slow response - Stack Overflow
+http://stackoverflow.com/questions/14173637/intellij-idea-12-slow-response
+java - Intellij IDEA 12 slow response - Stack Overflow
+
+==========================================================
+16.[] ; X.ruby - '+' can't convert Fixnum into String (TypeError) - Stack Overflow
+http://stackoverflow.com/questions/14895594/cant-convert-fixnum-into-string-typeerror
+ruby - '+' can't convert Fixnum into String (TypeError) - Stack Overflow
+
+==========================================================
+17.[] ; X.The Ruby Programming Language - David Flanagan, Yukihiro Matsumoto - Google Books
+http://books.google.com/books?id=jcUbTcr5XWwC&pg=PA145&lpg=PA145&dq=ruby+yield+use+second+block&source=bl&ots=fIJgte3tiC&sig=OJrckpw3W05lHav4QJAMUIpliQo&hl=en&sa=X&ei=FI3dUpy_FpSrsQSop4DgDQ&ved=0CGsQ6AEwBw#v=onepage&q=ruby%20yield%20use%20second%20block&f=false
+The Ruby Programming Language - David Flanagan, Yukihiro Matsumoto - Google Books
+
+==========================================================
+18.[] ; X.Ruby 2.0 Works Hard So You Can Be Lazy - Pat Shaughnessy
+http://patshaughnessy.net/2013/4/3/ruby-2-0-works-hard-so-you-can-be-lazy
+Ruby 2.0 Works Hard So You Can Be Lazy - Pat Shaughnessy
+
+==========================================================
+19.[] ; X.Ruby Blocks - yield Statements
+http://www.tutorialspoint.com/ruby/ruby_blocks.htm
+Ruby Blocks - yield Statements
+
+==========================================================
+20.[] ; X.ruby - What's Your Favourite IRB Trick? - Stack Overflow
+http://stackoverflow.com/questions/123494/whats-your-favourite-irb-trick
+ruby - What's Your Favourite IRB Trick? - Stack Overflow
+
+==========================================================
+21.[] ; X.Module: Coverage (Ruby 1.9.3)
+http://www.ruby-doc.org/stdlib-1.9.3/libdoc/coverage/rdoc/Coverage.html
+Module: Coverage (Ruby 1.9.3)
+
+==========================================================
+22.[] ; X.Code Coverage
+http://www.jetbrains.com/ruby/webhelp/code-coverage.html
+Code Coverage
+
+==========================================================
+23.[] ; X.The Ruby Toolbox - Code Metrics
+https://www.ruby-toolbox.com/categories/code_metrics
+The Ruby Toolbox - Code Metrics
+
+==========================================================
+24.[] ; X.simplecov/README.md at a38915db28552cf1a51748f104d34d86a2e897bc · colszowka/simplecov
+https://github.com/colszowka/simplecov/blob/a38915db28552cf1a51748f104d34d86a2e897bc/README.md
+simplecov/README.md at a38915db28552cf1a51748f104d34d86a2e897bc · colszowka/simplecov
+
+==========================================================
+25.[] ; X.ruby-toolbox how is popularity metric computed - Google Search
+https://www.google.com/search?q=ruby-toolbox+what+is+popularity+metric&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a#q=ruby-toolbox+how+is+popularity+metric+computed&rls=org.mozilla:en-US:official
+ruby-toolbox how is popularity metric computed - Google Search
+
+==========================================================
+26.[] ; X.The Ruby Toolbox - metric_abc: Calculates ABC metric for Ruby 1.9. Just like Flog but much more dull.
+https://www.ruby-toolbox.com/projects/metric_abc/popularity
+The Ruby Toolbox - metric_abc: Calculates ABC metric for Ruby 1.9. Just like Flog but much more dull.
+
+==========================================================
+27.[] ; X.The Ruby Toolbox - MetricFu: Code metrics from Flog, Flay, Saikuro, Churn, Reek, Roodi, Code Statistics, and Rails...
+https://www.ruby-toolbox.com/projects/metric_fu
+The Ruby Toolbox - MetricFu: Code metrics from Flog, Flay, Saikuro, Churn, Reek, Roodi, Code Statistics, and Rails...
+
+==========================================================
+28.[] ; X.The Ruby Toolbox - Rails best practices: a code metric tool for rails codes, written in Ruby.
+https://www.ruby-toolbox.com/projects/rails_best_practices
+The Ruby Toolbox - Rails best practices: a code metric tool for rails codes, written in Ruby.
+
+==========================================================
+29.[] ; X.Code coverage for Rmtry
+file:///C:/amsrc/rmtry/coverage/index.html#_AllFiles
+Code coverage for Rmtry
+
+==========================================================
+30.[] ; X.Class: Terminal::Terminal
+file:///C:/amsrc/rmtry/doc/Terminal/Terminal.html
+Class: Terminal::Terminal
+
+==========================================================
+31.[] ; X.Introduction | Semantic UI
+http://semantic-ui.com/
+Introduction | Semantic UI
+
+==========================================================
+32.[] ; X.timoxley/best-practices
+https://github.com/timoxley/best-practices
+timoxley/best-practices
+
+==========================================================
+33.[] ; X.Dev. Productivity: Version Control & Source Code Management | zeroturnaround.com
+http://zeroturnaround.com/rebellabs/devprod-report-revisited-version-control-systems-in-2013/
+Dev. Productivity: Version Control & Source Code Management | zeroturnaround.com
+
+==========================================================
+34.[] ; X.Contributors to habnabit/vcversioner
+https://github.com/habnabit/vcversioner/graphs/contributors
+Contributors to habnabit/vcversioner
+
+==========================================================
+35.[] ; X.HaskellForCats/HaskellForCats
+https://github.com/HaskellForCats/HaskellForCats
+HaskellForCats/HaskellForCats
+
+==========================================================
+36.[] ; X.habnabit/vcversioner • Sourcegraph
+https://sourcegraph.com/github.com/habnabit/vcversioner
+habnabit/vcversioner • Sourcegraph
+
 ==========================================================
 1.[x] WORKS; X.Code coverage
     it 'Code Review of RSpect Test coverage can pass 85%.' do
