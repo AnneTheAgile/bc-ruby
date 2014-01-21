@@ -2,7 +2,7 @@ C:\amsrc\rmtry\doc\status.txt
 []add ; 7.55p MS  Win Azure outperforms amazon ec2 on average by 3x; read cloud spectator report. 
 http://www.windowsazure.com/en-us/campaigns/azure-vs-aws/
 
-
+[x]Reran Rspec to get new indents, 140121t.
 ==========================================================
 .[]Version 1.04 is a wrap. 9.25p.
 ==========================================================

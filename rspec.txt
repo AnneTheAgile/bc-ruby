@@ -1,11 +1,17 @@
 RmTry  2014-01-20m v 1.04 : First production-worthy release.
 
 Summary;
-All Files (97.76% covered at 16.93 hits/line) 
+1.Code Coverage based on these Rspecs;
+ All Files (97.76% covered at 16.93 hits/line) 
  9 files in total. 580 relevant lines. 567 lines covered and 13 lines missed 
- 
+
+2.Rspec tests;
+ 83 examples, 0 failures, 20 pending
+
+3.Rspec code is in ./spec/.
 
 Details;
+On Win8.1 /cygdrive/c/,
 $ rspec.bat --format documentation > rspec.txt
 
 Cart
@@ -119,6 +125,71 @@ Terminal
       #prompt_for_product: Gives four prompts. (A test that proves this might hinder refactoring?) (PENDING: Not yet implemented)
       Refactor; Use Rspec Let to construct Lazy-Loaded, complex, nested objects instead of using Method calls. (PENDING: Grok Rspec's Let vs Subject vs Method call prep.)
 
-	  ... //Redundant PENDING items removed.
-Finished in 0.10938 seconds
+	  
+	  
+	  ... //Redundant PENDING items' details moved to end.
+Finished in 0.12501 seconds
 83 examples, 0 failures, 20 pending
+
+Pending:
+  Cart FUTURE Possible work. Can delete an item from the cart.
+    # Not yet implemented
+    # ./spec/lib/cart_spec.rb:103
+  Cart FUTURE Possible work. Can find whether a product is in the cart.
+    # Not yet implemented
+    # ./spec/lib/cart_spec.rb:104
+  Money FUTURE possible work. Refactor: Use Class-based, not instance-based, methods for the Math functions.
+    # Not yet implemented
+    # ./spec/lib/money_spec.rb:87
+  Money FUTURE possible work. #Add .1 USD, ie no leading zero, Raises Syntax error.
+    # Cannot directly test due to ruby considers 'a=.1' an error.
+    # ./spec/lib/money_spec.rb:89
+  Store FUTURE possible work. Product entry refuses BatchPrice > Standard Price.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:162
+  Store FUTURE possible work. Refactor Store Validation to use Type Casting instead of checking ValidAsXType.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:163
+  Store FUTURE possible work. Refactor to avoid Raising Exceptions during data input validation.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:164
+  Store FUTURE possible work. Refactor Product into a separate class?
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:165
+  Store FUTURE possible work. Product Allows the two Batch-related keys in its data to be defaulted even when input through the CLI.
+    # Not yet implemented
+    # ./spec/lib/store_spec.rb:167
+  Terminal TBA - requirements not completed yet. Code Review can pass Ruby Lint on both Windows/Mac.
+    # []Ask for advice on which Ruby Lint to use and/or what RubyMine highlighting rules (only fixed Red errors 2014-01-20).
+    # ./spec/lib/terminal_spec.rb:185
+  Terminal FUTURE possible work. FUTURE Houskeeping work Add Help option, Consolidate prompts for CLI.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:200
+  Terminal FUTURE possible work. FUTURE Houskeeping work Refactor so that Documentation strings for the CLI Prompts are not stored in Terminal but rather in the relevant objects, Cart and Store.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:201
+  Terminal FUTURE possible work. FUTURE Houskeeping work Refactor Tests because the Rspec Test fixtures for Terminal/CLI look clunky?
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:203
+  Terminal FUTURE possible work. FUTURE Houskeeping work Add VERSION.txt and uptick helper.
+    # []Find the Version helper on Github, was it only Python?
+    # ./spec/lib/terminal_spec.rb:205
+  Terminal FUTURE possible work. FUTURE Houskeeping work Upload to Github with Copyright (Name??), Kudos, Tix, Links to DOC on readme.md, etc, if OK.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:212
+  Terminal FUTURE possible work. FUTURE Houskeeping work Refactor as KATA: Re-Architect to be responsibility-based, instead of object-based.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:214
+  Terminal FUTURE possible work. FUTURE Houskeeping work Use Logger gem but Enable it to gracefully fail if requirement is not met, thus silent on $sysout except as desired.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:217
+  Terminal FUTURE possible work. FUTURE Code work. Allow Unix-style redirect of Standard IO, stdin/stdout.
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:223
+  Terminal FUTURE possible work. FUTURE Code work. #prompt_for_product: Gives four prompts. (A test that proves this might hinder refactoring?)
+    # Not yet implemented
+    # ./spec/lib/terminal_spec.rb:228
+  Terminal FUTURE possible work. FUTURE Code work. Refactor; Use Rspec Let to construct Lazy-Loaded, complex, nested objects instead of using Method calls.
+    # Grok Rspec's Let vs Subject vs Method call prep.
+    # ./spec/lib/terminal_spec.rb:240
+
