@@ -23,6 +23,12 @@ describe 'Terminal' do
     g
   end
 
+  subject{ Terminal::Terminal.new}
+
+  it{ should have_discount }
+
+  its(:pricing){should == [bo]}
+
   describe 'Has Basic Housekeeping Metadata.' do
 
     it 'Code Review of RDoc API Documentation can pass.' do
