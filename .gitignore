@@ -1,3 +1,4 @@
+# Standard .gitignore from Github for Ruby projects. 140213r
 *.gem
 *.rbc
 .bundle
