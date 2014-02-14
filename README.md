@@ -1,8 +1,8 @@
 bc-ruby
 =======
 
-** Try little programs, tests, algorithms with Ruby, a la a bootcamp (bc).
-**Demonstration / Kata code in Ruby 1.9, Rspec 3.0**
+Try little programs, tests, algorithms with Ruby, a la a bootcamp (bc).
+Demonstration / Kata code in Ruby 1.9, Rspec 3.0, Cross-platform Win/Mac.
 
 RmTry (for RubyMine Try) is a simple MVC CLI app and API that enables entering a few bits of data and computing metrics.
 
