@@ -17,3 +17,6 @@ tmp
 .yardoc
 _yardoc
 doc/
+
+# RubyMine local private configurations
+/.idea
