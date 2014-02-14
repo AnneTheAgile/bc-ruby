@@ -27,7 +27,7 @@ describe 'zRuby/Rspec-Tips' do
   end
 
   it 'Must call the bat file, not Rspec, on windows,' do
-    expect('$ /cygdrive/c/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/bin/rspec.bat'[0]).to eq('$')
+    expect('$ rspec.bat'[0]).to eq('$') #Windows does not need hard coded path #BUG; didn't subset this test for OpSys
   end
 
   it 'Evaluates contents between parens (1+2), not needing a block {1+2}.' do
@@ -89,18 +89,18 @@ describe 'zRuby/Rspec/FUTURE' do
   it "Can be run from CLI with a particular path, eg specLib." do
     pending 'On windows, chk commandline and/or path and/or the raw code.'
 =begin
-    C:\amsrc\rmtry>C:\Users\amoroney\amApps\lang\ruby\RailsInstaller\Ruby1.9.3\bin
+    APathxx\amApps\lang\ruby\RailsInstaller\Ruby1.9.3\bin
     /rspec .\specLib --format doc
-C:/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/site_ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- ./custom_stdout_matcher (LoadError)
-        from C:/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/site_ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+APathxx/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/site_ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- ./custom_stdout_matcher (LoadError)
+        from APathxx/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/site_ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
         from C:/amsrc/rmtry/specLib/zRspec_spec.rb:3:in `<top (required)>'
-    from C:/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/configuration.rb:886:in `load'
-        from C:/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/configuration.rb:886:in `block in load_spec_files'
-        from C:/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/configuration.rb:886:in `each'
-    from C:/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/configuration.rb:886:in `load_spec_files'
-        from C:/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/command_line.rb:22:in `run'
-        from C:/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/runner.rb:90:in `run'
-    from C:/Users/amoroney/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/runner.rb:17:in `block in autorun'
+    from APathxx/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/configuration.rb:886:in `load'
+        from APathxx/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/configuration.rb:886:in `block in load_spec_files'
+        from APathxx/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/configuration.rb:886:in `each'
+    from APathxx/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/configuration.rb:886:in `load_spec_files'
+        from APathxx/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/command_line.rb:22:in `run'
+        from APathxx/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/runner.rb:90:in `run'
+    from APathxx/amApps/lang/ruby/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/rspec-core-3.0.0.beta1/lib/rspec/core/runner.rb:17:in `block in autorun'
 
 C:\amsrc\rmtry>
 =end
